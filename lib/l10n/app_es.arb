@@ -1,0 +1,510 @@
+{
+  "@@locale": "es",
+  "navSettings": "Configuración",
+  "labelLanguage": "Idioma",
+  "btnImport": "Importar",
+  "btnCancel": "Cancelar",
+  "btnSave": "Guardar",
+  "btnDelete": "Eliminar",
+  "btnEdit": "Editar",
+  "errorPrefix": "Error: ",
+  "btnSelect": "Seleccionar",
+  "themesTitle": "Temas",
+  "titleImportTheme": "Importar Tema",
+  "instructionImportTheme": "Pega el código JSON del tema aquí:",
+  "msgThemeImportSuccess": "Tema importado correctamente",
+  "headerThemesDefault": "Predeterminados",
+  "headerThemesCustom": "Mis Temas",
+  "titleDeleteTheme": "Eliminar Tema",
+  "statusActive": "Activo",
+  "themeImportOr": "O",
+  "themeSelectJson": "Seleccionar Archivo JSON",
+  "themeImportFileSuccess": "Tema importado desde archivo",
+  "themeImportError": "Error al leer archivo: {error}",
+  "@themeImportError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "themeExportError": "Error exportando: {error}",
+  "@themeExportError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "themeSavedFile": "Tema guardado en: {path}",
+  "@themeSavedFile": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  },
+  "themeCopiedClipboard": "JSON copiado al portapapeles",
+  "themeEmptyCustom": "No has creado temas aún.\n¡Usa el botón + para empezar!",
+  "themeConfirmDelete": "¿Seguro que deseas eliminar \"{name}\"?",
+  "@themeConfirmDelete": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "themeCreateTitle": "Crear Tema",
+  "themeEditTitle": "Editar Tema",
+  "themeGeneratorTitle": "Generador",
+  "themeSeedColor": "Semilla",
+  "themeBrightness": "Brillo",
+  "themeGenerateAction": "Generar Paleta",
+  "themeNameLabel": "Nombre del Tema",
+  "themeDescLabel": "Descripción",
+  "themeRequired": "Requerido",
+  "btnOK": "OK",
+  "themeSectionCore": "Fondos y Textos (Core)",
+  "themeSectionBrand": "Marca y Acción",
+  "themeSectionUI": "Estados y UI",
+  "themeUseSecondary": "Usar Color Secundario",
+  "themeUseSecondaryDesc": "Estos colores no se usan en Gakoken, pero puedes definirlos aquí.",
+  "themeSelectColorTitle": "Seleccionar Color",
+  "colorBgPrimary": "Fondo Principal",
+  "colorBgSecondary": "Fondo Secundario",
+  "colorBgElevated": "Fondo Elevado",
+  "colorOverlay": "Overlay",
+  "colorTextPrimary": "Texto Principal",
+  "colorTextSecondary": "Texto Secundario",
+  "colorTextDisabled": "Deshabilitado",
+  "colorTextInverse": "Invertido",
+  "colorPrimary": "Color Primario",
+  "colorPrimaryHover": "Hover",
+  "colorPrimaryActive": "Active",
+  "colorSecondary": "Color Secundario",
+  "colorSecondaryHover": "Hover (Sec)",
+  "colorSecondaryActive": "Active (Sec)",
+  "colorStateSuccess": "Éxito (Verde)",
+  "colorStateWarning": "Alerta (Amarillo)",
+  "colorStateError": "Error (Rojo)",
+  "colorStateInfo": "Info (Azul)",
+  "colorBorderSubtle": "Borde Sutil",
+  "colorBorderFocus": "Borde Foco",
+  "colorSurfaceHover": "Sup. Hover",
+  "colorSurfaceActive": "Sup. Active",
+  "themeStatusActive": "Activo",
+  "themeActionApply": "Aplicar Tema",
+  "themeActionCopyJson": "Copiar JSON",
+  "themeActionSaveFile": "Guardar Archivo",
+  "btnConfirm": "Confirmar",
+  "titleSelectColor": "Seleccionar Color",
+  "themeDefaultName": "Gakoken",
+  "themeDefaultDescription": "Gato naranja: crema y naranja atigrado",
+  "themeDefaultName2": "Oturoja",
+  "themeDefaultDescription2": "Tema oscuro púrpura",
+  "themeDefaultName3": "Morobu",
+  "themeDefaultDescription3": "Tema claro gris, neutros cálidos",
+  "themeDefaultName4": "Uborom",
+  "themeDefaultDescription4": "Tema oscuro neutro",
+  "themeDefaultName5": "Zontle",
+  "themeDefaultDescription5": "Tema claro neutro, acento dorado",
+  "themeDefaultName6": "Eltnoz",
+  "themeDefaultDescription6": "Tema oscuro neutro, acento dorado",
+  "themeDefaultName7": "Ajoruto",
+  "themeDefaultDescription7": "Tema claro púrpura",
+  "themeDefaultName8": "Asiole",
+  "themeDefaultDescription8": "Tema colibrí oscuro: esmeralda y magenta",
+  "themeSectionBackgrounds": "Fondos",
+  "themeSectionTexts": "Textos",
+  "themeSectionPrimary": "Primario",
+  "themeSectionSecondary": "Secundario",
+  "themeSectionStates": "Estados Semánticos",
+  "themeSectionComponents": "Componentes",
+  "themeSaveTitle": "Guardar tema",
+  "themeSelectFolderTitle": "Seleccionar carpeta para guardar tema",
+  "navExplore": "Explorar",
+  "navFavorites": "Favoritos",
+  "favoritesEmpty": "Todavía no tienes favoritos. Mantén presionado un archivo o carpeta en Explorar para agregarlo.",
+  "themeNameNekokag": "Nekokag",
+  "themeDescNekokag": "Gato naranja de noche: oscuro con naranja atigrado",
+  "themeNameEloisa": "Eloisa",
+  "themeDescEloisa": "Colibrí: esmeralda y magenta",
+  "searchPlaceholder": "Buscar...",
+  "browserRoot": "Interno",
+  "browserPermissionText": "Para mostrar tus carpetas y archivos, Gakoken necesita acceso a todos los archivos.",
+  "btnGrantPermission": "Dar permiso",
+  "browserEmpty": "Esta carpeta está vacía.",
+  "browserCannotRead": "No se puede abrir esta carpeta.",
+  "browserItemCount": "{count, plural, =0{Vacía} =1{1 elemento} other{{count} elementos}}",
+  "@browserItemCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "browserViewTitle": "Vista",
+  "viewList": "Lista",
+  "viewDetails": "Detalles",
+  "viewGrid": "Cuadrícula",
+  "columnName": "Nombre",
+  "columnSize": "Tamaño",
+  "columnModified": "Modificado",
+  "actionOpen": "Abrir",
+  "actionShare": "Compartir",
+  "actionAddFavorite": "Agregar a favoritos",
+  "actionRemoveFavorite": "Quitar de favoritos",
+  "fileNoApp": "Ninguna app puede abrir este archivo.",
+  "fileMissing": "Ya no existe",
+  "fileOpenError": "No se pudo abrir el archivo.",
+  "kindFolder": "Carpeta",
+  "kindText": "Texto",
+  "kindCode": "Código",
+  "kindImage": "Imágenes",
+  "kindVideo": "Videos",
+  "kindAudio": "Audio",
+  "kindArchive": "Comprimidos",
+  "kindEbook": "Libros",
+  "kindOther": "Otros",
+  "openWithTitle": "Abrir con",
+  "usageTitle": "Espacio usado",
+  "usageOpenInExplore": "Abrir en Explorar",
+  "usageCounts": "{files} archivos · {dirs} carpetas",
+  "@usageCounts": {
+    "placeholders": {
+      "files": {
+        "type": "String"
+      },
+      "dirs": {
+        "type": "String"
+      }
+    }
+  },
+  "usageUpdating": "Actualizando el índice; los números pueden cambiar.",
+  "usageByKind": "Por tipo",
+  "usageLargest": "Lo que más ocupa",
+  "usageFiles": "{count} archivos",
+  "@usageFiles": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "searchTitle": "Buscar",
+  "searchHint": "Buscar en tu teléfono",
+  "searchEverywhere": "Todo el teléfono",
+  "searchOnlyIn": "Solo en {folder}",
+  "@searchOnlyIn": {
+    "placeholders": {
+      "folder": {
+        "type": "String"
+      }
+    }
+  },
+  "searchIntro": "Escribe parte del nombre. Aunque te equivoques en una letra, lo encuentra.",
+  "searchNoResults": "Sin resultados.",
+  "indexingProgress": "Indexando tu teléfono: {count} archivos y carpetas",
+  "@indexingProgress": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "indexNotReady": "Todavía no hay índice. Ve a Ajustes, Índice, para crearlo.",
+  "indexTitle": "Índice",
+  "indexDescription": "Gakoken guarda la lista de todos tus archivos para buscar y medir el espacio al instante. Al abrir la app revisa solo las carpetas que cambiaron, y una vez al día la recorre completa.",
+  "indexNever": "Sin índice",
+  "indexingShort": "Indexando…",
+  "indexEntries": "{count} archivos",
+  "@indexEntries": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "indexLastRun": "Al día desde: {date}",
+  "@indexLastRun": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "indexRebuild": "Volver a indexar",
+  "indexError": "El último indexado falló. Intenta de nuevo.",
+  "browserNoMatches": "Ningún archivo de este tipo en esta carpeta.",
+  "sortFilterTitle": "Ordenar y filtrar",
+  "sortBy": "Ordenar por",
+  "sortAscending": "Ascendente",
+  "sortDescending": "Descendente",
+  "sortModified": "Fecha",
+  "sortKind": "Tipo",
+  "filterKinds": "Mostrar solo",
+  "filterClear": "Quitar filtro",
+  "previewTitle": "Vista previa",
+  "previewDescription": "Elige qué tipos muestran una miniatura en lugar de su logo.",
+  "previewOff": "Desactivada",
+  "previewPdfNote": "Primera página del documento",
+  "navUsage": "Espacio",
+  "navBack": "Atrás",
+  "navForward": "Adelante",
+  "tabNew": "Pestaña nueva",
+  "tabClose": "Cerrar pestaña",
+  "tabOpenNew": "Abrir en pestaña nueva",
+  "volumesTitle": "Memorias",
+  "volumeFree": "{free} libres de {total}",
+  "@volumeFree": {
+    "placeholders": {
+      "free": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "volumeNotIndexed": "No se incluye en Buscar",
+  "usageCalculating": "Calculando…",
+  "hiddenTitle": "Archivos ocultos",
+  "hiddenDescription": "Son los archivos y carpetas cuyo nombre empieza con punto, como .thumbnails. Casi siempre los usan otras apps.",
+  "hiddenShowInExplore": "Mostrar en Explorar",
+  "hiddenIncludeInSearch": "Incluir en Buscar",
+  "hiddenOff": "Ocultos",
+  "hiddenInExplore": "En Explorar",
+  "hiddenInSearch": "En Buscar",
+  "hiddenEverywhere": "En Explorar y Buscar",
+  "actionCopy": "Copiar",
+  "actionCut": "Cortar",
+  "actionRename": "Renombrar",
+  "actionDelete": "Eliminar",
+  "actionMore": "Más",
+  "actionUndo": "Deshacer",
+  "selectAll": "Seleccionar todo",
+  "selectionCount": "{count, plural, =1{1 seleccionado} other{{count} seleccionados}}",
+  "@selectionCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "renameTitle": "Renombrar",
+  "renameAction": "Renombrar",
+  "renameError": "No se pudo renombrar a \"{name}\". Puede que ya exista o que el nombre no sea válido.",
+  "@renameError": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "conflictTitle": "{count, plural, =1{Ya existe un elemento con ese nombre} other{Ya existen {count} elementos con esos nombres}}",
+  "@conflictTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "conflictKeepBoth": "Mantener ambos",
+  "conflictReplace": "Reemplazar",
+  "conflictSkip": "Omitir",
+  "clipboardCopied": "{count, plural, =1{1 elemento copiado} other{{count} elementos copiados}}",
+  "@clipboardCopied": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "clipboardCut": "{count, plural, =1{1 elemento cortado} other{{count} elementos cortados}}",
+  "@clipboardCut": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "pasteHere": "Pegar aquí",
+  "jobCopying": "Copiando {done} de {total}",
+  "@jobCopying": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "jobMoving": "Moviendo {done} de {total}",
+  "@jobMoving": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "jobDone": "{count, plural, =0{No se pegó nada} =1{Listo: 1 elemento} other{Listo: {count} elementos}}",
+  "@jobDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "jobCancelled": "Cancelado. No quedó nada a medias.",
+  "jobFailed": "No se pudieron pasar {count}: {names}",
+  "@jobFailed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "trashTitle": "Papelera",
+  "trashCount": "{count, plural, =0{Vacía} =1{1 elemento} other{{count} elementos}}",
+  "@trashCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "trashMoved": "{count, plural, =1{Se movió a la papelera} other{{count} elementos se movieron a la papelera}}",
+  "@trashMoved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "trashFailed": "{count, plural, =1{No se pudo mover 1 elemento a la papelera} other{No se pudieron mover {count} elementos a la papelera}}",
+  "@trashFailed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "trashEmpty": "La papelera está vacía. Lo que borres se guarda aquí {days} días.",
+  "@trashEmpty": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "trashEmptyAction": "Vaciar",
+  "trashDaysLeft": "{days, plural, =0{Se borra hoy} =1{Queda 1 día} other{Quedan {days} días}}",
+  "@trashDaysLeft": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "trashRestore": "Restaurar",
+  "trashRestored": "Restaurado en su lugar",
+  "trashRestoreFailed": "No se pudo restaurar",
+  "trashDeleteForever": "Eliminar para siempre",
+  "trashDeleteForeverMessage": "{count, plural, =1{Se borrará para siempre. No se puede deshacer.} other{Se borrarán {count} elementos para siempre. No se puede deshacer.}}",
+  "@trashDeleteForeverMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "viewGallery": "Galería",
+  "previewVideoNote": "Un cuadro del video",
+  "indexTook": "La última revisión tardó {duration}",
+  "@indexTook": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "trashOpen": "Ver papelera",
+  "actionInfo": "Información",
+  "infoContents": "Contenido",
+  "infoLocation": "Ubicación",
+  "favoritesAddedMany": "{count, plural, =1{Se agregó a favoritos} other{{count} se agregaron a favoritos}}",
+  "@favoritesAddedMany": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "favoritesRemovedMany": "{count, plural, =1{Se quitó de favoritos} other{{count} se quitaron de favoritos}}",
+  "@favoritesRemovedMany": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "kindFilesLimit": "Se muestran los {count} más grandes",
+  "@kindFilesLimit": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "volumeSystem": "Raíz del sistema",
+  "volumeSystemNote": "Carpetas de Android; casi todo es de solo lectura",
+  "themeNameBioka": "Bioka",
+  "themeDescBioka": "La Tierra: azul océano y verde de los continentes",
+  "themeNameAkoib": "Akoib",
+  "themeDescAkoib": "La Tierra de noche: azul océano y verde",
+  "trashDaysTitle": "Días en la papelera",
+  "trashDaysUnit": "días",
+  "trashDaysHelp": "De 1 a {max}. Lo que ya lleve más días se borra para siempre al guardar.",
+  "@trashDaysHelp": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "trashDaysInvalid": "Escribe un número",
+  "browserDisplayTitle": "Vista, orden y filtro",
+  "browserLocationTitle": "Ubicación",
+  "trashDaysValue": "{days, plural, =1{1 día} other{{days} días}}",
+  "@trashDaysValue": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "actionCopyPath": "Copiar ruta",
+  "pathCopied": "Ruta copiada",
+  "newFolderTitle": "Nueva carpeta",
+  "newFolderHint": "Nombre de la carpeta",
+  "newFolderCreate": "Crear",
+  "newFolderInvalid": "Escribe un nombre válido, sin / ni solo puntos.",
+  "newFolderExists": "Ya hay algo con ese nombre aquí.",
+  "newFolderDenied": "Esta carpeta es de solo lectura; aquí no se pueden crear carpetas.",
+  "newFolderFailed": "No se pudo crear la carpeta.",
+  "newFolderCreated": "Carpeta \"{name}\" creada",
+  "@newFolderCreated": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  }
+}

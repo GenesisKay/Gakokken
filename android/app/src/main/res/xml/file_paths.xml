@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Rutas que Gakoken puede pasar a otras apps al abrir un archivo. -->
+<paths>
+    <external-path name="external" path="." />
+    <root-path name="root" path="." />
+</paths>

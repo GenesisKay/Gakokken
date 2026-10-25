@@ -1,0 +1,18 @@
+[package]
+name = "gakoken_core"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "staticlib", "lib"]
+
+[dependencies]
+anyhow = "1"
+flutter_rust_bridge = "=2.13.0"
+jwalk = "0.8"
+nucleo-matcher = "0.3"
+rayon = "1"
+rusqlite = { version = "0.32", features = ["bundled"] }
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(frb_expand)'] }
