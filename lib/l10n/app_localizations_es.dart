@@ -9,7 +9,7 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
-  String get navSettings => 'Configuración';
+  String get navSettings => 'Ajustes';
 
   @override
   String get labelLanguage => 'Idioma';
@@ -39,7 +39,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get themesTitle => 'Temas';
 
   @override
-  String get titleImportTheme => 'Importar Tema';
+  String get titleImportTheme => 'Importar tema';
 
   @override
   String get instructionImportTheme => 'Pega el código JSON del tema aquí:';
@@ -51,10 +51,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get headerThemesDefault => 'Predeterminados';
 
   @override
-  String get headerThemesCustom => 'Mis Temas';
+  String get headerThemesCustom => 'Mis temas';
 
   @override
-  String get titleDeleteTheme => 'Eliminar Tema';
+  String get titleDeleteTheme => 'Eliminar tema';
 
   @override
   String get statusActive => 'Activo';
@@ -63,7 +63,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get themeImportOr => 'O';
 
   @override
-  String get themeSelectJson => 'Seleccionar Archivo JSON';
+  String get themeSelectJson => 'Seleccionar archivo JSON';
 
   @override
   String get themeImportFileSuccess => 'Tema importado desde archivo';
@@ -96,10 +96,10 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get themeCreateTitle => 'Crear Tema';
+  String get themeCreateTitle => 'Crear tema';
 
   @override
-  String get themeEditTitle => 'Editar Tema';
+  String get themeEditTitle => 'Editar tema';
 
   @override
   String get themeGeneratorTitle => 'Generador';
@@ -111,10 +111,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get themeBrightness => 'Brillo';
 
   @override
-  String get themeGenerateAction => 'Generar Paleta';
+  String get themeGenerateAction => 'Generar paleta';
 
   @override
-  String get themeNameLabel => 'Nombre del Tema';
+  String get themeNameLabel => 'Nombre del tema';
 
   @override
   String get themeDescLabel => 'Descripción';
@@ -126,41 +126,41 @@ class AppLocalizationsEs extends AppLocalizations {
   String get btnOK => 'OK';
 
   @override
-  String get themeSectionCore => 'Fondos y Textos (Core)';
+  String get themeSectionCore => 'Fondos y textos (Core)';
 
   @override
-  String get themeSectionBrand => 'Marca y Acción';
+  String get themeSectionBrand => 'Marca y acción';
 
   @override
   String get themeSectionUI => 'Estados y UI';
 
   @override
-  String get themeUseSecondary => 'Usar Color Secundario';
+  String get themeUseSecondary => 'Usar color secundario';
 
   @override
   String get themeUseSecondaryDesc =>
       'Estos colores no se usan en Gakoken, pero puedes definirlos aquí.';
 
   @override
-  String get themeSelectColorTitle => 'Seleccionar Color';
+  String get themeSelectColorTitle => 'Seleccionar color';
 
   @override
-  String get colorBgPrimary => 'Fondo Principal';
+  String get colorBgPrimary => 'Fondo principal';
 
   @override
-  String get colorBgSecondary => 'Fondo Secundario';
+  String get colorBgSecondary => 'Fondo secundario';
 
   @override
-  String get colorBgElevated => 'Fondo Elevado';
+  String get colorBgElevated => 'Fondo elevado';
 
   @override
-  String get colorOverlay => 'Overlay';
+  String get colorOverlay => 'Superposición';
 
   @override
-  String get colorTextPrimary => 'Texto Principal';
+  String get colorTextPrimary => 'Texto principal';
 
   @override
-  String get colorTextSecondary => 'Texto Secundario';
+  String get colorTextSecondary => 'Texto secundario';
 
   @override
   String get colorTextDisabled => 'Deshabilitado';
@@ -169,7 +169,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get colorTextInverse => 'Invertido';
 
   @override
-  String get colorPrimary => 'Color Primario';
+  String get colorPrimary => 'Color primario';
 
   @override
   String get colorPrimaryHover => 'Hover';
@@ -178,7 +178,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get colorPrimaryActive => 'Active';
 
   @override
-  String get colorSecondary => 'Color Secundario';
+  String get colorSecondary => 'Color secundario';
 
   @override
   String get colorSecondaryHover => 'Hover (Sec)';
@@ -187,22 +187,22 @@ class AppLocalizationsEs extends AppLocalizations {
   String get colorSecondaryActive => 'Active (Sec)';
 
   @override
-  String get colorStateSuccess => 'Éxito (Verde)';
+  String get colorStateSuccess => 'Éxito (verde)';
 
   @override
-  String get colorStateWarning => 'Alerta (Amarillo)';
+  String get colorStateWarning => 'Alerta (amarillo)';
 
   @override
-  String get colorStateError => 'Error (Rojo)';
+  String get colorStateError => 'Error (rojo)';
 
   @override
-  String get colorStateInfo => 'Info (Azul)';
+  String get colorStateInfo => 'Info (azul)';
 
   @override
-  String get colorBorderSubtle => 'Borde Sutil';
+  String get colorBorderSubtle => 'Borde sutil';
 
   @override
-  String get colorBorderFocus => 'Borde Foco';
+  String get colorBorderFocus => 'Borde foco';
 
   @override
   String get colorSurfaceHover => 'Sup. Hover';
@@ -214,26 +214,26 @@ class AppLocalizationsEs extends AppLocalizations {
   String get themeStatusActive => 'Activo';
 
   @override
-  String get themeActionApply => 'Aplicar Tema';
+  String get themeActionApply => 'Aplicar tema';
 
   @override
   String get themeActionCopyJson => 'Copiar JSON';
 
   @override
-  String get themeActionSaveFile => 'Guardar Archivo';
+  String get themeActionSaveFile => 'Guardar archivo';
 
   @override
   String get btnConfirm => 'Confirmar';
 
   @override
-  String get titleSelectColor => 'Seleccionar Color';
+  String get titleSelectColor => 'Seleccionar color';
 
   @override
   String get themeDefaultName => 'Gakoken';
 
   @override
   String get themeDefaultDescription =>
-      'Gato naranja: crema y naranja atigrado';
+      'Gato naranja: blanco y naranja atigrado';
 
   @override
   String get themeDefaultName2 => 'Oturoja';
@@ -291,7 +291,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get themeSectionSecondary => 'Secundario';
 
   @override
-  String get themeSectionStates => 'Estados Semánticos';
+  String get themeSectionStates => 'Estados semánticos';
 
   @override
   String get themeSectionComponents => 'Componentes';
@@ -440,14 +440,13 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get usageUpdating =>
-      'Actualizando el índice; los números pueden cambiar.';
-
-  @override
   String get usageByKind => 'Por tipo';
 
   @override
   String get usageLargest => 'Lo que más ocupa';
+
+  @override
+  String get usageSortFiles => 'Archivos';
 
   @override
   String usageFiles(String count) {
@@ -587,6 +586,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get hiddenTitle => 'Archivos ocultos';
+
+  @override
+  String get hapticsTitle => 'Vibrar al seleccionar';
 
   @override
   String get hiddenDescription =>
@@ -795,7 +797,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get trashRestoreFailed => 'No se pudo restaurar';
 
   @override
-  String get trashDeleteForever => 'Eliminar para siempre';
+  String get trashDeleteForever => 'Eliminar definitivamente';
 
   @override
   String trashDeleteForeverMessage(int count) {
@@ -942,4 +944,130 @@ class AppLocalizationsEs extends AppLocalizations {
   String newFolderCreated(String name) {
     return 'Carpeta \"$name\" creada';
   }
+
+  @override
+  String get groupByDate => 'Agrupar por fecha';
+
+  @override
+  String get dateGroupToday => 'Hoy';
+
+  @override
+  String get dateGroupYesterday => 'Ayer';
+
+  @override
+  String get dateGroupWeek => 'Últimos 7 días';
+
+  @override
+  String get sortAdded => 'Agregado';
+
+  @override
+  String get sortDeleted => 'Borrado';
+
+  @override
+  String trashRestoredMany(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count elementos restaurados',
+      one: '1 elemento restaurado',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get usageSystemOther => 'Sistema y otros';
+
+  @override
+  String get usageFreeSegment => 'Libre';
+
+  @override
+  String usageFilesSize(String size, String files, String dirs) {
+    return '$size en $files archivos · $dirs carpetas';
+  }
+
+  @override
+  String usageFreeOnly(String free) {
+    return '$free libres';
+  }
+
+  @override
+  String get usageApps => 'Apps';
+
+  @override
+  String get usageSystem => 'Sistema';
+
+  @override
+  String get usageAppsAccess => 'Ver cuánto ocupan las apps';
+
+  @override
+  String get tourSkip => 'Saltar';
+
+  @override
+  String get tourNext => 'Siguiente';
+
+  @override
+  String get tourDone => 'Listo';
+
+  @override
+  String tourStepCount(int current, int total) {
+    return '$current de $total';
+  }
+
+  @override
+  String get tutorialTitle => 'Tutorial';
+
+  @override
+  String get tutorialDone => 'Hecho';
+
+  @override
+  String get tourExpNavTitle => 'Tus secciones';
+
+  @override
+  String get tourExpNavBody =>
+      'Explorar, Favoritos, Espacio y Ajustes. Toca una para cambiar.';
+
+  @override
+  String get tourExpSearchTitle => 'Busca en todo el teléfono';
+
+  @override
+  String get tourExpSearchBody =>
+      'Encuentra archivos y carpetas por nombre al instante, sin esperar a que se recorra el almacenamiento.';
+
+  @override
+  String get tourExpDisplayTitle => 'Vista y orden';
+
+  @override
+  String get tourExpDisplayBody =>
+      'Lista o cuadrícula, ordenar, agrupar por fecha y filtrar por tipo de archivo.';
+
+  @override
+  String get tourExpSelectTitle => 'Selecciona y actúa';
+
+  @override
+  String get tourExpSelectBody =>
+      'Mantén presionado un archivo o carpeta para seleccionarlo: copiar, mover, renombrar, compartir o agregarlo a Favoritos.';
+
+  @override
+  String get tourFavTitle => 'Tus favoritos';
+
+  @override
+  String get tourFavBody =>
+      'Lo que marcas para abrirlo rápido. Mantén presionado algo en Explorar para agregarlo aquí.';
+
+  @override
+  String get tourUseBarTitle => 'Tu espacio';
+
+  @override
+  String get tourUseBarBody =>
+      'Cuánto ocupa cada tipo de archivo en el teléfono.';
+
+  @override
+  String get tourUseKindTitle => 'Libera espacio';
+
+  @override
+  String get tourUseKindBody =>
+      'Toca un tipo para ver sus archivos más grandes y decidir qué borrar.';
+
+  @override
+  String get madeByMorobu => 'Hecho por Morobu';
 }

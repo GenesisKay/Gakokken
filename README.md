@@ -3,7 +3,7 @@
 Explorador de archivos rápido con indexación, para Android, Linux y Windows. Hecho con Flutter.
 
 **Paquete:** `gakoken`
-**applicationId:** `com.gakoken.gakoken`
+**applicationId:** `com.morobu.gakoken`
 
 ## Correr
 

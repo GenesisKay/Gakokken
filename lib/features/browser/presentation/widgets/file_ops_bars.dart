@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../core/files/file_format.dart';
 import '../../../../core/services/file_ops_service.dart';
+import '../../../../core/services/scaffold_messenger_service.dart';
 import '../../../../core/theme/theme_extensions.dart';
 import '../../../../l10n/app_localizations.dart';
 
@@ -22,27 +23,110 @@ class _Bar extends StatelessWidget {
         border: Border(top: BorderSide(color: colors.borderSubtle)),
       ),
       padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
-      child: child,
+      // En las pantallas que se abren encima (Papelera, archivos de un tipo)
+      // no hay barra inferior: el fondo llega al borde y los botones quedan
+      // arriba de la barra de gestos del sistema. En las pestañas no cambia
+      // nada, porque la barra inferior ya ocupa ese espacio.
+      child: SafeArea(top: false, left: false, right: false, child: child),
     );
   }
 }
 
 class SelectionAction {
-  const SelectionAction(this.icon, this.label, this.onTap);
+  const SelectionAction(this.icon, this.label, this.onTap) : menu = null;
+
+  /// Abre un menú pegado al botón, como el de la ruta del título, en vez de
+  /// una hoja desde abajo (pedido el 2026-11-13). Sin opciones se muestra
+  /// desactivada.
+  const SelectionAction.menu(this.icon, this.label, List<SelectionAction> items)
+    : menu = items,
+      onTap = null;
 
   final IconData icon;
   final String label;
 
   /// null la muestra desactivada.
   final VoidCallback? onTap;
+
+  /// Opciones del menú; cada una con su ícono, texto y acción.
+  final List<SelectionAction>? menu;
+
+  bool get enabled => onTap != null || (menu?.isNotEmpty ?? false);
+}
+
+/// Abre el menú de [action] pegado a [button]: sale hacia arriba, porque la
+/// barra está abajo, y alineado al lado del botón más cercano al borde.
+Future<void> _openSelectionMenu(
+  BuildContext button,
+  SelectionAction action,
+) async {
+  final colors = button.colors;
+  final items = action.menu!;
+  final box = button.findRenderObject()! as RenderBox;
+  final overlay = Overlay.of(button).context.findRenderObject()! as RenderBox;
+  final rect = box.localToGlobal(Offset.zero, ancestor: overlay) & box.size;
+  // Alto de cada opción del menú más su relleno de arriba y abajo.
+  final height = items.length * kMinInteractiveDimension + 16;
+  final chosen = await showMenu<VoidCallback>(
+    context: button,
+    position: RelativeRect.fromLTRB(
+      rect.left,
+      rect.top - height - 4,
+      overlay.size.width - rect.right,
+      overlay.size.height - rect.top,
+    ),
+    color: colors.bgElevated,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+    constraints: const BoxConstraints(minWidth: 200, maxWidth: 280),
+    items: [
+      for (final item in items)
+        PopupMenuItem(
+          value: item.onTap,
+          enabled: item.onTap != null,
+          child: Row(
+            children: [
+              Icon(item.icon, size: 20, color: colors.textSecondary),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  item.label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: button.typography.body.copyWith(
+                    color: colors.textPrimary,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+    ],
+  );
+  // El menú se cierra antes de la acción: las acciones usan el contexto de
+  // la pantalla, no el del menú.
+  chosen?.call();
 }
 
 /// Acciones sobre lo seleccionado: copiar, cortar, compartir, renombrar,
 /// eliminar y más.
-class SelectionBar extends StatelessWidget {
+class SelectionBar extends StatefulWidget {
   const SelectionBar({super.key, required this.actions});
 
   final List<SelectionAction> actions;
+
+  @override
+  State<SelectionBar> createState() => _SelectionBarState();
+}
+
+class _SelectionBarState extends State<SelectionBar> {
+  @override
+  void initState() {
+    super.initState();
+    // El aviso de abajo (por ejemplo "Movido a la papelera" con Deshacer)
+    // tapa esta barra. Al empezar a seleccionar se cierra para que las
+    // acciones queden a la vista (pedido el 2026-11-12).
+    ScaffoldMessengerService.messengerKey.currentState?.hideCurrentSnackBar();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,34 +134,40 @@ class SelectionBar extends StatelessWidget {
     return _Bar(
       child: Row(
         children: [
-          for (final action in actions)
+          for (final action in widget.actions)
             Expanded(
-              child: InkWell(
-                borderRadius: BorderRadius.circular(12),
-                onTap: action.onTap,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 6),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        action.icon,
-                        color: action.onTap == null
-                            ? colors.textDisabled
-                            : colors.textPrimary,
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        action.label,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: context.typography.small.copyWith(
-                          color: action.onTap == null
-                              ? colors.textDisabled
-                              : colors.textSecondary,
+              child: Builder(
+                builder: (button) => InkWell(
+                  borderRadius: BorderRadius.circular(12),
+                  onTap: action.menu != null
+                      ? (action.enabled
+                            ? () => _openSelectionMenu(button, action)
+                            : null)
+                      : action.onTap,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 6),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          action.icon,
+                          color: action.enabled
+                              ? colors.textPrimary
+                              : colors.textDisabled,
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 4),
+                        Text(
+                          action.label,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: context.typography.small.copyWith(
+                            color: action.enabled
+                                ? colors.textSecondary
+                                : colors.textDisabled,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -88,15 +178,12 @@ class SelectionBar extends StatelessWidget {
   }
 }
 
-/// Lo que está en el portapapeles, con Nueva carpeta y Pegar aquí. Sirve en
-/// cualquier pestaña y carpeta.
+/// Lo que está en el portapapeles, con Pegar aquí. Sirve en cualquier
+/// pestaña y carpeta. Nueva carpeta está arriba, siempre a la vista.
 class PasteBar extends StatelessWidget {
-  const PasteBar({super.key, required this.onPaste, required this.onNewFolder});
+  const PasteBar({super.key, required this.onPaste});
 
   final VoidCallback? onPaste;
-
-  /// Crea la carpeta destino sin perder el portapapeles.
-  final VoidCallback? onNewFolder;
 
   @override
   Widget build(BuildContext context) {
@@ -125,13 +212,6 @@ class PasteBar extends StatelessWidget {
           TextButton(
             onPressed: ops.clearClipboard,
             child: Text(l10n.btnCancel),
-          ),
-          IconButton(
-            tooltip: l10n.newFolderTitle,
-            icon: const Icon(Icons.create_new_folder_outlined),
-            color: context.colors.textPrimary,
-            disabledColor: context.colors.textDisabled,
-            onPressed: onNewFolder,
           ),
           FilledButton(onPressed: onPaste, child: Text(l10n.pasteHere)),
         ],

@@ -4,6 +4,8 @@ import 'package:path/path.dart' as p;
 
 import '../../src/rust/api/ops.dart' as ops;
 import '../storage/hive_bootstrap.dart';
+import 'activity_service.dart';
+import 'favorites_service.dart';
 import 'file_changes.dart';
 import 'index_service.dart';
 import 'storage_volumes_service.dart';
@@ -123,7 +125,12 @@ class TrashService extends ChangeNotifier {
 
   /// Regresa cada uno a su lugar. Si ahí ya hay algo con ese nombre, queda
   /// como `nombre (1)`.
-  Future<int> restore(List<TrashItem> items) async {
+  /// Mientras corre, la ruedita de la barra de arriba lo muestra (regla de
+  /// loaders, 2026-11-05).
+  Future<int> restore(List<TrashItem> items) =>
+      ActivityService().track(_restore(items));
+
+  Future<int> _restore(List<TrashItem> items) async {
     final restored = <String>[];
     for (final item in items) {
       final target = ops.uniquePath(path: item.originalPath);
@@ -133,23 +140,41 @@ class TrashService extends ChangeNotifier {
         continue;
       }
       await _box.delete(item.id);
+      // Sus favoritos vuelven a verse; si quedó como `nombre (1)`, lo siguen.
+      if (target != item.originalPath) {
+        await FavoritesService().relocate(item.originalPath, target);
+      }
       restored.add(target);
     }
     _changed(restored, {for (final i in items) p.dirname(i.trashedPath)});
     return restored.length;
   }
 
-  Future<void> deleteForever(List<TrashItem> items) async {
+  /// Borrar una carpeta grande tarda: la ruedita de arriba lo muestra.
+  Future<void> deleteForever(List<TrashItem> items) =>
+      ActivityService().track(_deleteForever(items));
+
+  Future<void> _deleteForever(List<TrashItem> items) async {
     final failed = (await ops.deletePaths(
       paths: [for (final i in items) i.trashedPath],
     )).toSet();
+    final gone = <String>[];
     for (final item in items) {
-      if (!failed.contains(item.trashedPath)) await _box.delete(item.id);
+      if (failed.contains(item.trashedPath)) continue;
+      await _box.delete(item.id);
+      gone.add(item.originalPath);
     }
+    // Borrado para siempre: ya no es favorito.
+    await FavoritesService().removeUnder(gone);
     _changed(const [], {for (final i in items) p.dirname(i.trashedPath)});
   }
 
   Future<void> empty() => deleteForever(items);
+
+  /// [path] está en la papelera, solo o dentro de una carpeta borrada.
+  /// Favoritos no muestra lo que está aquí (pedido el 2026-11-05).
+  bool isTrashed(String path) =>
+      items.any((item) => FavoritesService.isUnder(path, item.originalPath));
 
   /// Borra lo que lleva más de [retentionDays] días. Se llama al abrir la app.
   Future<void> purgeExpired() async {

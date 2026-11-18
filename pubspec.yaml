@@ -2,7 +2,7 @@ name: gakoken
 description: "Gakoken - Explorador de archivos rapido."
 publish_to: 'none'
 
-version: 1.0.0+1
+version: 1.0.0+6
 
 environment:
   sdk: ^3.9.2
@@ -26,12 +26,42 @@ dependencies:
   device_info_plus: ^12.4.0
   share_plus: ^12.0.2
   path: ^1.9.1
+  url_launcher: ^6.3.2
+  package_info_plus: ^9.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.4.1
 
 flutter:
   generate: true
   uses-material-design: true
+  # Montserrat va dentro de la app: sin permiso de internet, google_fonts no
+  # la puede descargar. google_fonts usa estos archivos por su nombre.
+  assets:
+    - assets/google_fonts/
+
+flutter_launcher_icons:
+  android: true
+  image_path: "assets/images/app_icon.png"
+  min_sdk_android: 21
+  adaptive_icon_background: "#E65C00"
+  adaptive_icon_foreground: "assets/images/app_icon.png"
+  windows:
+    generate: true
+    image_path: "assets/images/app_icon.png"
+    icon_size: 256
+
+# Splash de la serie Origami: fondo del color principal del tema de la app y
+# el logo al centro (Origami-Base/diseno/splash.md). Regenerar con:
+#   dart run flutter_native_splash:create
+flutter_native_splash:
+  color: "#E65C00"
+  image: assets/images/app_icon.png
+  android_12:
+    image: assets/images/app_icon.png
+    color: "#E65C00"
+  web: false

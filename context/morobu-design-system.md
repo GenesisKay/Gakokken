@@ -2,8 +2,8 @@
 
 Este archivo conecta el repo con el Design System de Morobu, que está documentado en Obsidian. **Complementa** los demás documentos de `context/` y `docs/`; no los reemplaza.
 
-- **Design System (Obsidian):** `D:/3-Projects/Software/Vault/Design System/Design System.md`
-- **Nota del proyecto (Obsidian):** `D:/3-Projects/Software/Vault/Proyectos/Gakoken.md`
+- **Design System (Obsidian):** `E:/Vault/Software/Design System/Design System.md`
+- **Nota del proyecto (Obsidian):** `E:/Vault/Software/Proyectos/Gakoken.md`
 
 Al 2026-10-19.
 
@@ -73,7 +73,7 @@ Fuente de verdad en código: `lib/core/theme/color_extensions.dart` (`AppColorEx
 | Secundario hover (opcional) | secondaryHover | - |
 | Secundario activo (opcional) | secondaryActive | - |
 
-**Temas integrados en este repo:** `default` (Gakoken, gato naranja: crema y naranja atigrado), `nekokag` (oscuro, gato naranja de noche), `eloisa` (colibrí: esmeralda y magenta), `asiole` (oscuro de Eloisa), `ajoruto`, `oturoja`, `manubu` (exporta "Morobu"), `ubunam` (exporta "Uborom"), `zontle`, `eltnoz`, `bioka` (la Tierra: azul océano y verde), `akoib` (oscuro de Bioka).
+**Temas integrados en este repo:** `default` (Gakoken, gato naranja: blanco y naranja atigrado), `nekokag` (oscuro, gato naranja de noche), `eloisa` (colibrí: esmeralda y magenta), `asiole` (oscuro de Eloisa), `ajoruto`, `oturoja`, `manubu` (exporta "Morobu"), `ubunam` (exporta "Uborom"), `zontle`, `eltnoz`, `bioka` (la Tierra: azul océano y verde), `akoib` (oscuro de Bioka).
 
 # Tipografía
 
@@ -101,7 +101,7 @@ Fuente de verdad en código: `lib/core/theme/color_extensions.dart` (`AppColorEx
 
 # Open source
 
-**Pendiente.** Idea OR-10 de Herramientas Origami (2026-10-17): reestructurar este repo para publicarlo como open source, incluidos código, íconos, imágenes, fuentes y el lenguaje de diseño. Todavía no hay decisión; mientras tanto, evitar assets sin licencia clara y nunca subir secretos (solo archivos `.example`). Temas a resolver: `D:/3-Projects/Software/Vault/Design System/Open Source.md`.
+**Pendiente.** Idea OR-10 de Herramientas Origami (2026-10-17): reestructurar este repo para publicarlo como open source, incluidos código, íconos, imágenes, fuentes y el lenguaje de diseño. Todavía no hay decisión; mientras tanto, evitar assets sin licencia clara y nunca subir secretos (solo archivos `.example`). Temas a resolver: `E:/Vault/Software/Design System/Open Source.md`.
 
 Pendiente en este repo:
 - No hay `LICENSE`.

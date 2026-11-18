@@ -6,11 +6,15 @@ import '../../../../core/files/file_kind.dart';
 import '../../../../core/files/file_labels.dart';
 import '../../../../core/services/explorer_settings_service.dart';
 import '../../../../core/services/index_service.dart';
+import '../../../../core/services/view_prefs.dart';
 import '../../../../core/theme/theme_extensions.dart';
 import '../../../../core/widgets/file_actions.dart';
 import '../../../../core/widgets/gakoken_app_bar.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../browser/presentation/controllers/selection.dart';
 import '../../../browser/presentation/widgets/entry_views.dart';
+import '../../../browser/presentation/widgets/file_ops_bars.dart';
+import '../../../browser/presentation/widgets/selection_actions.dart';
 import '../../../browser/presentation/widgets/sort_filter_sheet.dart';
 import '../../../browser/presentation/widgets/view_mode_sheet.dart';
 
@@ -18,7 +22,8 @@ import '../../../browser/presentation/widgets/view_mode_sheet.dart';
 /// subcarpetas). Se abre al tocar un tipo en Por tipo (pedido el
 /// 2026-10-21). Tiene su propio orden (del más pesado al más ligero al
 /// abrir), su propia vista (empieza en la de Explorar) y busca por nombre
-/// dentro de la lista; nada de eso cambia Explorar.
+/// dentro de la lista; nada de eso cambia Explorar. Selección múltiple como
+/// en Explorar (pedida el 2026-10-29).
 class KindFilesScreen extends StatefulWidget {
   const KindFilesScreen({
     super.key,
@@ -41,8 +46,13 @@ class _KindFilesScreenState extends State<KindFilesScreen> {
   static const _limit = 500;
 
   final _index = IndexService();
-  final _sort = _KindSort();
-  late BrowserViewMode _mode = ExplorerSettingsService().viewMode;
+  // Al abrir, del más pesado al más ligero, en la vista de Explorar.
+  final _sort = ViewPrefs(
+    viewMode: ExplorerSettingsService().viewMode,
+    sortField: SortField.size,
+    ascending: false,
+  );
+  final _selection = SelectionController();
   String _query = '';
   List<FileEntry>? _files;
   int _seenRevision = -1;
@@ -52,6 +62,7 @@ class _KindFilesScreenState extends State<KindFilesScreen> {
     super.initState();
     _index.addListener(_onIndex);
     _sort.addListener(_onSort);
+    _selection.addListener(_onSort);
     _load();
   }
 
@@ -59,6 +70,7 @@ class _KindFilesScreenState extends State<KindFilesScreen> {
   void dispose() {
     _index.removeListener(_onIndex);
     _sort.dispose();
+    _selection.dispose();
     super.dispose();
   }
 
@@ -83,10 +95,10 @@ class _KindFilesScreenState extends State<KindFilesScreen> {
   /// Lo que coincide con la búsqueda, en el orden elegido.
   List<FileEntry> _visible(List<FileEntry> files) {
     final query = _query.trim().toLowerCase();
-    return [
+    return sortEntries([
       for (final file in files)
         if (query.isEmpty || file.name.toLowerCase().contains(query)) file,
-    ]..sort((a, b) => compareEntries(a, b, _sort.sortField, _sort.ascending));
+    ], _sort);
   }
 
   @override
@@ -96,6 +108,13 @@ class _KindFilesScreenState extends State<KindFilesScreen> {
     final locale = Localizations.localeOf(context).toString();
     final files = _files;
     final visible = files == null ? const <FileEntry>[] : _visible(files);
+    _selection
+      ..keys = [for (final file in visible) file.path]
+      ..retainVisible();
+    final selected = [
+      for (final file in visible)
+        if (_selection.selected.contains(file.path)) file,
+    ];
 
     Widget message(String text) => Center(
       child: Padding(
@@ -108,25 +127,40 @@ class _KindFilesScreenState extends State<KindFilesScreen> {
       ),
     );
 
-    return Scaffold(
+    final scaffold = Scaffold(
       backgroundColor: colors.bgPrimary,
-      appBar: GakokenAppBar(
-        title: kindLabel(l10n, widget.kind),
-        isSearchable: true,
-        onSearch: (query) => setState(() => _query = query),
-        onFilterPressed: () => showSortSheet(context, _sort),
-        actions: [
-          IconButton(
-            tooltip: l10n.browserViewTitle,
-            icon: Icon(viewModeIcon(_mode), color: colors.textPrimary),
-            onPressed: () => showViewModeSheet(
+      appBar: _selection.selecting
+          ? selectionAppBar(
               context,
-              current: _mode,
-              onSelected: (mode) => setState(() => _mode = mode),
+              count: selected.length,
+              onClose: _selection.clearSelection,
+              onSelectAll: _selection.selectAll,
+              actions: fileSelectionTopActions(
+                context,
+                selected,
+                clear: _selection.clearSelection,
+              ),
+            )
+          : GakokenAppBar(
+              title: kindLabel(l10n, widget.kind),
+              isSearchable: true,
+              onSearch: (query) => setState(() => _query = query),
+              onFilterPressed: () => showSortSheet(context, _sort),
+              actions: [
+                IconButton(
+                  tooltip: l10n.browserViewTitle,
+                  icon: Icon(
+                    viewModeIcon(_sort.viewMode),
+                    color: colors.textPrimary,
+                  ),
+                  onPressed: () => showViewModeSheet(
+                    context,
+                    current: _sort.viewMode,
+                    onSelected: _sort.setViewMode,
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
       body: files == null
           ? const Center(child: CircularProgressIndicator())
           : files.isEmpty
@@ -138,21 +172,34 @@ class _KindFilesScreenState extends State<KindFilesScreen> {
                 Expanded(
                   child: EntryViews(
                     entries: visible,
-                    mode: _mode,
+                    mode: _sort.viewMode,
+                    onViewMode: _sort.setViewMode,
                     sortField: _sort.sortField,
                     ascending: _sort.ascending,
                     onSortColumn: _sort.tapSort,
+                    groupByDate: _sort.groupByDate,
+                    selected: _selection.selected,
+                    onSelectGroup: _selection.toggleRange,
                     detailOf: (file) => locationOf(l10n, file.path),
-                    onTap: (file) => openFileWithFeedback(context, file.path),
-                    onLongPress: (file) => showFileActionsSheet(
-                      context,
-                      path: file.path,
-                      name: file.name,
-                      isDir: false,
+                    onTap: (file) => _selection.selecting
+                        ? _selection.toggleSelection(file.path)
+                        : openFileWithFeedback(context, file.path),
+                    dragSelect: DragSelectCallbacks(
+                      onStart: _selection.startDragSelection,
+                      onUpdate: _selection.updateDragSelection,
+                      onEnd: _selection.endDragSelection,
                     ),
                   ),
                 ),
-                if (files.length == _limit && _query.isEmpty)
+                if (_selection.selecting)
+                  SelectionBar(
+                    actions: fileSelectionActions(
+                      context,
+                      selected,
+                      clear: _selection.clearSelection,
+                    ),
+                  )
+                else if (files.length == _limit && _query.isEmpty)
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
                     child: Text(
@@ -168,21 +215,13 @@ class _KindFilesScreenState extends State<KindFilesScreen> {
               ],
             ),
     );
-  }
-}
-
-/// Orden propio de la lista: al abrir, del más pesado al más ligero. Igual
-/// que en Explorar, un toque ordena de menor a mayor y otro lo invierte.
-class _KindSort extends ChangeNotifier implements SortChoice {
-  @override
-  SortField sortField = SortField.size;
-  @override
-  bool ascending = false;
-
-  @override
-  void tapSort(SortField field) {
-    ascending = field == sortField ? !ascending : true;
-    sortField = field;
-    notifyListeners();
+    // Atrás suelta la selección antes de salir.
+    return PopScope(
+      canPop: !_selection.selecting,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) _selection.clearSelection();
+      },
+      child: scaffold,
+    );
   }
 }

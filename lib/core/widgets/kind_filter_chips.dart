@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
 import '../files/file_kind.dart';
 import '../files/file_labels.dart';
+import '../services/view_prefs.dart';
 import '../theme/theme_extensions.dart';
 import 'file_kind_icon.dart';
 
@@ -58,6 +59,45 @@ class KindFilterChips extends StatelessWidget {
         itemCount: chips.length,
         separatorBuilder: (_, _) => const SizedBox(width: 8),
         itemBuilder: (_, i) => Center(child: chips[i]),
+      ),
+    );
+  }
+}
+
+/// Tipos filtrados, siempre a la vista arriba de la lista para que no
+/// parezca que faltan archivos. La X de cada uno lo quita. En Explorar,
+/// Favoritos y la Papelera.
+class ActiveKindFilters extends StatelessWidget {
+  const ActiveKindFilters({super.key, required this.filter});
+
+  final KindFilterChoice filter;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final colors = context.colors;
+    return SizedBox(
+      height: 44,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        children: [
+          for (final kind in filter.kindFilter)
+            Padding(
+              padding: const EdgeInsets.only(right: 6),
+              child: InputChip(
+                label: Text(kindLabel(l10n, kind)),
+                labelStyle: context.typography.small.copyWith(
+                  color: colors.textPrimary,
+                ),
+                backgroundColor: colors.primary.withValues(alpha: 0.12),
+                side: BorderSide(color: colors.primary),
+                deleteIcon: const Icon(Icons.close_rounded, size: 16),
+                deleteButtonTooltipMessage: l10n.filterClear,
+                onDeleted: () => filter.toggleKind(kind),
+              ),
+            ),
+        ],
       ),
     );
   }

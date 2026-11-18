@@ -203,7 +203,7 @@ class ThemeService extends ChangeNotifier {
       <String, ({String name, String description})>{
         'default': (
           name: 'Gakoken',
-          description: 'Tema gato naranja: crema y naranja atigrado',
+          description: 'Tema gato naranja: blanco y naranja atigrado',
         ),
         'nekokag': (name: 'Nekokag', description: 'Tema gato naranja oscuro'),
         'eloisa': (

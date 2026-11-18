@@ -1,6 +1,6 @@
 {
   "@@locale": "es",
-  "navSettings": "Configuración",
+  "navSettings": "Ajustes",
   "labelLanguage": "Idioma",
   "btnImport": "Importar",
   "btnCancel": "Cancelar",
@@ -10,15 +10,15 @@
   "errorPrefix": "Error: ",
   "btnSelect": "Seleccionar",
   "themesTitle": "Temas",
-  "titleImportTheme": "Importar Tema",
+  "titleImportTheme": "Importar tema",
   "instructionImportTheme": "Pega el código JSON del tema aquí:",
   "msgThemeImportSuccess": "Tema importado correctamente",
   "headerThemesDefault": "Predeterminados",
-  "headerThemesCustom": "Mis Temas",
-  "titleDeleteTheme": "Eliminar Tema",
+  "headerThemesCustom": "Mis temas",
+  "titleDeleteTheme": "Eliminar tema",
   "statusActive": "Activo",
   "themeImportOr": "O",
-  "themeSelectJson": "Seleccionar Archivo JSON",
+  "themeSelectJson": "Seleccionar archivo JSON",
   "themeImportFileSuccess": "Tema importado desde archivo",
   "themeImportError": "Error al leer archivo: {error}",
   "@themeImportError": {
@@ -54,52 +54,52 @@
       }
     }
   },
-  "themeCreateTitle": "Crear Tema",
-  "themeEditTitle": "Editar Tema",
+  "themeCreateTitle": "Crear tema",
+  "themeEditTitle": "Editar tema",
   "themeGeneratorTitle": "Generador",
   "themeSeedColor": "Semilla",
   "themeBrightness": "Brillo",
-  "themeGenerateAction": "Generar Paleta",
-  "themeNameLabel": "Nombre del Tema",
+  "themeGenerateAction": "Generar paleta",
+  "themeNameLabel": "Nombre del tema",
   "themeDescLabel": "Descripción",
   "themeRequired": "Requerido",
   "btnOK": "OK",
-  "themeSectionCore": "Fondos y Textos (Core)",
-  "themeSectionBrand": "Marca y Acción",
+  "themeSectionCore": "Fondos y textos (Core)",
+  "themeSectionBrand": "Marca y acción",
   "themeSectionUI": "Estados y UI",
-  "themeUseSecondary": "Usar Color Secundario",
+  "themeUseSecondary": "Usar color secundario",
   "themeUseSecondaryDesc": "Estos colores no se usan en Gakoken, pero puedes definirlos aquí.",
-  "themeSelectColorTitle": "Seleccionar Color",
-  "colorBgPrimary": "Fondo Principal",
-  "colorBgSecondary": "Fondo Secundario",
-  "colorBgElevated": "Fondo Elevado",
-  "colorOverlay": "Overlay",
-  "colorTextPrimary": "Texto Principal",
-  "colorTextSecondary": "Texto Secundario",
+  "themeSelectColorTitle": "Seleccionar color",
+  "colorBgPrimary": "Fondo principal",
+  "colorBgSecondary": "Fondo secundario",
+  "colorBgElevated": "Fondo elevado",
+  "colorOverlay": "Superposición",
+  "colorTextPrimary": "Texto principal",
+  "colorTextSecondary": "Texto secundario",
   "colorTextDisabled": "Deshabilitado",
   "colorTextInverse": "Invertido",
-  "colorPrimary": "Color Primario",
+  "colorPrimary": "Color primario",
   "colorPrimaryHover": "Hover",
   "colorPrimaryActive": "Active",
-  "colorSecondary": "Color Secundario",
+  "colorSecondary": "Color secundario",
   "colorSecondaryHover": "Hover (Sec)",
   "colorSecondaryActive": "Active (Sec)",
-  "colorStateSuccess": "Éxito (Verde)",
-  "colorStateWarning": "Alerta (Amarillo)",
-  "colorStateError": "Error (Rojo)",
-  "colorStateInfo": "Info (Azul)",
-  "colorBorderSubtle": "Borde Sutil",
-  "colorBorderFocus": "Borde Foco",
+  "colorStateSuccess": "Éxito (verde)",
+  "colorStateWarning": "Alerta (amarillo)",
+  "colorStateError": "Error (rojo)",
+  "colorStateInfo": "Info (azul)",
+  "colorBorderSubtle": "Borde sutil",
+  "colorBorderFocus": "Borde foco",
   "colorSurfaceHover": "Sup. Hover",
   "colorSurfaceActive": "Sup. Active",
   "themeStatusActive": "Activo",
-  "themeActionApply": "Aplicar Tema",
+  "themeActionApply": "Aplicar tema",
   "themeActionCopyJson": "Copiar JSON",
-  "themeActionSaveFile": "Guardar Archivo",
+  "themeActionSaveFile": "Guardar archivo",
   "btnConfirm": "Confirmar",
-  "titleSelectColor": "Seleccionar Color",
+  "titleSelectColor": "Seleccionar color",
   "themeDefaultName": "Gakoken",
-  "themeDefaultDescription": "Gato naranja: crema y naranja atigrado",
+  "themeDefaultDescription": "Gato naranja: blanco y naranja atigrado",
   "themeDefaultName2": "Oturoja",
   "themeDefaultDescription2": "Tema oscuro púrpura",
   "themeDefaultName3": "Morobu",
@@ -118,7 +118,7 @@
   "themeSectionTexts": "Textos",
   "themeSectionPrimary": "Primario",
   "themeSectionSecondary": "Secundario",
-  "themeSectionStates": "Estados Semánticos",
+  "themeSectionStates": "Estados semánticos",
   "themeSectionComponents": "Componentes",
   "themeSaveTitle": "Guardar tema",
   "themeSelectFolderTitle": "Seleccionar carpeta para guardar tema",
@@ -180,9 +180,9 @@
       }
     }
   },
-  "usageUpdating": "Actualizando el índice; los números pueden cambiar.",
   "usageByKind": "Por tipo",
   "usageLargest": "Lo que más ocupa",
+  "usageSortFiles": "Archivos",
   "usageFiles": "{count} archivos",
   "@usageFiles": {
     "placeholders": {
@@ -269,6 +269,10 @@
   "volumeNotIndexed": "No se incluye en Buscar",
   "usageCalculating": "Calculando…",
   "hiddenTitle": "Archivos ocultos",
+  "hapticsTitle": "Vibrar al seleccionar",
+  "@hapticsTitle": {
+    "description": "Ajustes: interruptor de la vibración corta al seleccionar"
+  },
   "hiddenDescription": "Son los archivos y carpetas cuyo nombre empieza con punto, como .thumbnails. Casi siempre los usan otras apps.",
   "hiddenShowInExplore": "Mostrar en Explorar",
   "hiddenIncludeInSearch": "Incluir en Buscar",
@@ -416,7 +420,7 @@
   "trashRestore": "Restaurar",
   "trashRestored": "Restaurado en su lugar",
   "trashRestoreFailed": "No se pudo restaurar",
-  "trashDeleteForever": "Eliminar para siempre",
+  "trashDeleteForever": "Eliminar definitivamente",
   "trashDeleteForeverMessage": "{count, plural, =1{Se borrará para siempre. No se puede deshacer.} other{Se borrarán {count} elementos para siempre. No se puede deshacer.}}",
   "@trashDeleteForeverMessage": {
     "placeholders": {
@@ -506,5 +510,68 @@
         "type": "String"
       }
     }
-  }
+  },
+  "groupByDate": "Agrupar por fecha",
+  "dateGroupToday": "Hoy",
+  "dateGroupYesterday": "Ayer",
+  "dateGroupWeek": "Últimos 7 días",
+  "sortAdded": "Agregado",
+  "sortDeleted": "Borrado",
+  "trashRestoredMany": "{count, plural, =1{1 elemento restaurado} other{{count} elementos restaurados}}",
+  "@trashRestoredMany": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "usageSystemOther": "Sistema y otros",
+  "usageFreeSegment": "Libre",
+  "usageFilesSize": "{size} en {files} archivos · {dirs} carpetas",
+  "@usageFilesSize": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      },
+      "files": {
+        "type": "String"
+      },
+      "dirs": {
+        "type": "String"
+      }
+    }
+  },
+  "usageFreeOnly": "{free} libres",
+  "@usageFreeOnly": {
+    "placeholders": {
+      "free": {
+        "type": "String"
+      }
+    }
+  },
+  "usageApps": "Apps",
+  "usageSystem": "Sistema",
+  "usageAppsAccess": "Ver cuánto ocupan las apps",
+  "tourSkip": "Saltar",
+  "tourNext": "Siguiente",
+  "tourDone": "Listo",
+  "tourStepCount": "{current} de {total}",
+  "@tourStepCount": {"placeholders": {"current": {"type": "int"}, "total": {"type": "int"}}},
+  "tutorialTitle": "Tutorial",
+  "tutorialDone": "Hecho",
+  "tourExpNavTitle": "Tus secciones",
+  "tourExpNavBody": "Explorar, Favoritos, Espacio y Ajustes. Toca una para cambiar.",
+  "tourExpSearchTitle": "Busca en todo el teléfono",
+  "tourExpSearchBody": "Encuentra archivos y carpetas por nombre al instante, sin esperar a que se recorra el almacenamiento.",
+  "tourExpDisplayTitle": "Vista y orden",
+  "tourExpDisplayBody": "Lista o cuadrícula, ordenar, agrupar por fecha y filtrar por tipo de archivo.",
+  "tourExpSelectTitle": "Selecciona y actúa",
+  "tourExpSelectBody": "Mantén presionado un archivo o carpeta para seleccionarlo: copiar, mover, renombrar, compartir o agregarlo a Favoritos.",
+  "tourFavTitle": "Tus favoritos",
+  "tourFavBody": "Lo que marcas para abrirlo rápido. Mantén presionado algo en Explorar para agregarlo aquí.",
+  "tourUseBarTitle": "Tu espacio",
+  "tourUseBarBody": "Cuánto ocupa cada tipo de archivo en el teléfono.",
+  "tourUseKindTitle": "Libera espacio",
+  "tourUseKindBody": "Toca un tipo para ver sus archivos más grandes y decidir qué borrar.",
+  "madeByMorobu": "Hecho por Morobu"
 }

@@ -8,6 +8,11 @@
         tools:ignore="ScopedStorage" />
     <!-- Abrir un APK desde Gakoken lanza el instalador del sistema. -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <!-- Acceso al uso: lo pide Android para saber cuánto ocupan las otras apps en Espacio.
+         El usuario lo da en Ajustes; sin él, Espacio junta apps y sistema. -->
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
     <application
         android:label="Gakoken"
         android:requestLegacyExternalStorage="true"
@@ -57,6 +62,12 @@
 
          In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
     <queries>
+        <!-- Abrir morobu.com desde el pie de Ajustes (url_launcher, OR-16). -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" />
+        </intent>
         <!-- Saber si alguna app puede abrir un archivo antes de mostrar "Abrir con". -->
         <intent>
             <action android:name="android.intent.action.VIEW" />

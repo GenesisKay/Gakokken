@@ -109,20 +109,20 @@ void main() {
       await pumpEventQueue();
       List<String> names() => tab.entries.map((e) => e.name).toList();
 
-      settings.tapSort(SortField.size);
-      expect(settings.ascending, isTrue);
+      tab.tapSort(SortField.size);
+      expect(tab.ascending, isTrue);
       expect(names(), ['Zeta', 'Alfa', 'chico.pdf', 'medio.jpg', 'grande.mp4']);
 
-      settings.tapSort(SortField.size);
-      expect(settings.ascending, isFalse);
+      tab.tapSort(SortField.size);
+      expect(tab.ascending, isFalse);
       expect(names(), ['Alfa', 'Zeta', 'grande.mp4', 'medio.jpg', 'chico.pdf']);
 
       // Otro criterio vuelve a empezar de menor a mayor.
-      settings.tapSort(SortField.modified);
-      expect(settings.ascending, isTrue);
+      tab.tapSort(SortField.modified);
+      expect(tab.ascending, isTrue);
       expect(names().sublist(2), ['grande.mp4', 'medio.jpg', 'chico.pdf']);
 
-      settings.tapSort(SortField.kind);
+      tab.tapSort(SortField.kind);
       expect(names().sublist(2), ['chico.pdf', 'medio.jpg', 'grande.mp4']);
     });
 
@@ -202,7 +202,22 @@ void main() {
       expect(volumes.volumeOf('$sd/Music').kind, VolumeKind.sd);
       expect(volumes.volumeOf('/system/bin').kind, VolumeKind.system);
       expect(volumes.indexedRoots, [root, sd]);
-      expect(volumes.home, '/', reason: 'Recién instalada abre en la raíz');
+      expect(volumes.home, root, reason: 'Recién instalada abre en Interno');
+
+      // Interno es una carpeta de la ruta desde la raíz, no un lugar aparte.
+      final dcim = p.join(root, 'DCIM');
+      final deep = BrowserController(path: dcim, engine: engine);
+      final storage = p.join('/', 'storage');
+      final emulated = p.join(storage, 'emulated');
+      expect(
+        deep.trail.map(p.normalize),
+        ['/', storage, emulated, root, dcim].map(p.normalize),
+      );
+      expect(deep.atVolumeRoot, isFalse);
+      expect(deep.goUp(), isTrue);
+      expect(deep.atVolumeRoot, isTrue);
+      expect(deep.canGoUp, isTrue, reason: 'Desde Interno se sube a la raíz');
+      deep.dispose();
       expect(
         volumes.isAvailable('/storage/GONE-1234/Music'),
         isFalse,
@@ -241,6 +256,39 @@ void main() {
         tab.toggleSelection('$root/b.jpg');
         tab.open(p.join(root, 'Docs'));
         expect(tab.selecting, isFalse);
+      },
+    );
+
+    test(
+      'Dragging selects a span that shrinks when the finger goes back',
+      () async {
+        tab.reload();
+        engine.listings[root]!.add([
+          for (final name in ['a', 'b', 'c', 'd', 'e'])
+            _entry('$root/$name.txt'),
+        ]);
+        await pumpEventQueue();
+        String name(String path) => p.basenameWithoutExtension(path);
+
+        tab.toggleSelection('$root/e.txt');
+        tab.startDragSelection(1);
+        tab.updateDragSelection(3);
+        expect(tab.selected.map(name), unorderedEquals(['b', 'c', 'd', 'e']));
+        tab.updateDragSelection(2);
+        expect(
+          tab.selected.map(name),
+          unorderedEquals(['b', 'c', 'e']),
+          reason: 'Al regresar, d vuelve a como estaba',
+        );
+        tab.updateDragSelection(0);
+        expect(tab.selected.map(name), unorderedEquals(['a', 'b', 'e']));
+        tab.endDragSelection();
+
+        // Empezar sobre algo seleccionado desmarca el tramo.
+        tab.startDragSelection(0);
+        tab.updateDragSelection(1);
+        expect(tab.selected.map(name), ['e']);
+        tab.endDragSelection();
       },
     );
 
@@ -302,6 +350,55 @@ void main() {
     explorer.close(0);
     expect(explorer.active.path, p.join(root, 'DCIM'));
     explorer.dispose();
+  });
+
+  test('Each tab keeps its own view, sort and filter', () {
+    final explorer = ExplorerController(
+      engine: engine,
+      permissionGranted: true,
+    );
+    final first = explorer.active
+      ..setViewMode(BrowserViewMode.grid)
+      ..tapSort(SortField.modified)
+      ..tapSort(SortField.modified)
+      ..toggleKind(FileKind.pdf);
+
+    explorer.newTab(p.join(root, 'DCIM'));
+    final second = explorer.active;
+    expect(second.viewMode, BrowserViewMode.grid, reason: 'Copia la vista');
+    expect(second.sortField, SortField.modified);
+    expect(second.ascending, isFalse);
+    expect(second.kindFilter, isEmpty, reason: 'El filtro no se copia');
+
+    second
+      ..setViewMode(BrowserViewMode.details)
+      ..tapSort(SortField.name);
+    expect(first.viewMode, BrowserViewMode.grid);
+    expect(first.sortField, SortField.modified);
+    expect(first.kindFilter, {FileKind.pdf});
+    explorer.dispose();
+  });
+
+  test('Tab options survive being saved and read back', () {
+    const saved = TabListOptions(
+      viewMode: BrowserViewMode.gallery,
+      sortField: SortField.size,
+      ascending: false,
+      kinds: {FileKind.image},
+    );
+    final back = TabListOptions.fromMap(saved.toMap(), const TabListOptions());
+    expect(back.viewMode, BrowserViewMode.gallery);
+    expect(back.sortField, SortField.size);
+    expect(back.ascending, isFalse);
+    expect(back.kinds, {FileKind.image});
+
+    final odd = TabListOptions.fromMap({
+      'view': 'old',
+      'kinds': ['image', 'gone'],
+    }, const TabListOptions(sortField: SortField.kind));
+    expect(odd.viewMode, BrowserViewMode.list);
+    expect(odd.sortField, SortField.kind);
+    expect(odd.kinds, {FileKind.image});
   });
 
   test('Changes from another app refresh only the open folder', () async {

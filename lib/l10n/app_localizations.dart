@@ -105,7 +105,7 @@ abstract class AppLocalizations {
   /// No description provided for @navSettings.
   ///
   /// In es, this message translates to:
-  /// **'Configuración'**
+  /// **'Ajustes'**
   String get navSettings;
 
   /// No description provided for @labelLanguage.
@@ -165,7 +165,7 @@ abstract class AppLocalizations {
   /// No description provided for @titleImportTheme.
   ///
   /// In es, this message translates to:
-  /// **'Importar Tema'**
+  /// **'Importar tema'**
   String get titleImportTheme;
 
   /// No description provided for @instructionImportTheme.
@@ -189,13 +189,13 @@ abstract class AppLocalizations {
   /// No description provided for @headerThemesCustom.
   ///
   /// In es, this message translates to:
-  /// **'Mis Temas'**
+  /// **'Mis temas'**
   String get headerThemesCustom;
 
   /// No description provided for @titleDeleteTheme.
   ///
   /// In es, this message translates to:
-  /// **'Eliminar Tema'**
+  /// **'Eliminar tema'**
   String get titleDeleteTheme;
 
   /// No description provided for @statusActive.
@@ -213,7 +213,7 @@ abstract class AppLocalizations {
   /// No description provided for @themeSelectJson.
   ///
   /// In es, this message translates to:
-  /// **'Seleccionar Archivo JSON'**
+  /// **'Seleccionar archivo JSON'**
   String get themeSelectJson;
 
   /// No description provided for @themeImportFileSuccess.
@@ -261,13 +261,13 @@ abstract class AppLocalizations {
   /// No description provided for @themeCreateTitle.
   ///
   /// In es, this message translates to:
-  /// **'Crear Tema'**
+  /// **'Crear tema'**
   String get themeCreateTitle;
 
   /// No description provided for @themeEditTitle.
   ///
   /// In es, this message translates to:
-  /// **'Editar Tema'**
+  /// **'Editar tema'**
   String get themeEditTitle;
 
   /// No description provided for @themeGeneratorTitle.
@@ -291,13 +291,13 @@ abstract class AppLocalizations {
   /// No description provided for @themeGenerateAction.
   ///
   /// In es, this message translates to:
-  /// **'Generar Paleta'**
+  /// **'Generar paleta'**
   String get themeGenerateAction;
 
   /// No description provided for @themeNameLabel.
   ///
   /// In es, this message translates to:
-  /// **'Nombre del Tema'**
+  /// **'Nombre del tema'**
   String get themeNameLabel;
 
   /// No description provided for @themeDescLabel.
@@ -321,13 +321,13 @@ abstract class AppLocalizations {
   /// No description provided for @themeSectionCore.
   ///
   /// In es, this message translates to:
-  /// **'Fondos y Textos (Core)'**
+  /// **'Fondos y textos (Core)'**
   String get themeSectionCore;
 
   /// No description provided for @themeSectionBrand.
   ///
   /// In es, this message translates to:
-  /// **'Marca y Acción'**
+  /// **'Marca y acción'**
   String get themeSectionBrand;
 
   /// No description provided for @themeSectionUI.
@@ -339,7 +339,7 @@ abstract class AppLocalizations {
   /// No description provided for @themeUseSecondary.
   ///
   /// In es, this message translates to:
-  /// **'Usar Color Secundario'**
+  /// **'Usar color secundario'**
   String get themeUseSecondary;
 
   /// No description provided for @themeUseSecondaryDesc.
@@ -351,43 +351,43 @@ abstract class AppLocalizations {
   /// No description provided for @themeSelectColorTitle.
   ///
   /// In es, this message translates to:
-  /// **'Seleccionar Color'**
+  /// **'Seleccionar color'**
   String get themeSelectColorTitle;
 
   /// No description provided for @colorBgPrimary.
   ///
   /// In es, this message translates to:
-  /// **'Fondo Principal'**
+  /// **'Fondo principal'**
   String get colorBgPrimary;
 
   /// No description provided for @colorBgSecondary.
   ///
   /// In es, this message translates to:
-  /// **'Fondo Secundario'**
+  /// **'Fondo secundario'**
   String get colorBgSecondary;
 
   /// No description provided for @colorBgElevated.
   ///
   /// In es, this message translates to:
-  /// **'Fondo Elevado'**
+  /// **'Fondo elevado'**
   String get colorBgElevated;
 
   /// No description provided for @colorOverlay.
   ///
   /// In es, this message translates to:
-  /// **'Overlay'**
+  /// **'Superposición'**
   String get colorOverlay;
 
   /// No description provided for @colorTextPrimary.
   ///
   /// In es, this message translates to:
-  /// **'Texto Principal'**
+  /// **'Texto principal'**
   String get colorTextPrimary;
 
   /// No description provided for @colorTextSecondary.
   ///
   /// In es, this message translates to:
-  /// **'Texto Secundario'**
+  /// **'Texto secundario'**
   String get colorTextSecondary;
 
   /// No description provided for @colorTextDisabled.
@@ -405,7 +405,7 @@ abstract class AppLocalizations {
   /// No description provided for @colorPrimary.
   ///
   /// In es, this message translates to:
-  /// **'Color Primario'**
+  /// **'Color primario'**
   String get colorPrimary;
 
   /// No description provided for @colorPrimaryHover.
@@ -423,7 +423,7 @@ abstract class AppLocalizations {
   /// No description provided for @colorSecondary.
   ///
   /// In es, this message translates to:
-  /// **'Color Secundario'**
+  /// **'Color secundario'**
   String get colorSecondary;
 
   /// No description provided for @colorSecondaryHover.
@@ -441,37 +441,37 @@ abstract class AppLocalizations {
   /// No description provided for @colorStateSuccess.
   ///
   /// In es, this message translates to:
-  /// **'Éxito (Verde)'**
+  /// **'Éxito (verde)'**
   String get colorStateSuccess;
 
   /// No description provided for @colorStateWarning.
   ///
   /// In es, this message translates to:
-  /// **'Alerta (Amarillo)'**
+  /// **'Alerta (amarillo)'**
   String get colorStateWarning;
 
   /// No description provided for @colorStateError.
   ///
   /// In es, this message translates to:
-  /// **'Error (Rojo)'**
+  /// **'Error (rojo)'**
   String get colorStateError;
 
   /// No description provided for @colorStateInfo.
   ///
   /// In es, this message translates to:
-  /// **'Info (Azul)'**
+  /// **'Info (azul)'**
   String get colorStateInfo;
 
   /// No description provided for @colorBorderSubtle.
   ///
   /// In es, this message translates to:
-  /// **'Borde Sutil'**
+  /// **'Borde sutil'**
   String get colorBorderSubtle;
 
   /// No description provided for @colorBorderFocus.
   ///
   /// In es, this message translates to:
-  /// **'Borde Foco'**
+  /// **'Borde foco'**
   String get colorBorderFocus;
 
   /// No description provided for @colorSurfaceHover.
@@ -495,7 +495,7 @@ abstract class AppLocalizations {
   /// No description provided for @themeActionApply.
   ///
   /// In es, this message translates to:
-  /// **'Aplicar Tema'**
+  /// **'Aplicar tema'**
   String get themeActionApply;
 
   /// No description provided for @themeActionCopyJson.
@@ -507,7 +507,7 @@ abstract class AppLocalizations {
   /// No description provided for @themeActionSaveFile.
   ///
   /// In es, this message translates to:
-  /// **'Guardar Archivo'**
+  /// **'Guardar archivo'**
   String get themeActionSaveFile;
 
   /// No description provided for @btnConfirm.
@@ -519,7 +519,7 @@ abstract class AppLocalizations {
   /// No description provided for @titleSelectColor.
   ///
   /// In es, this message translates to:
-  /// **'Seleccionar Color'**
+  /// **'Seleccionar color'**
   String get titleSelectColor;
 
   /// No description provided for @themeDefaultName.
@@ -531,7 +531,7 @@ abstract class AppLocalizations {
   /// No description provided for @themeDefaultDescription.
   ///
   /// In es, this message translates to:
-  /// **'Gato naranja: crema y naranja atigrado'**
+  /// **'Gato naranja: blanco y naranja atigrado'**
   String get themeDefaultDescription;
 
   /// No description provided for @themeDefaultName2.
@@ -645,7 +645,7 @@ abstract class AppLocalizations {
   /// No description provided for @themeSectionStates.
   ///
   /// In es, this message translates to:
-  /// **'Estados Semánticos'**
+  /// **'Estados semánticos'**
   String get themeSectionStates;
 
   /// No description provided for @themeSectionComponents.
@@ -912,12 +912,6 @@ abstract class AppLocalizations {
   /// **'{files} archivos · {dirs} carpetas'**
   String usageCounts(String files, String dirs);
 
-  /// No description provided for @usageUpdating.
-  ///
-  /// In es, this message translates to:
-  /// **'Actualizando el índice; los números pueden cambiar.'**
-  String get usageUpdating;
-
   /// No description provided for @usageByKind.
   ///
   /// In es, this message translates to:
@@ -929,6 +923,12 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Lo que más ocupa'**
   String get usageLargest;
+
+  /// No description provided for @usageSortFiles.
+  ///
+  /// In es, this message translates to:
+  /// **'Archivos'**
+  String get usageSortFiles;
 
   /// No description provided for @usageFiles.
   ///
@@ -1176,6 +1176,12 @@ abstract class AppLocalizations {
   /// **'Archivos ocultos'**
   String get hiddenTitle;
 
+  /// Ajustes: interruptor de la vibración corta al seleccionar
+  ///
+  /// In es, this message translates to:
+  /// **'Vibrar al seleccionar'**
+  String get hapticsTitle;
+
   /// No description provided for @hiddenDescription.
   ///
   /// In es, this message translates to:
@@ -1419,7 +1425,7 @@ abstract class AppLocalizations {
   /// No description provided for @trashDeleteForever.
   ///
   /// In es, this message translates to:
-  /// **'Eliminar para siempre'**
+  /// **'Eliminar definitivamente'**
   String get trashDeleteForever;
 
   /// No description provided for @trashDeleteForeverMessage.
@@ -1625,6 +1631,216 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Carpeta \"{name}\" creada'**
   String newFolderCreated(String name);
+
+  /// No description provided for @groupByDate.
+  ///
+  /// In es, this message translates to:
+  /// **'Agrupar por fecha'**
+  String get groupByDate;
+
+  /// No description provided for @dateGroupToday.
+  ///
+  /// In es, this message translates to:
+  /// **'Hoy'**
+  String get dateGroupToday;
+
+  /// No description provided for @dateGroupYesterday.
+  ///
+  /// In es, this message translates to:
+  /// **'Ayer'**
+  String get dateGroupYesterday;
+
+  /// No description provided for @dateGroupWeek.
+  ///
+  /// In es, this message translates to:
+  /// **'Últimos 7 días'**
+  String get dateGroupWeek;
+
+  /// No description provided for @sortAdded.
+  ///
+  /// In es, this message translates to:
+  /// **'Agregado'**
+  String get sortAdded;
+
+  /// No description provided for @sortDeleted.
+  ///
+  /// In es, this message translates to:
+  /// **'Borrado'**
+  String get sortDeleted;
+
+  /// No description provided for @trashRestoredMany.
+  ///
+  /// In es, this message translates to:
+  /// **'{count, plural, =1{1 elemento restaurado} other{{count} elementos restaurados}}'**
+  String trashRestoredMany(int count);
+
+  /// No description provided for @usageSystemOther.
+  ///
+  /// In es, this message translates to:
+  /// **'Sistema y otros'**
+  String get usageSystemOther;
+
+  /// No description provided for @usageFreeSegment.
+  ///
+  /// In es, this message translates to:
+  /// **'Libre'**
+  String get usageFreeSegment;
+
+  /// No description provided for @usageFilesSize.
+  ///
+  /// In es, this message translates to:
+  /// **'{size} en {files} archivos · {dirs} carpetas'**
+  String usageFilesSize(String size, String files, String dirs);
+
+  /// No description provided for @usageFreeOnly.
+  ///
+  /// In es, this message translates to:
+  /// **'{free} libres'**
+  String usageFreeOnly(String free);
+
+  /// No description provided for @usageApps.
+  ///
+  /// In es, this message translates to:
+  /// **'Apps'**
+  String get usageApps;
+
+  /// No description provided for @usageSystem.
+  ///
+  /// In es, this message translates to:
+  /// **'Sistema'**
+  String get usageSystem;
+
+  /// No description provided for @usageAppsAccess.
+  ///
+  /// In es, this message translates to:
+  /// **'Ver cuánto ocupan las apps'**
+  String get usageAppsAccess;
+
+  /// No description provided for @tourSkip.
+  ///
+  /// In es, this message translates to:
+  /// **'Saltar'**
+  String get tourSkip;
+
+  /// No description provided for @tourNext.
+  ///
+  /// In es, this message translates to:
+  /// **'Siguiente'**
+  String get tourNext;
+
+  /// No description provided for @tourDone.
+  ///
+  /// In es, this message translates to:
+  /// **'Listo'**
+  String get tourDone;
+
+  /// No description provided for @tourStepCount.
+  ///
+  /// In es, this message translates to:
+  /// **'{current} de {total}'**
+  String tourStepCount(int current, int total);
+
+  /// No description provided for @tutorialTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Tutorial'**
+  String get tutorialTitle;
+
+  /// No description provided for @tutorialDone.
+  ///
+  /// In es, this message translates to:
+  /// **'Hecho'**
+  String get tutorialDone;
+
+  /// No description provided for @tourExpNavTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Tus secciones'**
+  String get tourExpNavTitle;
+
+  /// No description provided for @tourExpNavBody.
+  ///
+  /// In es, this message translates to:
+  /// **'Explorar, Favoritos, Espacio y Ajustes. Toca una para cambiar.'**
+  String get tourExpNavBody;
+
+  /// No description provided for @tourExpSearchTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Busca en todo el teléfono'**
+  String get tourExpSearchTitle;
+
+  /// No description provided for @tourExpSearchBody.
+  ///
+  /// In es, this message translates to:
+  /// **'Encuentra archivos y carpetas por nombre al instante, sin esperar a que se recorra el almacenamiento.'**
+  String get tourExpSearchBody;
+
+  /// No description provided for @tourExpDisplayTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Vista y orden'**
+  String get tourExpDisplayTitle;
+
+  /// No description provided for @tourExpDisplayBody.
+  ///
+  /// In es, this message translates to:
+  /// **'Lista o cuadrícula, ordenar, agrupar por fecha y filtrar por tipo de archivo.'**
+  String get tourExpDisplayBody;
+
+  /// No description provided for @tourExpSelectTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Selecciona y actúa'**
+  String get tourExpSelectTitle;
+
+  /// No description provided for @tourExpSelectBody.
+  ///
+  /// In es, this message translates to:
+  /// **'Mantén presionado un archivo o carpeta para seleccionarlo: copiar, mover, renombrar, compartir o agregarlo a Favoritos.'**
+  String get tourExpSelectBody;
+
+  /// No description provided for @tourFavTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Tus favoritos'**
+  String get tourFavTitle;
+
+  /// No description provided for @tourFavBody.
+  ///
+  /// In es, this message translates to:
+  /// **'Lo que marcas para abrirlo rápido. Mantén presionado algo en Explorar para agregarlo aquí.'**
+  String get tourFavBody;
+
+  /// No description provided for @tourUseBarTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Tu espacio'**
+  String get tourUseBarTitle;
+
+  /// No description provided for @tourUseBarBody.
+  ///
+  /// In es, this message translates to:
+  /// **'Cuánto ocupa cada tipo de archivo en el teléfono.'**
+  String get tourUseBarBody;
+
+  /// No description provided for @tourUseKindTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Libera espacio'**
+  String get tourUseKindTitle;
+
+  /// No description provided for @tourUseKindBody.
+  ///
+  /// In es, this message translates to:
+  /// **'Toca un tipo para ver sus archivos más grandes y decidir qué borrar.'**
+  String get tourUseKindBody;
+
+  /// No description provided for @madeByMorobu.
+  ///
+  /// In es, this message translates to:
+  /// **'Hecho por Morobu'**
+  String get madeByMorobu;
 }
 
 class _AppLocalizationsDelegate

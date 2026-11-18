@@ -4,6 +4,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 
 import '../files/file_kind.dart';
+import 'activity_service.dart';
 
 /// Miniaturas de archivos. En Android las hace el sistema (imágenes, un
 /// cuadro de los videos y la primera página de los PDF) y quedan en un caché
@@ -50,13 +51,16 @@ class ThumbnailService {
     }
     final key = '$path|$pixels';
     if (_requests.length > 500) _requests.clear();
-    final jpeg = await (_requests[key] ??= _channel
-        .invokeMethod<String>('thumbnail', {
-          'path': path,
-          'kind': kind.name,
-          'size': pixels,
-        })
-        .catchError((Object _) => null));
+    // Mientras el sistema la hace, la ruedita de arriba lo muestra.
+    final jpeg = await (_requests[key] ??= ActivityService().track(
+      _channel
+          .invokeMethod<String>('thumbnail', {
+            'path': path,
+            'kind': kind.name,
+            'size': pixels,
+          })
+          .catchError((Object _) => null),
+    ));
     return jpeg == null ? null : FileImage(File(jpeg));
   }
 }

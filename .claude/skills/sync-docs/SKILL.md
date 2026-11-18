@@ -33,6 +33,7 @@ Se omite solo si el cambio no altera nada documentado (typo en un comentario, fo
    - Idiomas (`lib/l10n/*.arb`), versión y dependencias del `pubspec.yaml` coinciden con lo que dicen los documentos.
    - Cada `export '...'` de los archivos barrel apunta a un archivo que existe.
 3. **Verificaciones de comportamiento** (lo tocado): acciones reales de menús y pantallas, métodos públicos de servicios y sus reglas, campos de modelos guardados (y si importar y exportar los cubren), claves de idioma nuevas presentes en todos los `.arb`, reglas de diseño, decisiones tomadas y abiertas.
+   - **Tutorial guiado** (si el proyecto tiene `lib/core/tutorial/`, apps de Herramientas Origami, regla OR-14): si el cambio agrega, quita o mueve una función visible o un elemento envuelto con `KeyedSubtree(key: <App>TourKeys.x)`, su paso en `lib/core/tutorial/<app>_tours.dart` y sus textos en todos los `.arb` se ajustan en el mismo turno. Una función nueva sin su paso es **Falta**; un paso que explica algo que ya no existe es **Incorrecto**. `origami_tour.dart` es copia de `Origami-Base/codigo/flutter/tutorial/`: no se edita en el repo sin cambiar también la copia maestra (skill personal `origami-tutorial`).
 4. **Clasificar:**
    - **Incorrecto:** el documento contradice al código.
    - **Falta:** comportamiento o archivo nuevo sin documentar.
@@ -43,7 +44,7 @@ Pregunta guía: ¿qué haría mal un agente futuro si la documentación se queda
 
 ## No duplicar
 
-Cada dato vive en un solo documento; los demás enlazan. Producto y tareas van en la nota del vault cuando el proyecto la tiene; lo técnico, en el repo. La carpeta `qa/` no es de esta skill: la mantiene `sync-qa`.
+Cada dato vive en un solo documento; los demás enlazan. Producto y tareas van en la nota del vault cuando el proyecto la tiene (`E:/Vault/Software/Proyectos/<Proyecto>.md`; reglas de ubicación en la skill personal `documentar`); lo técnico, en el repo. La carpeta `qa/` no es de esta skill: la mantiene `sync-qa`.
 
 ## Reporte
 

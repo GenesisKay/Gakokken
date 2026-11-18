@@ -1,8 +1,12 @@
+import 'package:gakoken/core/tutorial/gakoken_tours.dart';
+import 'package:gakoken/core/tutorial/origami_tour.dart';
 import 'package:flutter/material.dart';
 
 import '../core/services/index_service.dart';
 import '../core/services/trash_service.dart';
 import '../core/theme/theme_extensions.dart';
+import '../core/widgets/gakoken_app_bar.dart';
+import '../core/widgets/storage_permission_view.dart';
 import '../features/browser/presentation/controllers/explorer_controller.dart';
 import '../features/browser/presentation/pages/browser_screen.dart';
 import '../features/favorites/presentation/pages/favorites_screen.dart';
@@ -30,18 +34,65 @@ class _MainScreenState extends State<MainScreen> {
     onPermissionGranted: () {
       IndexService().start();
       TrashService().purgeExpired();
+      _permissionJustGranted?.call();
     },
   );
+
+  /// El controlador se crea antes que el estado: este enlace deja que el
+  /// recorrido de la pestaña actual salga en cuanto hay permiso.
+  static VoidCallback? _permissionJustGranted;
   final _usage = UsageTabController();
 
   @override
   void initState() {
     super.initState();
+    _permissionJustGranted = () => _maybeTour(_index);
     _explorer.init();
+    OrigamiTour.requested.addListener(_onTourRequested);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _maybeTour(_index);
+      _onTourRequested();
+    });
+  }
+
+  /// Tutorial guiado (OR-14): cada pestaña ofrece su recorrido la primera
+  /// vez que se abre. Explorar y Espacio esperan a que haya permiso.
+  Future<void> _maybeTour(int index) async {
+    await Future<void>.delayed(const Duration(milliseconds: 400));
+    if (!mounted || _index != index || index >= GakokenTours.tabs.length) {
+      return;
+    }
+    if (index != _favoritesTab && _explorer.permissionGranted != true) return;
+    final l10n = AppLocalizations.of(context)!;
+    await OrigamiTour.maybeShow(
+      context,
+      GakokenTours.byId(GakokenTours.tabs[index], l10n),
+      GakokenTours.labels(l10n),
+    );
+  }
+
+  /// Recorrido pedido desde Ajustes > Tutorial: va a su pestaña y lo muestra.
+  Future<void> _onTourRequested() async {
+    final id = OrigamiTour.requested.value;
+    if (id == null || !mounted) return;
+    OrigamiTour.requested.value = null;
+    final index = GakokenTours.tabs.indexOf(id);
+    if (index < 0) return;
+    setState(() => _index = index);
+    await Future<void>.delayed(const Duration(milliseconds: 400));
+    if (!mounted) return;
+    final l10n = AppLocalizations.of(context)!;
+    await OrigamiTour.show(
+      context,
+      GakokenTours.byId(id, l10n),
+      GakokenTours.labels(l10n),
+    );
   }
 
   @override
   void dispose() {
+    _permissionJustGranted = null;
+    OrigamiTour.requested.removeListener(_onTourRequested);
     _explorer.dispose();
     _usage.dispose();
     super.dispose();
@@ -98,18 +149,37 @@ class _MainScreenState extends State<MainScreen> {
               visible: _index == _favoritesTab,
               onOpenFolder: _openInExplore,
             ),
-            StorageUsageTab(
-              controller: _usage,
-              onOpenInExplore: _openInExplore,
-            ),
+            // Día 0: sin permiso, Espacio pide el mismo acceso que Explorar
+            // en lugar de mostrar todo en cero.
+            if (_explorer.permissionGranted == true)
+              StorageUsageTab(
+                controller: _usage,
+                onOpenInExplore: _openInExplore,
+              )
+            else
+              Scaffold(
+                backgroundColor: colors.bgPrimary,
+                appBar: GakokenAppBar(title: l10n.navUsage),
+                body: _explorer.permissionGranted == null
+                    ? const SizedBox.shrink()
+                    : StoragePermissionView(
+                        onGrant: _explorer.requestPermission,
+                      ),
+              ),
             const SettingsScreen(),
           ],
         ),
-        bottomNavigationBar: NavigationBar(
+        bottomNavigationBar: KeyedSubtree(key: GakokenTourKeys.nav, child: NavigationBar(
           selectedIndex: _index,
-          onDestinationSelected: (i) => setState(() => _index = i),
+          onDestinationSelected: (i) {
+            setState(() => _index = i);
+            _maybeTour(i);
+          },
           backgroundColor: colors.bgElevated,
-          indicatorColor: colors.primary.withValues(alpha: 0.16),
+          // Sin pastilla detrás del ícono activo: pintaba un segundo fondo
+          // que no llegaba al texto. La activa se marca con el ícono relleno
+          // en primary (pedido el 2026-11-10).
+          indicatorColor: Colors.transparent,
           surfaceTintColor: Colors.transparent,
           labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
           destinations: [
@@ -143,7 +213,7 @@ class _MainScreenState extends State<MainScreen> {
               label: l10n.navSettings,
             ),
           ],
-        ),
+        )),
       ),
     );
   }

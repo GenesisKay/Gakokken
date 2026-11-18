@@ -5,7 +5,7 @@ alwaysApply: true
 
 # Documentación
 
-- El producto de Gakoken (qué hace hoy, pendientes, decisiones, historial) vive en el vault: `D:/3-Projects/Software/Vault/Proyectos/Gakoken.md`.
+- El producto de Gakoken (qué hace hoy, pendientes, decisiones, historial) vive en el vault: `E:/Vault/Software/Proyectos/Gakoken.md`.
 - En este repo solo va documentación técnica. La de QA vive completa en `qa/` y se mantiene con la skill `sync-qa`.
 - No dupliques: si hace falta algo del vault, cita la ruta de la nota.
 - Si un cambio de código cierra una tarea o toma una decisión de producto, actualiza la nota del vault.

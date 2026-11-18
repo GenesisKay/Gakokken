@@ -35,6 +35,7 @@ El plan **no** lleva estrategia, entornos, criterios, instrucciones para reporta
 | Bug corregido | Si el bug esta en el checklist, marcarlo `- [x] ... (hecho AAAA-MM-DD)`. Si no estaba, agregar un caso o condicion que lo cubra para regresion |
 | Bug encontrado y no corregido | Agregarlo debajo del caso que falla: `- [ ] que pasa #bug #funcional` (o `#visual`) |
 | Cambio de UI o de textos | Casos visuales o de idioma del modulo; si cambia como se llega a una pantalla, el Mapa funcional |
+| Función visible nueva, quitada o movida | Su paso en el tutorial guiado (`lib/core/tutorial/<app>_tours.dart`, regla OR-14) y los casos de la sección Tutorial del plan y de la historia HU-TUT-01 |
 | Cambio de modelo, almacenamiento o migracion | Datos y Estados del analisis; casos de persistencia y de actualizacion desde la version anterior |
 | Permiso nuevo o cambiado | Integraciones y permisos del analisis; casos de conceder y negar |
 | Version, dependencia o `minSdk` | Tabla de Stack del analisis |

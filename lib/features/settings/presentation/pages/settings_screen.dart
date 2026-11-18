@@ -1,6 +1,9 @@
+import 'package:gakoken/core/tutorial/gakoken_tours.dart';
+import 'package:gakoken/core/tutorial/origami_tour.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/services/explorer_settings_service.dart';
+import '../../../../core/services/haptics_service.dart';
 import '../../../../core/services/index_service.dart';
 import '../../../../core/services/locale_service.dart';
 import '../../../../core/services/preview_settings_service.dart';
@@ -8,6 +11,7 @@ import '../../../../core/services/trash_service.dart';
 import '../../../../core/services/theme_service.dart';
 import '../../../../core/theme/theme_extensions.dart';
 import '../../../../core/widgets/gakoken_app_bar.dart';
+import '../../../../core/footer/origami_footer.dart';
 import '../../../../core/widgets/gakoken_bottom_sheet.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../widgets/hidden_files_sheet.dart';
@@ -37,6 +41,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     IndexService().addListener(_onChanged);
     ExplorerSettingsService().addListener(_onChanged);
     TrashService().addListener(_onChanged);
+    HapticsService().addListener(_onChanged);
   }
 
   void _onChanged() {
@@ -50,6 +55,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     IndexService().removeListener(_onChanged);
     ExplorerSettingsService().removeListener(_onChanged);
     TrashService().removeListener(_onChanged);
+    HapticsService().removeListener(_onChanged);
     super.dispose();
   }
 
@@ -157,6 +163,32 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 onTap: () => showHiddenFilesSheet(context),
               ),
               _SettingsMenuRow(
+                icon: Icons.vibration_rounded,
+                title: l10n.hapticsTitle,
+                value: '',
+                onTap: () =>
+                    HapticsService().setEnabled(!HapticsService().enabled),
+                // Interruptor en lugar del valor y la flecha.
+                trailing: Switch(
+                  value: HapticsService().enabled,
+                  onChanged: HapticsService().setEnabled,
+                ),
+              ),
+              _SettingsMenuRow(
+                icon: Icons.school_outlined,
+                title: l10n.tutorialTitle,
+                value: '',
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => OrigamiTutorialScreen(
+                      appBar: GakokenAppBar(title: l10n.tutorialTitle),
+                      entries: GakokenTours.entries(context),
+                      doneLabel: l10n.tutorialDone,
+                    ),
+                  ),
+                ),
+              ),
+              _SettingsMenuRow(
                 icon: Icons.delete_outline_rounded,
                 title: l10n.trashTitle,
                 value: l10n.trashCount(TrashService().items.length),
@@ -180,11 +212,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           const SizedBox(height: 24),
           Center(
-            child: Text(
-              'Gakoken',
-              style: context.typography.small.copyWith(
-                color: colors.textSecondary,
-              ),
+            child: OrigamiFooter(
+              appName: 'Gakoken',
+              madeByLabel: AppLocalizations.of(context)!.madeByMorobu,
             ),
           ),
         ],
@@ -237,12 +267,16 @@ class _SettingsMenuRow extends StatelessWidget {
     required this.title,
     required this.value,
     required this.onTap,
+    this.trailing,
   });
 
   final IconData icon;
   final String title;
   final String value;
   final VoidCallback onTap;
+
+  /// Reemplaza al valor y la flecha (un interruptor).
+  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -277,18 +311,22 @@ class _SettingsMenuRow extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 160),
-              child: Text(
-                value,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.right,
-                style: typography.small.copyWith(color: colors.textSecondary),
+            if (trailing case final trailing?)
+              trailing
+            else ...[
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 160),
+                child: Text(
+                  value,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.right,
+                  style: typography.small.copyWith(color: colors.textSecondary),
+                ),
               ),
-            ),
-            const SizedBox(width: 4),
-            Icon(Icons.chevron_right, color: colors.textSecondary),
+              const SizedBox(width: 4),
+              Icon(Icons.chevron_right, color: colors.textSecondary),
+            ],
           ],
         ),
       ),

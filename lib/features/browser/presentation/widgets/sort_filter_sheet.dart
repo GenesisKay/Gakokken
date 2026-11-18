@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/services/explorer_settings_service.dart';
+import '../../../../core/services/view_prefs.dart';
 import '../../../../core/theme/theme_extensions.dart';
 import '../../../../core/widgets/gakoken_bottom_sheet.dart';
 import '../../../../core/widgets/kind_filter_chips.dart';
@@ -9,49 +10,72 @@ import '../../../../l10n/app_localizations.dart';
 import '../controllers/browser_controller.dart';
 import 'view_mode_sheet.dart';
 
-/// Vista y orden (para todas las pestañas) y filtro por tipo (solo esta
-/// pestaña), en una sola hoja desde el ícono de ajustes de Explorar (juntos
-/// el 2026-10-23). Los cambios se aplican al momento.
-void showSortFilterSheet(BuildContext context, BrowserController tab) {
-  showGakokenBottomSheet(
-    context: context,
-    backgroundColor: Colors.transparent,
-    showDragHandle: false,
-    builder: (_) => _SortFilterSheet(tab: tab, sort: ExplorerSettingsService()),
-  );
-}
+/// Vista, orden y filtro por tipo de esta pestaña (cada pestaña los suyos
+/// desde el 2026-11-13), en una sola hoja desde el ícono de ajustes de
+/// Explorar (juntos el 2026-10-23). Los cambios se aplican al momento.
+void showSortFilterSheet(BuildContext context, BrowserController tab) =>
+    showListOptionsSheet(context, sort: tab, view: tab, filter: tab);
 
 /// Solo ordenar, con un orden propio (como el de los archivos de un tipo).
-void showSortSheet(BuildContext context, SortChoice sort) {
+void showSortSheet(BuildContext context, SortChoice sort) =>
+    showListOptionsSheet(context, sort: sort);
+
+/// La hoja de Explorar para cualquier lista: vista si hay [view], orden con
+/// agrupar por fecha y filtro por tipo si hay [filter] (Favoritos y la
+/// Papelera la usan con los suyos, pedido el 2026-10-29). [dateLabel]
+/// nombra el orden por fecha (Agregado, Borrado); sin [sizes] no se ordena
+/// por tamaño.
+void showListOptionsSheet(
+  BuildContext context, {
+  required SortChoice sort,
+  ViewChoice? view,
+  KindFilterChoice? filter,
+  String? dateLabel,
+  bool sizes = true,
+}) {
   showGakokenBottomSheet(
     context: context,
     backgroundColor: Colors.transparent,
     showDragHandle: false,
-    builder: (_) => _SortFilterSheet(sort: sort),
+    builder: (_) => _SortFilterSheet(
+      sort: sort,
+      view: view,
+      filter: filter,
+      dateLabel: dateLabel,
+      sizes: sizes,
+    ),
   );
 }
 
 class _SortFilterSheet extends StatelessWidget {
-  const _SortFilterSheet({this.tab, required this.sort});
+  const _SortFilterSheet({
+    required this.sort,
+    this.view,
+    this.filter,
+    this.dateLabel,
+    this.sizes = true,
+  });
 
-  /// Sin pestaña no hay filtro por tipo.
-  final BrowserController? tab;
   final SortChoice sort;
+  final ViewChoice? view;
+
+  /// Sin filtro tampoco se ordena por tipo (los archivos de un solo tipo).
+  final KindFilterChoice? filter;
+  final String? dateLabel;
+  final bool sizes;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final colors = context.colors;
     final settings = sort;
-    final tab = this.tab;
-    // La vista de Explorar es una para todas las pestañas.
-    final explorer = ExplorerSettingsService();
+    final view = this.view;
+    final filter = this.filter;
     final fields = {
       SortField.name: l10n.columnName,
-      SortField.modified: l10n.sortModified,
-      SortField.size: l10n.columnSize,
-      // Sin pestaña (archivos de un solo tipo) ordenar por tipo no sirve.
-      if (tab != null) SortField.kind: l10n.sortKind,
+      SortField.modified: dateLabel ?? l10n.sortModified,
+      if (sizes) SortField.size: l10n.columnSize,
+      if (filter != null) SortField.kind: l10n.sortKind,
     };
     Widget title(String text) => Padding(
       padding: const EdgeInsets.only(top: 16, bottom: 8),
@@ -80,21 +104,17 @@ class _SortFilterSheet extends StatelessWidget {
           24 + gakokenSheetBottomInset(context),
         ),
         child: ListenableBuilder(
-          listenable: Listenable.merge([
-            if (tab != null) tab,
-            settings,
-            explorer,
-          ]),
+          listenable: Listenable.merge([?filter, settings, ?view]),
           builder: (context, _) => Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const ModalDragHandle(),
               Text(
-                tab == null ? l10n.sortBy : l10n.browserDisplayTitle,
+                view == null ? l10n.sortBy : l10n.browserDisplayTitle,
                 style: context.typography.modalTitle,
               ),
-              if (tab != null) ...[
+              if (view != null) ...[
                 title(l10n.browserViewTitle),
                 Wrap(
                   spacing: 8,
@@ -103,8 +123,8 @@ class _SortFilterSheet extends StatelessWidget {
                     for (final mode in BrowserViewMode.values)
                       _ViewChip(
                         mode: mode,
-                        selected: explorer.viewMode == mode,
-                        onTap: () => explorer.setViewMode(mode),
+                        selected: view.viewMode == mode,
+                        onTap: () => view.setViewMode(mode),
                       ),
                   ],
                 ),
@@ -130,20 +150,46 @@ class _SortFilterSheet extends StatelessWidget {
                     ),
                 ],
               ),
-              if (tab != null) ...[
+              // Encenderlo ordena por fecha; otro orden lo apaga.
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: ChoiceChip(
+                  avatar: Icon(
+                    Icons.calendar_month_rounded,
+                    size: 18,
+                    color: settings.groupByDate
+                        ? colors.primary
+                        : colors.textSecondary,
+                  ),
+                  label: Text(l10n.groupByDate),
+                  labelStyle: context.typography.small.copyWith(
+                    color: colors.textPrimary,
+                  ),
+                  selected: settings.groupByDate,
+                  showCheckmark: false,
+                  selectedColor: colors.primary.withValues(alpha: 0.16),
+                  side: BorderSide(
+                    color: settings.groupByDate
+                        ? colors.primary
+                        : colors.borderSubtle,
+                  ),
+                  onSelected: settings.setGroupByDate,
+                ),
+              ),
+              if (filter != null) ...[
                 Row(
                   children: [
                     Expanded(child: title(l10n.filterKinds)),
-                    if (tab.kindFilter.isNotEmpty)
+                    if (filter.kindFilter.isNotEmpty)
                       TextButton(
-                        onPressed: tab.clearKinds,
+                        onPressed: filter.clearKinds,
                         child: Text(l10n.filterClear),
                       ),
                   ],
                 ),
                 KindFilterChips(
-                  selected: tab.kindFilter,
-                  onToggle: tab.toggleKind,
+                  selected: filter.kindFilter,
+                  onToggle: filter.toggleKind,
                 ),
               ],
             ],

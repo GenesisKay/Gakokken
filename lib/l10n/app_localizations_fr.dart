@@ -126,10 +126,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get btnOK => 'OK';
 
   @override
-  String get themeSectionCore => 'Base (Arrière-plans & Texte)';
+  String get themeSectionCore => 'Base (arrière-plans & texte)';
 
   @override
-  String get themeSectionBrand => 'Marque & Actions';
+  String get themeSectionBrand => 'Marque & actions';
 
   @override
   String get themeSectionUI => 'États & UI';
@@ -187,16 +187,16 @@ class AppLocalizationsFr extends AppLocalizations {
   String get colorSecondaryActive => 'Actif (Sec)';
 
   @override
-  String get colorStateSuccess => 'Succès (Vert)';
+  String get colorStateSuccess => 'Succès (vert)';
 
   @override
-  String get colorStateWarning => 'Avertissement (Jaune)';
+  String get colorStateWarning => 'Avertissement (jaune)';
 
   @override
-  String get colorStateError => 'Erreur (Rouge)';
+  String get colorStateError => 'Erreur (rouge)';
 
   @override
-  String get colorStateInfo => 'Info (Bleu)';
+  String get colorStateInfo => 'Info (bleu)';
 
   @override
   String get colorBorderSubtle => 'Bord subtil';
@@ -232,7 +232,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get themeDefaultName => 'Gakoken';
 
   @override
-  String get themeDefaultDescription => 'Chat roux : crème et orange tigré';
+  String get themeDefaultDescription => 'Chat roux : blanc et orange tigré';
 
   @override
   String get themeDefaultName2 => 'Oturoja';
@@ -439,14 +439,13 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get usageUpdating =>
-      'Mise à jour de l\'index ; les chiffres peuvent changer.';
-
-  @override
   String get usageByKind => 'Par type';
 
   @override
   String get usageLargest => 'Les plus volumineux';
+
+  @override
+  String get usageSortFiles => 'Fichiers';
 
   @override
   String usageFiles(String count) {
@@ -586,6 +585,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get hiddenTitle => 'Fichiers masqués';
+
+  @override
+  String get hapticsTitle => 'Vibrer à la sélection';
 
   @override
   String get hiddenDescription =>
@@ -941,4 +943,130 @@ class AppLocalizationsFr extends AppLocalizations {
   String newFolderCreated(String name) {
     return 'Dossier « $name » créé';
   }
+
+  @override
+  String get groupByDate => 'Grouper par date';
+
+  @override
+  String get dateGroupToday => 'Aujourd\'hui';
+
+  @override
+  String get dateGroupYesterday => 'Hier';
+
+  @override
+  String get dateGroupWeek => '7 derniers jours';
+
+  @override
+  String get sortAdded => 'Ajouté';
+
+  @override
+  String get sortDeleted => 'Supprimé';
+
+  @override
+  String trashRestoredMany(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count éléments restaurés',
+      one: '1 élément restauré',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get usageSystemOther => 'Système et autres';
+
+  @override
+  String get usageFreeSegment => 'Libre';
+
+  @override
+  String usageFilesSize(String size, String files, String dirs) {
+    return '$size dans $files fichiers · $dirs dossiers';
+  }
+
+  @override
+  String usageFreeOnly(String free) {
+    return '$free libres';
+  }
+
+  @override
+  String get usageApps => 'Applis';
+
+  @override
+  String get usageSystem => 'Système';
+
+  @override
+  String get usageAppsAccess => 'Voir la place des applis';
+
+  @override
+  String get tourSkip => 'Passer';
+
+  @override
+  String get tourNext => 'Suivant';
+
+  @override
+  String get tourDone => 'Terminé';
+
+  @override
+  String tourStepCount(int current, int total) {
+    return '$current sur $total';
+  }
+
+  @override
+  String get tutorialTitle => 'Tutoriel';
+
+  @override
+  String get tutorialDone => 'Terminé';
+
+  @override
+  String get tourExpNavTitle => 'Vos sections';
+
+  @override
+  String get tourExpNavBody =>
+      'Explorer, Favoris, Espace et Paramètres. Touchez-en une pour changer.';
+
+  @override
+  String get tourExpSearchTitle => 'Cherchez dans tout le téléphone';
+
+  @override
+  String get tourExpSearchBody =>
+      'Trouvez fichiers et dossiers par nom instantanément, sans attendre l’analyse du stockage.';
+
+  @override
+  String get tourExpDisplayTitle => 'Affichage et tri';
+
+  @override
+  String get tourExpDisplayBody =>
+      'Liste ou grille, trier, regrouper par date et filtrer par type de fichier.';
+
+  @override
+  String get tourExpSelectTitle => 'Sélectionnez et agissez';
+
+  @override
+  String get tourExpSelectBody =>
+      'Appuyez longuement sur un fichier ou dossier pour le sélectionner : copier, déplacer, renommer, partager ou l’ajouter aux Favoris.';
+
+  @override
+  String get tourFavTitle => 'Vos favoris';
+
+  @override
+  String get tourFavBody =>
+      'Ce que vous marquez pour l’ouvrir vite. Appuyez longuement sur un élément dans Explorer pour l’ajouter ici.';
+
+  @override
+  String get tourUseBarTitle => 'Votre espace';
+
+  @override
+  String get tourUseBarBody =>
+      'La place que prend chaque type de fichier sur le téléphone.';
+
+  @override
+  String get tourUseKindTitle => 'Libérez de l’espace';
+
+  @override
+  String get tourUseKindBody =>
+      'Touchez un type pour voir ses plus gros fichiers et décider quoi supprimer.';
+
+  @override
+  String get madeByMorobu => 'Créé par Morobu';
 }

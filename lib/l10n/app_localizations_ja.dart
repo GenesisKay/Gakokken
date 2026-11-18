@@ -230,7 +230,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get themeDefaultName => 'Gakoken';
 
   @override
-  String get themeDefaultDescription => '茶トラ猫：クリームとオレンジ';
+  String get themeDefaultDescription => '茶トラ猫：白とオレンジ';
 
   @override
   String get themeDefaultName2 => 'Oturoja';
@@ -433,13 +433,13 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get usageUpdating => 'インデックスを更新中です。数値が変わることがあります。';
-
-  @override
   String get usageByKind => '種類別';
 
   @override
   String get usageLargest => 'サイズの大きい項目';
+
+  @override
+  String get usageSortFiles => 'ファイル数';
 
   @override
   String usageFiles(String count) {
@@ -576,6 +576,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get hiddenTitle => '隠しファイル';
+
+  @override
+  String get hapticsTitle => '選択時に振動';
 
   @override
   String get hiddenDescription =>
@@ -846,4 +849,122 @@ class AppLocalizationsJa extends AppLocalizations {
   String newFolderCreated(String name) {
     return 'フォルダ「$name」を作成しました';
   }
+
+  @override
+  String get groupByDate => '日付でグループ化';
+
+  @override
+  String get dateGroupToday => '今日';
+
+  @override
+  String get dateGroupYesterday => '昨日';
+
+  @override
+  String get dateGroupWeek => '過去7日間';
+
+  @override
+  String get sortAdded => '追加日';
+
+  @override
+  String get sortDeleted => '削除日';
+
+  @override
+  String trashRestoredMany(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count件を復元しました',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get usageSystemOther => 'システムとその他';
+
+  @override
+  String get usageFreeSegment => '空き';
+
+  @override
+  String usageFilesSize(String size, String files, String dirs) {
+    return '$files 個のファイル・$dirs 個のフォルダで $size';
+  }
+
+  @override
+  String usageFreeOnly(String free) {
+    return '空き $free';
+  }
+
+  @override
+  String get usageApps => 'アプリ';
+
+  @override
+  String get usageSystem => 'システム';
+
+  @override
+  String get usageAppsAccess => 'アプリの使用量を表示';
+
+  @override
+  String get tourSkip => 'スキップ';
+
+  @override
+  String get tourNext => '次へ';
+
+  @override
+  String get tourDone => '完了';
+
+  @override
+  String tourStepCount(int current, int total) {
+    return '$current/$total';
+  }
+
+  @override
+  String get tutorialTitle => 'チュートリアル';
+
+  @override
+  String get tutorialDone => '完了';
+
+  @override
+  String get tourExpNavTitle => 'セクション';
+
+  @override
+  String get tourExpNavBody => '探す、お気に入り、容量、設定。タップで切り替えます。';
+
+  @override
+  String get tourExpSearchTitle => 'スマホ全体を検索';
+
+  @override
+  String get tourExpSearchBody => 'ストレージのスキャンを待たずに、名前でファイルやフォルダーをすぐに見つけます。';
+
+  @override
+  String get tourExpDisplayTitle => '表示と並び順';
+
+  @override
+  String get tourExpDisplayBody => 'リストかグリッド、並べ替え、日付でグループ化、種類で絞り込み。';
+
+  @override
+  String get tourExpSelectTitle => '選んで操作';
+
+  @override
+  String get tourExpSelectBody => 'ファイルやフォルダーを長押しで選択：コピー、移動、名前変更、共有、お気に入りに追加。';
+
+  @override
+  String get tourFavTitle => 'お気に入り';
+
+  @override
+  String get tourFavBody => 'すぐ開けるように登録したもの。探すで長押しするとここに追加できます。';
+
+  @override
+  String get tourUseBarTitle => '容量';
+
+  @override
+  String get tourUseBarBody => 'ファイルの種類ごとの使用量です。';
+
+  @override
+  String get tourUseKindTitle => '空きを増やす';
+
+  @override
+  String get tourUseKindBody => '種類をタップすると大きいファイルが表示され、削除するものを選べます。';
+
+  @override
+  String get madeByMorobu => '制作: Morobu';
 }

@@ -196,13 +196,16 @@ Future<bool> showConfirmDialog(
           onPressed: () => Navigator.pop(dialogContext, false),
           child: Text(l10n.btnCancel),
         ),
-        FilledButton(
+        // Icono más texto: el icono se reconoce rápido y el texto evita
+        // dudas en una acción que no se puede deshacer.
+        FilledButton.icon(
           style: FilledButton.styleFrom(
             backgroundColor: dialogContext.colors.stateError,
             foregroundColor: dialogContext.colors.textInverse,
           ),
           onPressed: () => Navigator.pop(dialogContext, true),
-          child: Text(confirm),
+          icon: const Icon(Icons.delete_forever_rounded),
+          label: Text(confirm),
         ),
       ],
     ),

@@ -1,4 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+
+import '../services/activity_service.dart';
 
 import '../theme/theme_extensions.dart';
 import '../../l10n/app_localizations.dart';
@@ -18,6 +22,10 @@ class GakokenAppBar extends StatefulWidget implements PreferredSizeWidget {
   final int filterBadgeCount;
   final bool isRootScreen;
 
+  /// La pantalla carga algo propio (por ejemplo, vuelve a leer la carpeta):
+  /// se suma a lo de [ActivityService] para mostrar la ruedita.
+  final bool busy;
+
   const GakokenAppBar({
     super.key,
     this.title,
@@ -31,6 +39,7 @@ class GakokenAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.onSearchClosed,
     this.onFilterPressed,
     this.filterBadgeCount = 0,
+    this.busy = false,
   }) : assert(
          title != null || titleWidget != null,
          'Title or titleWidget must be provided',
@@ -104,6 +113,7 @@ class _GakokenAppBarState extends State<GakokenAppBar>
         child: _buildTitle(context),
       ),
       actions: [
+        _BusyIndicator(busy: widget.busy),
         AnimatedSwitcher(
           duration: const Duration(milliseconds: 300),
           child: Row(
@@ -265,5 +275,88 @@ class _GakokenAppBarState extends State<GakokenAppBar>
     }
 
     return finalActions;
+  }
+}
+
+/// Ruedita chica a la izquierda de las acciones mientras algo carga en
+/// segundo plano. Aparece si la carga dura más de [_delay], para que no
+/// parpadee, y no cambia el tamaño de la barra.
+class _BusyIndicator extends StatefulWidget {
+  const _BusyIndicator({required this.busy});
+
+  final bool busy;
+
+  @override
+  State<_BusyIndicator> createState() => _BusyIndicatorState();
+}
+
+class _BusyIndicatorState extends State<_BusyIndicator> {
+  static const _delay = Duration(milliseconds: 300);
+
+  final _activity = ActivityService();
+  Timer? _timer;
+  bool _shown = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _activity.addListener(_update);
+    _update();
+  }
+
+  @override
+  void didUpdateWidget(_BusyIndicator oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.busy != widget.busy) _update();
+  }
+
+  @override
+  void dispose() {
+    _activity.removeListener(_update);
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  void _update() {
+    final busy = widget.busy || _activity.busy;
+    if (!busy) {
+      _timer?.cancel();
+      _timer = null;
+      if (_shown) setState(() => _shown = false);
+    } else if (!_shown && _timer == null) {
+      _timer = Timer(_delay, () {
+        _timer = null;
+        if (mounted) setState(() => _shown = true);
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // No aparta ancho en la barra: se dibuja a la izquierda de las acciones
+    // sin empujar el título fuera del centro.
+    return SizedBox(
+      width: 0,
+      child: OverflowBox(
+        maxWidth: 32,
+        alignment: Alignment.centerRight,
+        child: AnimatedOpacity(
+          opacity: _shown ? 1 : 0,
+          duration: const Duration(milliseconds: 200),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: SizedBox.square(
+              dimension: 16,
+              child: _shown
+                  ? CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: context.colors.primary,
+                    )
+                  : null,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

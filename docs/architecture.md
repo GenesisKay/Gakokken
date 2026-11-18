@@ -1,6 +1,6 @@
 # Arquitectura de Gakoken
 
-Decidida el 2026-10-18 y validada con la prueba de rendimiento del 2026-10-20. El producto, las tareas y las decisiones de producto viven en la nota `Gakoken` del vault (`D:/3-Projects/Software/Vault/Proyectos/Gakoken.md`).
+Decidida el 2026-10-18 y validada con la prueba de rendimiento del 2026-10-20. El producto, las tareas y las decisiones de producto viven en la nota `Gakoken` del vault (`E:/Vault/Software/Proyectos/Gakoken.md`).
 
 # Requisitos que guían la decisión
 

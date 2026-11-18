@@ -29,6 +29,17 @@ Criterios de aceptación:
 
 Prioridad: Alta. Pruebas: sección "General" de PlanDePruebas.md
 
+## HU-GEN-02 Saber que algo está cargando
+
+Como usuario, quiero ver una señal chica cuando la app carga algo, para saber que está trabajando sin que me estorbe.
+
+Criterios de aceptación:
+- Mientras se vuelve a leer una carpeta, se hacen miniaturas o el índice se pone al día, aparece una ruedita chica en la barra de arriba (RN-42).
+- No tapa ni mueve nada y no parpadea en cargas muy cortas (RN-42).
+- Se va sola al terminar (RN-42).
+
+Prioridad: Baja. Pruebas: sección "General" de PlanDePruebas.md
+
 # Explorar
 
 ## HU-EXP-01 Dar permiso y ver el almacenamiento
@@ -37,6 +48,7 @@ Como usuario, quiero que Gakoken me pida el acceso a mis archivos y luego me mue
 
 Criterios de aceptación:
 - Sin el permiso, Explorar muestra la explicación y el botón Dar permiso, sin listado ni íconos de arriba (RN-02).
+- Sin el permiso, Espacio muestra la misma explicación y el mismo botón bajo el título Espacio, en lugar de cifras en cero. Al conceder el permiso desde cualquiera de las dos, ambas muestran su contenido.
 - Dar permiso lleva a los ajustes de Android; al regresar sin concederlo, sigue la explicación y la app no se cierra.
 - Al regresar de los ajustes de Android con el permiso concedido, aparece el contenido de Interno sin tocar nada más.
 - Con el permiso, Explorar abre en Interno (RN-11).
@@ -74,7 +86,8 @@ Como usuario, quiero elegir cómo se ve el listado, para ver más archivos o má
 Criterios de aceptación:
 - El ícono de ajustes arriba a la derecha abre una hoja con Vista (Lista, Detalles, Cuadrícula y Galería, la actual marcada), Ordenar por y Mostrar solo (RN-15).
 - En Galería las fotos y los videos se ven grandes, sin nombre encima; carpetas y documentos muestran logo y nombre (RN-15).
-- La vista elegida aplica a todas las carpetas y se mantiene al cerrar la app (RN-15).
+- La vista elegida aplica a todas las carpetas de la pestaña y se mantiene al cerrar la app (RN-15).
+- Pellizcar con dos dedos (o Ctrl + rueda del mouse en Windows y Linux) cambia de vista: abrir los dedos pasa a una más visual (Detalles, Lista, Cuadrícula, Galería) y cerrarlos regresa; un paso por gesto. Funciona en Explorar, Favoritos, la Papelera y los archivos de un tipo (RN-15).
 
 Prioridad: Media. Pruebas: sección "Explorar" de PlanDePruebas.md
 
@@ -85,7 +98,7 @@ Como usuario, quiero tener varias carpetas abiertas en pestañas y moverme atrá
 Criterios de aceptación:
 - + abre una pestaña nueva en Interno; Abrir en pestaña nueva abre la carpeta elegida (RN-26).
 - Con dos o más pestañas se ve la tira; tocar una la activa y la X la cierra; siempre queda una (RN-26).
-- Cada pestaña recuerda su carpeta, su filtro y su historial; las flechas atrás y adelante, arriba a la izquierda, recorren el historial (RN-27).
+- Cada pestaña recuerda su carpeta, su vista, su orden, su agrupar por fecha, su filtro y su historial; vista, orden y filtro siguen igual al cerrar y abrir la app (RN-26); las flechas atrás y adelante, arriba a la izquierda, recorren el historial (RN-27).
 - Al cerrar y abrir la app vuelven las mismas pestañas (RN-26).
 
 Prioridad: Media. Pruebas: sección "Pestañas" de PlanDePruebas.md
@@ -160,6 +173,19 @@ Criterios de aceptación:
 - La lista va del más reciente al más viejo y muestra dónde está cada uno (RN-19).
 - Tocar una carpeta la abre en Explorar; tocar un archivo lo abre (RN-19).
 - Si uno ya no existe, se marca "Ya no existe" y solo se puede quitar (RN-19).
+- Si elimino un favorito, se va a la papelera y deja de verse en Favoritos; si lo restauro, vuelve (RN-19).
+
+Prioridad: Media. Pruebas: sección "Favoritos" de PlanDePruebas.md
+
+## HU-FAV-03 Buscar y organizar mis favoritos
+
+Como usuario, quiero buscar, ordenar, filtrar y seleccionar varios favoritos, para encontrarlos y limpiarlos rápido cuando tengo muchos.
+
+Criterios de aceptación:
+- La lupa filtra los favoritos por nombre mientras escribo (RN-39).
+- El ícono de ajustes cambia la vista, el orden (Nombre, Agregado, Tipo), agrupa por fecha en que los agregué y filtra por tipo (RN-38, RN-39).
+- La vista y el orden de Favoritos se guardan aparte de Explorar (RN-39).
+- Mantener presionado y deslizar selecciona varios; la estrella los quita de favoritos de una vez y abajo puedo copiar, cortar, compartir o eliminar (RN-40).
 
 Prioridad: Media. Pruebas: sección "Favoritos" de PlanDePruebas.md
 
@@ -171,10 +197,16 @@ Como usuario, quiero seleccionar varios archivos y carpetas, para hacer algo con
 
 Criterios de aceptación:
 - Mantener presionado un elemento lo selecciona; luego tocar marca o desmarca (RN-29).
+- Mantener presionado y deslizar el dedo marca de una vez todo lo que va pasando, como en la galería de fotos; cerca del borde la lista avanza sola (RN-29).
+- Con algo ya seleccionado, puedo soltar el dedo y seguir marcando deslizando de lado, sin volver a mantener presionado; deslizar hacia arriba o abajo sigue desplazando (RN-29).
+- En Cuadrícula y Galería lo seleccionado lleva un círculo con palomita arriba a la izquierda (RN-15, RN-29).
 - Arriba se ve cuántos hay, Información, la estrella de favoritos, Seleccionar todo y la X para soltar; atrás también suelta (RN-29).
 - Información muestra tipo, tamaño, contenido, fecha y ubicación de uno, o el total de varios (RN-29).
 - La estrella agrega todos los seleccionados a favoritos de una vez, o los quita si ya lo eran (RN-29).
 - Abajo están Copiar, Cortar, Compartir, Renombrar, Eliminar y Más; Renombrar y Más solo con uno, Compartir solo con archivos.
+- Con la lista agrupada por fecha, tocar el encabezado de un grupo lo marca o desmarca completo (RN-38).
+- La selección funciona igual en Favoritos, la Papelera y la lista de un tipo en Espacio (RN-40).
+- Al seleccionar el teléfono vibra poquito, si no lo apagué en Ajustes (RN-43).
 
 Prioridad: Alta. Pruebas: sección "Selección y acciones" de PlanDePruebas.md
 
@@ -212,6 +244,30 @@ Criterios de aceptación:
 
 Prioridad: Alta. Pruebas: sección "Papelera" de PlanDePruebas.md
 
+## HU-ACC-05 Crear una carpeta
+
+Como usuario, quiero crear una carpeta donde estoy, incluso con algo copiado o cortado, para tener dónde pegarlo sin perder lo que llevo.
+
+Criterios de aceptación:
+- Nueva carpeta es un ícono en la barra de arriba de Explorar, siempre a la vista (RN-37).
+- Un nombre vacío o no válido, uno que ya existe o una carpeta de solo lectura se avisan en el mismo diálogo, sin cerrarlo (RN-37).
+- Con algo copiado o cortado, al crearla entro a ella y puedo pegar ahí; el portapapeles sigue igual (RN-37).
+- Sin nada copiado, la carpeta nueva parpadea en la lista para ubicarla (RN-44).
+
+Prioridad: Media. Pruebas: sección "Nueva carpeta" de PlanDePruebas.md
+
+## HU-ACC-06 Organizar y limpiar la papelera
+
+Como usuario, quiero buscar, ordenar y filtrar lo que hay en la papelera y restaurar o borrar varios a la vez, para limpiarla rápido.
+
+Criterios de aceptación:
+- La lupa filtra por nombre; el ícono de ajustes cambia la vista, el orden (Nombre, Borrado, Tipo), agrupa por fecha de borrado y filtra por tipo (RN-38, RN-39).
+- Cómo se ve la papelera se guarda aparte de Explorar y de Favoritos (RN-39).
+- Cuántos días le quedan a cada elemento se ve completo aunque la ruta de origen sea muy larga (RN-35).
+- Mantener presionado y deslizar selecciona varios; abajo Restaurar los regresa a su lugar y Eliminar para siempre los borra con confirmación (RN-40).
+
+Prioridad: Media. Pruebas: sección "Papelera" de PlanDePruebas.md
+
 # Ordenar y filtrar
 
 ## HU-ORD-01 Ordenar y filtrar una carpeta
@@ -223,6 +279,18 @@ Criterios de aceptación:
 - Los encabezados de Detalles funcionan igual (RN-12).
 - El orden se usa en todas las carpetas y se mantiene al cerrar la app (RN-12).
 - Mostrar solo deja ver solo los tipos marcados, con las carpetas siempre visibles; arriba de la lista se ve un chip por tipo filtrado con X para quitarlo (RN-22).
+
+Prioridad: Media. Pruebas: sección "Ordenar y filtrar" de PlanDePruebas.md
+
+## HU-ORD-02 Ver la lista separada por fecha
+
+Como usuario, quiero ver mis archivos separados por fecha, como en la galería de fotos, para ubicar rápido lo de hoy, ayer o un mes.
+
+Criterios de aceptación:
+- En la hoja de ajustes, Agrupar por fecha separa la lista en Hoy, Ayer, Últimos 7 días y un grupo por mes (RN-38).
+- Activarlo ordena por fecha; elegir otro orden lo apaga (RN-38).
+- El encabezado del grupo se queda arriba mientras lo recorro, en las cuatro vistas (RN-38).
+- Funciona en Explorar, Favoritos, la Papelera y la lista de un tipo en Espacio (RN-38).
 
 Prioridad: Media. Pruebas: sección "Ordenar y filtrar" de PlanDePruebas.md
 
@@ -259,11 +327,26 @@ Como usuario, quiero ver cuánto ocupa una carpeta, por tipo y por lo que contie
 
 Criterios de aceptación:
 - Está en la pestaña Espacio de la barra inferior y abre en Interno; también se llega desde la hoja de una carpeta (RN-24).
-- Muestra el total con subcarpetas y cuántos archivos y carpetas hay (RN-24).
+- Muestra el total con subcarpetas, sin texto de conteo debajo (RN-24).
+- Por tipo se puede ordenar por tamaño, nombre o cantidad de archivos, y el orden se guarda (RN-24).
 - Por tipo muestra cada tipo con su logo, tamaño, porcentaje y cantidad de archivos; tocar uno lista todos los archivos de ese tipo, del más pesado al más ligero, y ahí puedo buscar, ordenar y cambiar la vista (RN-24).
 - Lo que más ocupa lista los hijos del más pesado al más ligero; tocar una carpeta entra a ella y atrás regresa (RN-24).
 - Funciona también en la SD y en un USB (RN-24).
 - Abre al instante con el índice listo; sin índice muestra el progreso (RN-24).
+- En la lista de un tipo puedo seleccionar varios archivos y copiarlos, compartirlos o eliminarlos (RN-40).
+
+Prioridad: Media. Pruebas: sección "Espacio usado" de PlanDePruebas.md
+
+## HU-ESP-02 Ver todo el espacio en una sola barra
+
+Como usuario, quiero ver en una sola barra de colores todo lo que ocupa mi teléfono y lo que queda libre, para entender de un vistazo qué se lleva el espacio.
+
+Criterios de aceptación:
+- Arriba de Por tipo hay una barra con un tramo de color por tipo (RN-41).
+- En la raíz de una memoria el número grande es lo usado sobre el total de la memoria, igual que en Ajustes de Android, y debajo dice cuánto suman mis archivos (RN-24).
+- En la raíz de una memoria la barra incluye Sistema y Libre, y debajo dice cuánto queda libre (RN-41).
+- Si doy Acceso al uso, la barra separa lo que ocupan las apps de lo que ocupa el sistema (RN-41).
+- Tocar un tramo me dice qué es; tocar el de un tipo otra vez abre sus archivos (RN-41).
 
 Prioridad: Media. Pruebas: sección "Espacio usado" de PlanDePruebas.md
 
@@ -277,7 +360,7 @@ Criterios de aceptación:
 - La primera vez usa el idioma del teléfono si es uno de los cuatro; si no, inglés (RN-07).
 - El idioma elegido se mantiene al cerrar y abrir la app (RN-09).
 
-Prioridad: Baja. Pruebas: sección "Configuración" de PlanDePruebas.md
+Prioridad: Baja. Pruebas: sección "Ajustes" de PlanDePruebas.md
 
 ## HU-CON-02 Temas
 
@@ -290,7 +373,7 @@ Criterios de aceptación:
 - Importar acepta un JSON pegado o un archivo; un JSON inválido muestra un error y no crea nada (RN-10).
 - El tema elegido se mantiene al cerrar y abrir la app (RN-09).
 
-Prioridad: Baja. Pruebas: sección "Configuración" de PlanDePruebas.md
+Prioridad: Baja. Pruebas: sección "Ajustes" de PlanDePruebas.md
 
 ## HU-CON-03 Vista previa
 
@@ -301,7 +384,7 @@ Criterios de aceptación:
 - Apagar uno cambia las miniaturas por el logo en todas las pantallas, sin reiniciar (RN-25).
 - La elección se mantiene al cerrar la app.
 
-Prioridad: Baja. Pruebas: sección "Configuración" de PlanDePruebas.md
+Prioridad: Baja. Pruebas: sección "Ajustes" de PlanDePruebas.md
 
 ## HU-CON-04 Índice
 
@@ -312,7 +395,7 @@ Criterios de aceptación:
 - Al abrir la app, lo creado o borrado con otras apps aparece en Buscar sin Volver a indexar (RN-21).
 - Volver a indexar recorre todo; el botón se desactiva mientras tanto (RN-21).
 
-Prioridad: Baja. Pruebas: sección "Configuración" de PlanDePruebas.md
+Prioridad: Baja. Pruebas: sección "Ajustes" de PlanDePruebas.md
 
 ## HU-CON-05 Archivos ocultos
 
@@ -324,7 +407,40 @@ Criterios de aceptación:
 - Activar Incluir en Buscar los hace salir en los resultados (RN-13, RN-23).
 - La fila de Ajustes dice dónde están visibles.
 
-Prioridad: Baja. Pruebas: sección "Configuración" de PlanDePruebas.md
+Prioridad: Baja. Pruebas: sección "Ajustes" de PlanDePruebas.md
+
+## HU-CON-06 Vibración al seleccionar
+
+Como usuario, quiero sentir una vibración corta al seleccionar y poder apagarla, para saber que el toque contó sin mirar tanto la pantalla.
+
+Criterios de aceptación:
+- Mantener presionado para empezar a seleccionar vibra un poco más fuerte; tocar para marcar o desmarcar, deslizar sobre cada elemento, tocar el encabezado de un grupo y Seleccionar todo vibran poquito (RN-43).
+- Ajustes tiene Vibrar al seleccionar, prendido al instalar; apagarlo quita todas estas vibraciones (RN-43).
+- Si el teléfono tiene apagada la respuesta táctil, no vibra aunque esté prendido en Gakoken (RN-43).
+
+Prioridad: Baja. Pruebas: sección "Ajustes" de PlanDePruebas.md
+
+
+# Tutorial
+
+## HU-TUT-01 Tutorial guiado
+
+Como usuario, quiero que la app me enseñe a usarse sobre la pantalla real, para aprender cada función sin leer instrucciones aparte.
+
+Criterios de aceptación:
+- El tutorial no es una pantalla aparte: oscurece la app y deja a la vista solo el elemento que explica, con una burbuja de título, texto, contador de pasos ("1 de 3"), Saltar y Siguiente (Listo en el último paso).
+- Tocar el elemento resaltado también avanza. El botón atrás del sistema cierra el recorrido.
+- Si un elemento no está en pantalla, su paso se brinca.
+- Cada recorrido sale solo una vez, la primera vez que se abre su pantalla (Explorar, Favoritos y Espacio). Saltar o terminar lo marca como hecho.
+- Ajustes > Tutorial lo repite cuando se quiera.
+- Recorridos:
+- Explorar (4 pasos): barra inferior, buscar, vista y orden, y un paso al centro sobre mantener presionado para seleccionar y actuar.
+- Favoritos (1 paso al centro): para qué sirven y cómo se agregan.
+- Espacio (2 pasos): la barra de espacio y un paso al centro sobre tocar un tipo para ver sus archivos más grandes.
+- Explorar y Espacio esperan a que haya permiso de archivos; sin permiso no aparecen.
+- Textos en todos los idiomas de la app. Con "Quitar animaciones" activo, todo cambia sin animación.
+
+Prioridad: Media. Pruebas: sección "Tutorial" de PlanDePruebas.md
 
 # Historias retiradas
 

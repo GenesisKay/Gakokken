@@ -55,7 +55,7 @@ En pocas líneas:
 2. Resultado de cada build: OK o el error en breve.
 3. **Ruta absoluta de la carpeta** donde quedó el archivo (la carpeta padre), lista para copiar, primero y visible. Nunca la ruta completa del archivo. También se puede abrir con `explorer "<ruta>"`.
    - **Sacarla en el momento**, después del build, de la carpeta real: en PowerShell `(Resolve-Path build\app\outputs\flutter-apk).Path` desde el proyecto Flutter. No escribirla de memoria, ni copiarla de una respuesta anterior, ni de este archivo: el proyecto puede estar en otro disco o en otra carpeta.
-   - Bien: `<proyecto>\build\app\outputs\flutter-apk`, por ejemplo `D:\3-Projects\Software\Zontle\Zontle\build\app\outputs\flutter-apk`
+   - Bien: `<proyecto>\build\app\outputs\flutter-apk`, por ejemplo `E:\Software\Zontle\Zontle\build\app\outputs\flutter-apk`
    - Mal: `<proyecto>\build\app\outputs\flutter-apk\app-release.apk`
 4. Nombre de los archivos que quedaron dentro, solo el nombre (`app-release.apk`, y `app-debug.apk` si se pidió), sin ruta, con su tamaño. Nunca repetir la ruta junto al nombre del archivo.
 

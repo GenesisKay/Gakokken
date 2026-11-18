@@ -36,6 +36,10 @@ class ExplorerController extends ChangeNotifier {
   static const _tabsKey = 'explorerTabs';
   static const _activeKey = 'explorerActiveTab';
 
+  /// Vista, orden y filtro de cada pestaña, en el mismo orden que
+  /// [_tabsKey]. Aparte para que las rutas guardadas antes sigan sirviendo.
+  static const _optionsKey = 'explorerTabOptions';
+
   /// Se llama una vez que hay permiso (por ejemplo, para empezar a indexar).
   final VoidCallback? onPermissionGranted;
   final FileEngine? _engine;
@@ -56,9 +60,13 @@ class ExplorerController extends ChangeNotifier {
   /// null mientras se revisa.
   bool? get permissionGranted => _permissionGranted;
 
-  BrowserController _newTab(String path) =>
-      BrowserController(path: path, engine: _engine, volumes: _volumes)
-        ..addListener(_onTabChanged);
+  BrowserController _newTab(String path, [TabListOptions? options]) =>
+      BrowserController(
+        path: path,
+        engine: _engine,
+        volumes: _volumes,
+        options: options,
+      )..addListener(_onTabChanged);
 
   Future<void> init() async {
     final saved = _box?.get(_tabsKey);
@@ -66,9 +74,19 @@ class ExplorerController extends ChangeNotifier {
       for (final tab in _tabs) {
         tab.dispose();
       }
+      final options = _box?.get(_optionsKey);
+      final base = _tabs.first.options;
       _tabs
         ..clear()
-        ..addAll(saved.cast<String>().map(_newTab));
+        ..addAll([
+          for (final (i, path) in saved.cast<String>().indexed)
+            _newTab(
+              path,
+              options is List && i < options.length && options[i] is Map
+                  ? TabListOptions.fromMap(options[i] as Map, base)
+                  : null,
+            ),
+        ]);
       final active = _box?.get(_activeKey) as int? ?? 0;
       _active = active.clamp(0, _tabs.length - 1);
     }
@@ -110,9 +128,21 @@ class ExplorerController extends ChangeNotifier {
   }
 
   /// Abre una pestaña nueva en [path] (la raíz del sistema si no se da) y la
-  /// activa.
+  /// activa. Empieza con la vista y el orden de la pestaña activa, sin su
+  /// filtro.
   void newTab([String? path]) {
-    _tabs.add(_newTab(path ?? _volumes.home));
+    final from = active.options;
+    _tabs.add(
+      _newTab(
+        path ?? _volumes.home,
+        TabListOptions(
+          viewMode: from.viewMode,
+          sortField: from.sortField,
+          ascending: from.ascending,
+          groupByDate: from.groupByDate,
+        ),
+      ),
+    );
     select(_tabs.length - 1);
   }
 
@@ -169,11 +199,13 @@ class ExplorerController extends ChangeNotifier {
 
   void _save() {
     final paths = [for (final tab in _tabs) tab.path];
-    final key = '$_active|${paths.join('|')}';
+    final options = [for (final tab in _tabs) tab.options.toMap()];
+    final key = '$_active|${paths.join('|')}|$options';
     if (key == _saved) return;
     _saved = key;
     _box
       ?..put(_tabsKey, paths)
+      ..put(_optionsKey, options)
       ..put(_activeKey, _active);
   }
 

@@ -9,7 +9,7 @@ import '../controllers/explorer_controller.dart';
 /// Pestañas de Explorar, como el Explorador de Windows: cada una con su
 /// carpeta; la X la cierra y el + del final abre otra. Solo se muestra con
 /// dos o más pestañas: con una sola, su nombre repetiría el título. Con una,
-/// Pestaña nueva está en el menú del título.
+/// Pestaña nueva es un "+" al final de la barra de arriba.
 class ExplorerTabStrip extends StatelessWidget {
   const ExplorerTabStrip({super.key, required this.controller});
 
@@ -34,9 +34,9 @@ class ExplorerTabStrip extends StatelessWidget {
               itemBuilder: (context, i) {
                 final tab = tabs[i];
                 final selected = i == controller.activeIndex;
-                final label = tab.canGoUp
-                    ? p.basename(tab.path)
-                    : volumeLabel(l10n, tab.volume);
+                final label = tab.atVolumeRoot
+                    ? volumeLabel(l10n, tab.volume)
+                    : p.basename(tab.path);
                 return Center(
                   child: Material(
                     color: selected

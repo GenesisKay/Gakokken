@@ -85,10 +85,10 @@ class AppColorExtension extends ThemeExtension<AppColorExtension> {
        _secondaryHover = secondaryHover,
        _secondaryActive = secondaryActive;
 
-  /// Tema por defecto (Gakoken: gato naranja, crema + naranja atigrado).
+  /// Tema por defecto (Gakoken: gato naranja, blanco + naranja atigrado).
   static const defaultTheme = AppColorExtension(
-    bgPrimary: Color(0xFFFFFCF8),
-    bgSecondary: Color(0xFFFFF4E8),
+    bgPrimary: Color(0xFFFCFCFC),
+    bgSecondary: Color(0xFFF5F5F5),
     bgElevated: Color(0xFFFFFFFF),
     overlay: Color.fromRGBO(43, 26, 14, 0.45),
     textPrimary: Color(0xFF2B1A0E),

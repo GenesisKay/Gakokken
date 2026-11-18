@@ -8,25 +8,94 @@ import '../../../../core/files/file_entry.dart';
 import '../../../../core/files/file_kind.dart';
 import '../../../../core/services/explorer_settings_service.dart';
 import '../../../../core/services/storage_volumes_service.dart';
+import '../../../../core/services/view_prefs.dart';
+import 'selection.dart';
 
 export '../../../../core/services/explorer_settings_service.dart'
     show BrowserViewMode, SortField;
 
-/// Una pestaña de Explorar: carpeta actual, su contenido, filtro por tipo e
-/// historial atrás y adelante. La vista, el orden y los ocultos son de
-/// [ExplorerSettingsService] y valen para todas las pestañas.
-class BrowserController extends ChangeNotifier {
+/// Vista, orden, agrupar por fecha y filtro por tipo de una pestaña. Se
+/// guarda junto con su carpeta para que vuelva igual al abrir la app.
+class TabListOptions {
+  const TabListOptions({
+    this.viewMode = BrowserViewMode.list,
+    this.sortField = SortField.name,
+    this.ascending = true,
+    this.groupByDate = false,
+    this.kinds = const {},
+  });
+
+  final BrowserViewMode viewMode;
+  final SortField sortField;
+  final bool ascending;
+  final bool groupByDate;
+  final Set<FileKind> kinds;
+
+  Map<String, Object> toMap() => {
+    'view': viewMode.name,
+    'sort': sortField.name,
+    'ascending': ascending,
+    'group': groupByDate,
+    'kinds': [for (final kind in kinds) kind.name],
+  };
+
+  /// Lo que no se entienda (un tipo que ya no existe) toma el valor de
+  /// [fallback].
+  factory TabListOptions.fromMap(
+    Map<dynamic, dynamic> map,
+    TabListOptions fallback,
+  ) {
+    final kinds = map['kinds'];
+    return TabListOptions(
+      viewMode:
+          BrowserViewMode.values.asNameMap()[map['view']] ?? fallback.viewMode,
+      sortField:
+          SortField.values.asNameMap()[map['sort']] ?? fallback.sortField,
+      ascending: map['ascending'] as bool? ?? fallback.ascending,
+      groupByDate: map['group'] as bool? ?? fallback.groupByDate,
+      kinds: kinds is List
+          ? {
+              for (final name in kinds)
+                if (FileKind.values.asNameMap()[name] case final kind?) kind,
+            }
+          : fallback.kinds,
+    );
+  }
+}
+
+/// Una pestaña de Explorar: carpeta actual, su contenido, historial atrás y
+/// adelante, y su propia vista, orden y filtro por tipo (pedido el
+/// 2026-11-13). Los ocultos son de [ExplorerSettingsService] y valen para
+/// todas.
+class BrowserController extends ChangeNotifier
+    with Selection
+    implements KindFilterChoice, SortChoice, ViewChoice {
+  /// Sin [options] toma la última vista y orden que se usaron.
   BrowserController({
     required String path,
     FileEngine? engine,
     ExplorerSettingsService? settings,
     StorageVolumesService? volumes,
+    TabListOptions? options,
   }) : _engine = engine ?? FileEngine.instance,
        _settings = settings ?? ExplorerSettingsService(),
        _volumes = volumes ?? StorageVolumesService(),
        _path = path {
     _settings.addListener(_onSettings);
     _showHidden = _settings.showHidden;
+    final start =
+        options ??
+        TabListOptions(
+          viewMode: _settings.viewMode,
+          sortField: _settings.sortField,
+          ascending: _settings.ascending,
+          groupByDate: _settings.groupByDate,
+        );
+    _viewMode = start.viewMode;
+    _sortField = start.sortField;
+    _ascending = start.ascending;
+    _groupByDate = start.groupByDate;
+    _kindFilter.addAll(start.kinds);
   }
 
   final FileEngine _engine;
@@ -45,13 +114,100 @@ class BrowserController extends ChangeNotifier {
   bool _loaded = false;
   late bool _showHidden;
   final Set<FileKind> _kindFilter = {};
-  final _selected = <String>{};
+  String? _justCreated;
+  Timer? _justCreatedTimer;
+  late BrowserViewMode _viewMode;
+  late SortField _sortField;
+  late bool _ascending;
+  late bool _groupByDate;
 
   String get path => _path;
 
+  @override
+  BrowserViewMode get viewMode => _viewMode;
+  @override
+  SortField get sortField => _sortField;
+  @override
+  bool get ascending => _ascending;
+  @override
+  bool get groupByDate => _groupByDate;
+
+  /// Lo que se guarda de esta pestaña, además de su carpeta.
+  TabListOptions get options => TabListOptions(
+    viewMode: _viewMode,
+    sortField: _sortField,
+    ascending: _ascending,
+    groupByDate: _groupByDate,
+    kinds: Set.of(_kindFilter),
+  );
+
+  @override
+  void setViewMode(BrowserViewMode mode) {
+    if (mode == _viewMode) return;
+    _viewMode = mode;
+    _optionsChanged();
+  }
+
+  /// Un toque: ese criterio de menor a mayor. Otro toque al mismo: de mayor
+  /// a menor. Igual en la hoja y en Detalles.
+  @override
+  void tapSort(SortField field) {
+    final (sortField, ascending, grouped) = tapSortRule(
+      field,
+      _sortField,
+      _ascending,
+      _groupByDate,
+    );
+    _sortField = sortField;
+    _ascending = ascending;
+    _groupByDate = grouped;
+    _optionsChanged();
+  }
+
+  @override
+  void setGroupByDate(bool value) {
+    final (sortField, ascending) = groupSortRule(value, _sortField, _ascending);
+    _sortField = sortField;
+    _ascending = ascending;
+    _groupByDate = value;
+    _optionsChanged();
+  }
+
+  // La última que se usó queda de base para lo que no tiene la suya.
+  void _optionsChanged() {
+    _settings.rememberLast(
+      viewMode: _viewMode,
+      sortField: _sortField,
+      ascending: _ascending,
+      groupByDate: _groupByDate,
+    );
+    _refresh();
+  }
+
+  /// Lo que se acaba de crear aquí: parpadea en la lista un momento.
+  String? get justCreated => _justCreated;
+
+  /// Hace parpadear [path] en la lista; después de un rato se olvida, para
+  /// que no vuelva a parpadear al recorrer la lista.
+  void markCreated(String path) {
+    _justCreated = path;
+    _justCreatedTimer?.cancel();
+    _justCreatedTimer = Timer(const Duration(seconds: 2), () {
+      _justCreated = null;
+      notifyListeners();
+    });
+    notifyListeners();
+  }
+
   /// Memoria (interna, SD o USB) donde está la carpeta actual.
   StorageVolume get volume => _volumes.volumeOf(_path);
-  String get root => volume.path;
+
+  /// Hasta donde se puede subir: la raíz del sistema en Android, así que
+  /// Interno, SD y USB se ven como carpetas de la ruta.
+  String get root => _volumes.treeRootOf(_path);
+
+  /// La carpeta actual es el inicio de su memoria (Interno, una SD...).
+  bool get atVolumeRoot => p.equals(_path, volume.path);
 
   /// Contenido visible: filtrado por tipo y ordenado.
   List<FileEntry> get entries => _entries;
@@ -65,14 +221,17 @@ class BrowserController extends ChangeNotifier {
 
   /// Tipos de archivo que se muestran; vacío es todos. Las carpetas siempre
   /// se muestran, para poder seguir navegando.
+  @override
   Set<FileKind> get kindFilter => Set.unmodifiable(_kindFilter);
   bool get canGoUp => !p.equals(_path, root);
 
-  /// Rutas seleccionadas (mantener presionado). Navegar las suelta.
-  Set<String> get selected => Set.unmodifiable(_selected);
-  bool get selecting => _selected.isNotEmpty;
+  /// La selección (ver [Selection]) va por rutas, en el orden de [entries].
+  /// Navegar la suelta.
+  @override
+  List<String> get selectionKeys => [for (final e in _entries) e.path];
+
   List<FileEntry> get selectedEntries => [
-    for (final path in _selected)
+    for (final path in selected)
       if (_byPath[path] != null) _byPath[path]!,
   ];
 
@@ -81,7 +240,7 @@ class BrowserController extends ChangeNotifier {
   bool get canGoBack => _back.isNotEmpty;
   bool get canGoForward => _forward.isNotEmpty;
 
-  /// Carpetas desde la raíz de la memoria hasta la actual, para el breadcrumb.
+  /// Carpetas desde [root] hasta la actual, para el menú del título.
   List<String> get trail {
     final trail = [root];
     if (!canGoUp) return trail;
@@ -106,7 +265,7 @@ class BrowserController extends ChangeNotifier {
     _show(target);
   }
 
-  /// Sube una carpeta. false si ya está en la raíz de la memoria.
+  /// Sube una carpeta. false si ya está en [root].
   bool goUp() {
     if (!canGoUp) return false;
     open(p.dirname(_path));
@@ -137,23 +296,6 @@ class BrowserController extends ChangeNotifier {
     return goBack() || goUp();
   }
 
-  void toggleSelection(String path) {
-    if (!_selected.remove(path)) _selected.add(path);
-    notifyListeners();
-  }
-
-  /// Selecciona todo lo visible (respeta el filtro).
-  void selectAll() {
-    _selected.addAll(_entries.map((e) => e.path));
-    notifyListeners();
-  }
-
-  void clearSelection() {
-    if (_selected.isEmpty) return;
-    _selected.clear();
-    notifyListeners();
-  }
-
   void reload() => _show(_path);
 
   /// Vuelve a leer la carpeta sin vaciar la lista mientras tanto: lo nuevo
@@ -180,7 +322,7 @@ class BrowserController extends ChangeNotifier {
             _byPath
               ..clear()
               ..addAll(fresh);
-            _selected.removeWhere((path) => !fresh.containsKey(path));
+            retainSelection(fresh.containsKey);
             _refresh();
           },
         );
@@ -199,7 +341,7 @@ class BrowserController extends ChangeNotifier {
     _path = _volumes.isAvailable(path) ? path : _volumes.volumes.first.path;
     _listing?.cancel();
     _byPath.clear();
-    _selected.clear();
+    retainSelection((_) => false);
     _entries = const [];
     _failed = false;
     _loading = true;
@@ -226,11 +368,13 @@ class BrowserController extends ChangeNotifier {
         );
   }
 
+  @override
   void toggleKind(FileKind kind) {
     if (!_kindFilter.remove(kind)) _kindFilter.add(kind);
     _refresh();
   }
 
+  @override
   void clearKinds() {
     _kindFilter.clear();
     _refresh();
@@ -249,16 +393,14 @@ class BrowserController extends ChangeNotifier {
     final visible = _kindFilter.isEmpty
         ? _byPath.values
         : _byPath.values.where((e) => e.isDir || _kindFilter.contains(e.kind));
-    _entries = visible.toList()..sort(_compare);
+    _entries = sortEntries(visible, this);
     notifyListeners();
   }
-
-  int _compare(FileEntry a, FileEntry b) =>
-      compareEntries(a, b, _settings.sortField, _settings.ascending);
 
   @override
   void dispose() {
     _listing?.cancel();
+    _justCreatedTimer?.cancel();
     _settings.removeListener(_onSettings);
     super.dispose();
   }

@@ -81,6 +81,25 @@ class FavoritesService extends ChangeNotifier {
     if (changed) notifyListeners();
   }
 
+  /// Quita los favoritos de [paths] y de lo que tenían dentro: se borraron
+  /// para siempre.
+  Future<void> removeUnder(Iterable<String> paths) async {
+    final roots = paths.toList();
+    var changed = false;
+    for (final key in _box.keys.toList()) {
+      final path = _box.get(key)['path'] as String;
+      if (roots.any((root) => isUnder(path, root))) {
+        await _box.delete(key);
+        changed = true;
+      }
+    }
+    if (changed) notifyListeners();
+  }
+
+  /// [path] es [root] o algo dentro de él.
+  static bool isUnder(String path, String root) =>
+      path == root || path.startsWith('$root${p.separator}');
+
   dynamic _keyOf(String path) {
     for (final key in _box.keys) {
       if (_box.get(key)['path'] == path) return key;

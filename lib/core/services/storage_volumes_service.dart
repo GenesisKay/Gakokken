@@ -17,6 +17,7 @@ class StorageVolume {
     required this.kind,
     this.totalBytes = 0,
     this.freeBytes = 0,
+    this.appsBytes,
   });
 
   final String path;
@@ -27,6 +28,10 @@ class StorageVolume {
   final VolumeKind kind;
   final int totalBytes;
   final int freeBytes;
+
+  /// Lo que ocupan las apps con sus datos. Solo en la interna y con Acceso
+  /// al uso (Android lo pide para saberlo); null si no.
+  final int? appsBytes;
 
   /// Interno y SD se indexan; USB no, porque se conecta y se desconecta
   /// (decidido el 2026-10-20). La raíz del sistema tampoco.
@@ -65,14 +70,27 @@ class StorageVolumesService extends ChangeNotifier {
   /// La interna siempre va primero.
   List<StorageVolume> get volumes => _volumes;
 
-  /// Donde abre Explorar recién instalada y cada pestaña nueva: la raíz del
-  /// sistema en Android (pedido el 2026-10-21); si no, la interna.
-  String get home => _volumes
+  /// Donde abre Explorar recién instalada y cada pestaña nueva: la interna
+  /// (pedido el 2026-11-06; del 2026-10-21 a esa fecha abría en la raíz).
+  String get home => _volumes.first.path;
+
+  /// Donde empieza la ruta de [path] en Explorar. En Android es la raíz del
+  /// sistema (`/`): las memorias son carpetas dentro de ella, no lugares
+  /// aparte (pedido el 2026-11-06). Sin raíz, la memoria de [path].
+  String treeRootOf(String path) => _volumes
       .firstWhere(
         (v) => v.kind == VolumeKind.system,
-        orElse: () => _volumes.first,
+        orElse: () => volumeOf(path),
       )
       .path;
+
+  /// La memoria que empieza justo en [path], si hay una.
+  StorageVolume? volumeAt(String path) {
+    for (final v in _volumes) {
+      if (p.equals(v.path, path)) return v;
+    }
+    return null;
+  }
 
   /// Un enlace de la raíz del sistema que lleva a una memoria (como
   /// `/sdcard`) se abre en esa memoria, para que el breadcrumb diga cuál es.
@@ -124,6 +142,7 @@ class StorageVolumesService extends ChangeNotifier {
             kind: VolumeKind.values.asNameMap()[v['kind']] ?? VolumeKind.sd,
             totalBytes: v['total'] as int,
             freeBytes: v['free'] as int,
+            appsBytes: v['apps'] as int?,
           ),
       ]..sort((a, b) => a.kind.index.compareTo(b.kind.index));
       if (volumes.first.kind != VolumeKind.internal) return;
@@ -131,6 +150,17 @@ class StorageVolumesService extends ChangeNotifier {
       notifyListeners();
     } on PlatformException {
       // Se queda con lo que tenía.
+    }
+  }
+
+  /// Abre Acceso al uso en Ajustes de Android. Al volver a la app las
+  /// memorias se vuelven a leer solas.
+  Future<void> requestUsageAccess() async {
+    if (!Platform.isAndroid) return;
+    try {
+      await _channel.invokeMethod<void>('requestUsageAccess');
+    } on PlatformException {
+      // Sin Ajustes que abrir: Espacio sigue juntando apps y sistema.
     }
   }
 

@@ -1,5 +1,7 @@
-package com.gakoken.gakoken
+package com.morobu.gakoken
 
+import android.app.AppOpsManager
+import android.app.usage.StorageStatsManager
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
@@ -13,10 +15,13 @@ import android.os.Environment
 import android.os.FileObserver
 import android.os.Handler
 import android.os.Looper
+import android.net.Uri
 import android.os.ParcelFileDescriptor
+import android.os.Process
 import android.os.StatFs
 import android.os.storage.StorageManager
 import android.os.storage.StorageVolume
+import android.provider.Settings
 import android.util.Size
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
@@ -58,7 +63,14 @@ class MainActivity : FlutterActivity() {
                             main.post { result.success(thumb) }
                         }
                     }
-                    "storageVolumes" -> result.success(storageVolumes())
+                    "storageVolumes" -> background.execute {
+                        val volumes = try { storageVolumes() } catch (e: Exception) { null }
+                        main.post { result.success(volumes) }
+                    }
+                    "requestUsageAccess" -> {
+                        requestUsageAccess()
+                        result.success(null)
+                    }
                     "watch" -> {
                         watch(call.argument<List<String>>("paths")!!)
                         result.success(null)
@@ -134,8 +146,11 @@ class MainActivity : FlutterActivity() {
     }
 
     /// Memorias montadas: ruta, nombre que da Android, tipo (internal, sd o
-    /// usb) y espacio total y libre en bytes.
-    private fun storageVolumes(): List<Map<String, Any>> {
+    /// usb) y espacio total y libre en bytes. En la interna, total y libre
+    /// salen de donde los toma Ajustes de Android (el total cuenta también la
+    /// partición del sistema, por ejemplo 128 GB y no 108 GB) y, con Acceso al
+    /// uso, "apps" dice cuánto ocupan las apps con sus datos.
+    private fun storageVolumes(): List<Map<String, Any?>> {
         val manager = getSystemService(StorageManager::class.java)
         return manager.storageVolumes.mapNotNull { volume ->
             if (volume.state != Environment.MEDIA_MOUNTED) return@mapNotNull null
@@ -146,13 +161,79 @@ class MainActivity : FlutterActivity() {
                 isUsb(volume) -> "usb"
                 else -> "sd"
             }
+            val system = if (volume.isPrimary) systemSpace() else null
             mapOf(
                 "path" to dir.path,
                 "label" to volume.getDescription(this),
                 "kind" to kind,
-                "total" to stat.totalBytes,
-                "free" to stat.availableBytes,
+                "total" to (system?.first ?: stat.totalBytes),
+                "free" to (system?.second ?: stat.availableBytes),
+                "apps" to if (volume.isPrimary) appsBytes() else null,
             )
+        }
+    }
+
+    /// Total y libre de la memoria interna como los muestra Ajustes. null
+    /// antes de Android 8 o si falla (entonces se usa StatFs).
+    private fun systemSpace(): Pair<Long, Long>? {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return null
+        return try {
+            val stats = getSystemService(StorageStatsManager::class.java)
+            Pair(
+                stats.getTotalBytes(StorageManager.UUID_DEFAULT),
+                stats.getFreeBytes(StorageManager.UUID_DEFAULT),
+            )
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    /// Si el usuario dio Acceso al uso (lo pide Android para saber cuánto
+    /// ocupan las otras apps).
+    private fun hasUsageAccess(): Boolean {
+        val ops = getSystemService(AppOpsManager::class.java)
+        @Suppress("DEPRECATION")
+        val mode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            ops.unsafeCheckOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, Process.myUid(), packageName)
+        } else {
+            ops.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, Process.myUid(), packageName)
+        }
+        return mode == AppOpsManager.MODE_ALLOWED
+    }
+
+    /// Abre Acceso al uso en Ajustes, en Gakoken si el teléfono lo deja.
+    private fun requestUsageAccess() {
+        val direct = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS, Uri.parse("package:$packageName"))
+        try {
+            startActivity(direct)
+        } catch (e: Exception) {
+            try {
+                startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
+            } catch (_: Exception) {
+            }
+        }
+    }
+
+    /// Lo que ocupan las apps (instaladas, con sus datos y su carpeta en
+    /// Android/data) en la memoria interna. null sin Acceso al uso o antes de
+    /// Android 8. Según la versión de Android, los datos del usuario incluyen
+    /// o no todo el almacenamiento compartido (fotos, descargas): si lo
+    /// incluyen se le resta, menos la parte de Android/data, que es de las apps.
+    private fun appsBytes(): Long? {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O || !hasUsageAccess()) return null
+        return try {
+            val stats = getSystemService(StorageStatsManager::class.java)
+            val user = Process.myUserHandle()
+            val all = stats.queryStatsForUser(StorageManager.UUID_DEFAULT, user)
+            val shared = stats.queryExternalStatsForUser(StorageManager.UUID_DEFAULT, user)
+            val data = if (all.dataBytes >= shared.totalBytes) {
+                all.dataBytes - (shared.totalBytes - shared.appBytes)
+            } else {
+                all.dataBytes + shared.appBytes
+            }
+            all.appBytes + maxOf(0L, data)
+        } catch (e: Exception) {
+            null
         }
     }
 
