@@ -467,7 +467,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get searchIntro =>
-      'Type part of the name. It finds it even with a typo.';
+      'Type part of the name. Even with a typo, it finds it. You can also paste a path.';
 
   @override
   String get searchNoResults => 'No results.';
@@ -1020,7 +1020,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tourExpSearchBody =>
-      'Find files and folders by name instantly, without waiting for storage to be scanned.';
+      'Find files and folders by name across your phone. You can also paste a path to go straight there.';
 
   @override
   String get tourExpDisplayTitle => 'View and order';
@@ -1034,7 +1034,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tourExpSelectBody =>
-      'Long-press a file or folder to select it: copy, move, rename, share or add it to Favorites.';
+      'Long-press a file or folder to select it and slide to mark several: copy, move, rename, share or add it to Favorites.';
 
   @override
   String get tourFavTitle => 'Your favorites';
@@ -1058,4 +1058,38 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get madeByMorobu => 'Made by Morobu';
+
+  @override
+  String get tourExpTitleTitle => 'Where you are';
+
+  @override
+  String get tourExpTitleBody =>
+      'Tap the folder name to see the path, switch storage or go to a path you copied.';
+
+  @override
+  String get goToPathAction => 'Go to path';
+
+  @override
+  String get goToPathHint => 'Paste or type a path';
+
+  @override
+  String get goToPathGo => 'Go';
+
+  @override
+  String get goToPathNotFound => 'That path doesn\'t exist.';
+
+  @override
+  String get goToPathUnavailable => 'That path can\'t be opened.';
+
+  @override
+  String get pathOpenFolder => 'Go to this folder';
+
+  @override
+  String get pathShowInFolder => 'Show in its folder';
+
+  @override
+  String get widgetEmptyFavorites => 'Add favorites from Explore';
+
+  @override
+  String get widgetRecentFiles => 'Recent files';
 }

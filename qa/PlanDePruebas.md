@@ -43,7 +43,7 @@ Fuera:
 - [ ] Instalación nueva con permiso: aparece "Indexando tu teléfono: N archivos y carpetas" con el número subiendo, y desaparece al terminar
 	- [ ] Se puede navegar mientras indexa #condición
 - [ ] Tocar una carpeta la abre y el título cambia a su nombre
-	- [ ] Tocar el título abre el menú centrado bajo el título, como árbol: Raíz del sistema arriba con su ícono, luego `storage`, `emulated` e Interno (con el ícono de memoria), cada carpeta debajo más metida con una flecha, y la actual al final con carpeta abierta y marcada; luego Memorias (Nueva carpeta y Pestaña nueva ya no están aquí) #condición
+	- [ ] Tocar el título abre el menú centrado bajo el título, como árbol: Raíz del sistema arriba con su ícono, luego `storage`, `emulated` e Interno (con el ícono de memoria), cada carpeta debajo más metida con una flecha, y la actual al final con carpeta abierta y marcada; luego Memorias e Ir a una ruta (Nueva carpeta y Pestaña nueva ya no están aquí) #condición
 	- [ ] Con más de 7 niveles la sangría deja de crecer y los nombres se cortan con puntos suspensivos #condición
 	- [ ] Tocar una carpeta del menú va a ella #condición
 	- [ ] Con un nombre muy largo, el título se corta con puntos suspensivos y la flecha sigue visible #condición
@@ -140,9 +140,25 @@ Fuera:
 - [ ] Con Incluir en Buscar activado, salen los ocultos (por ejemplo ".thumbnails")
 	- [ ] Solo en esa carpeta no muestra archivos de fuera (sí de sus subcarpetas) #condición
 - [ ] Los chips de tipo dejan solo esos archivos
-- [ ] Mantener presionado un resultado abre su hoja de opciones
+- [ ] Mantener presionado un resultado abre sus opciones en una lista flotante pegada a la fila, sin encabezado y con Eliminar en color de error (cambio 2026-11-23)
 - [ ] Teléfono con muchos archivos: escribir rápido no traba la pantalla #condición
 - [ ] Instalación nueva, antes de terminar el primer indexado: Buscar muestra el progreso y luego los resultados solos
+
+## Ir a una ruta
+- [ ] Copiar ruta de una carpeta, ir a otra, tocar el título y elegir Ir a una ruta: la ruta llega pegada y seleccionada; Ir abre esa carpeta
+	- [ ] Con algo copiado que no es una ruta (un texto cualquiera), el campo llega vacío #condición
+	- [ ] Atrás regresa a la carpeta de antes #condición
+- [ ] Ir a una ruta de un archivo abre su carpeta y el archivo parpadea dos veces
+	- [ ] Si el archivo queda abajo en una carpeta larga, la lista no baja sola hasta él #condición
+- [ ] Con espacios, comillas a los lados, la barra del final o `file://`, igual abre
+- [ ] `/sdcard/Download` abre Descargas de Interno y el título dice Interno en la ruta #condición
+- [ ] Una ruta que no existe dice "Esa ruta no existe." debajo del campo y el diálogo sigue abierto; al escribir se quita el aviso
+- [ ] Una ruta fuera de las memorias que se pueden abrir dice "No se puede abrir esa ruta." #condición
+- [ ] En Buscar, pegar la ruta de una carpeta muestra solo "Ir a esta carpeta" con su nombre; tocarlo cierra Buscar y la abre
+	- [ ] Con la ruta de un archivo sale "Mostrar en su carpeta"; tocarlo abre la carpeta y el archivo parpadea #condición
+	- [ ] Funciona aunque el primer indexado no haya terminado #condición
+	- [ ] Una ruta que no existe se busca por nombre como cualquier texto ("Sin resultados.") #condición
+- [ ] En inglés, francés y japonés los textos salen traducidos y el botón Ir no se parte #idioma
 
 ## Pestañas
 - [ ] Con una sola pestaña no hay tira de pestañas; Pestaña nueva es un + al final de la barra de arriba, después del ícono de ajustes
@@ -254,7 +270,7 @@ Fuera:
 	- [ ] En Buscar, Favoritos y la lista de un tipo de Espacio, mantener presionado también la ofrece #condición
 	- [ ] Lo que había en Copiar o Cortar de Gakoken no se pierde #condición
 - [ ] Seleccionar una sola carpeta en Explorar y tocar Más muestra el menú con Abrir en pestaña nueva, Espacio usado y Copiar ruta
-- [ ] En Buscar y en Lo que más ocupa de Espacio, mantener presionado abre directo esa hoja (no selecciona); en Favoritos, la Papelera y la lista de un tipo selecciona
+- [ ] En Buscar y en Lo que más ocupa de Espacio, mantener presionado abre directo ese menú flotante (no selecciona); en Favoritos, la Papelera y la lista de un tipo selecciona
 - [ ] Compartir abre el menú del sistema y el archivo llega bien (por ejemplo a WhatsApp o Gmail)
 	- [ ] Cancelar el menú no hace nada #condición
 - [ ] Abrir y compartir un archivo con espacios, acentos o emojis en el nombre #condición
@@ -428,6 +444,7 @@ Fuera:
 	- [ ] El tema se mantiene al cerrar y abrir la app #condición
 - [ ] Los temas integrados no tienen Editar ni Eliminar
 - [ ] Crear, editar, aplicar y eliminar un tema propio
+- [ ] Tocar un tema abre una lista flotante pegada a su tarjeta (no hoja inferior): Aplicar tema (si no es el activo), Copiar JSON, Guardar archivo y, en temas propios, Editar y Eliminar (en color de error) (cambio 2026-11-23)
 - [ ] Exportar un tema: copiar JSON y guardar en archivo
 - [ ] Importar un tema pegando JSON y desde archivo
 	- [ ] Un JSON inválido muestra error y no crea tema #condición
@@ -473,6 +490,40 @@ Fuera:
 - [ ] Sin navegador instalado, tocarlo no hace nada y la app no se cierra #condición
 - [ ] Con cualquier tema (claro y oscuro) los dos renglones se leen bien #ui
 
+## Widgets de Android (OR-17, 2026-11-20)
+- [ ] Buscar (4 x 1): tocarlo abre la búsqueda con el teclado abierto; buscar y abrir un resultado funciona igual que desde Explorar #flujo
+- [ ] Espacio (2 x 2): usado / total de la memoria interna, barra de colores igual a la de la pestaña Espacio y "X libres" #funcional
+	- [ ] Tocarlo abre la pestaña Espacio #flujo
+	- [ ] Sin permiso de archivos dice "Dar permiso" y tocarlo abre la app con la explicación del permiso #condición
+	- [ ] Borrar o copiar archivos grandes y volver al inicio del teléfono: el widget se actualiza al terminar de indexar #condición
+- [ ] Favoritos: lista de favoritos con logo de carpeta o archivo #funcional
+	- [ ] Tocar una carpeta la abre en Explorar; tocar un archivo abre su carpeta y el archivo parpadea #flujo
+	- [ ] Agregar o quitar un favorito cambia la lista #condición
+	- [ ] Sin favoritos dice "Agrega favoritos desde Explorar" #condición
+- [ ] Archivos recientes (4 x 2): descargar un archivo y volver al inicio del teléfono (o abrir la app): sale primero, con miniatura si es imagen, video o PDF #funcional
+	- [ ] No salen archivos ocultos ni lo que está en la papelera de Gakoken #condición
+	- [ ] Tocar uno abre su carpeta en Explorar y el archivo parpadea #flujo
+	- [ ] Sin permiso dice "Dar permiso" #condición
+- [ ] En la lista de widgets del launcher, cada widget sale con su nombre en el idioma del teléfono y una vista previa de tarjeta redondeada, sin esquina doblada (cambiado 2026-11-24) #ui
+	- [ ] En launchers que solo muestran la imagen (Habchi, Android 11 o menos) cada widget enseña su propia vista previa y no el ícono de Gakoken #ui
+- [ ] Tocar un widget abre la pantalla que corresponde, sin pantallas de más ni quedarse cargando #flujo
+- [ ] Estilo del widget (2026-11-24): al poner cualquier widget sale la ventana "Estilo del widget" con Normal y Nothing, cada uno con su muestra #flujo
+	- [ ] Elegir Normal deja la tarjeta con los colores del tema de la app #ui
+	- [ ] Elegir Nothing deja el widget sin tarjeta, directo sobre el fondo de pantalla, con texto claro con sombra suave y botones de tinta translúcida, como los widgets propios del Launcher #ui
+	- [ ] Tocar fuera de la ventana o Atrás deja el widget puesto con el estilo que tenía (Normal si es nuevo) #condición
+	- [ ] En Android 12 o más, mantener presionado el widget > configuración vuelve a abrir la ventana y el cambio se ve al instante #flujo
+	- [ ] Dos widgets iguales pueden tener estilos distintos; quitar uno no cambia el del otro #condición
+	- [ ] Los widgets que ya estaban puestos antes de actualizar siguen en Normal #condición
+	- [ ] Nothing en Espacio: lo usado va en letra de puntos (Doto) y la barra es una fila de puntos, encendidos los del espacio usado #ui
+	- [ ] Nothing en Buscar: pastilla translúcida de hasta 52 dp de alto, centrada, como la barra de búsqueda del Launcher #ui
+
+- [ ] Los widgets toman los colores del tema elegido en Ajustes > Temas; al cambiar de tema y salir al inicio del teléfono, los widgets ya tienen los colores nuevos #ui
+	- [ ] Con un tema oscuro el fondo, los textos y las barras se leen bien #visual
+- [ ] Al cambiar el idioma en Ajustes, los textos de los widgets cambian al volver al inicio del teléfono #idioma
+- [ ] Recién instalada o actualizada, antes de abrir la app, el widget no truena: muestra un mensaje para abrir la app o su estado vacío; al abrir la app se llena #condición
+- [ ] Cambiar el tamaño del widget acomoda su contenido sin cortar textos ni deformar las esquinas redondeadas, en los dos estilos #ui
+- [ ] Probar también en el Launcher de Morobu y en el launcher del sistema #condición
+
 ## Tutorial
 - [ ] Recién instalada (o con los datos borrados), cada recorrido sale solo la primera vez que se abre su pantalla (Explorar, Favoritos y Espacio)
 	- [ ] Sin permiso, Explorar y Espacio no muestran recorrido; al conceder el permiso aparece el de la pestaña abierta #condición
@@ -485,6 +536,9 @@ Fuera:
 	- [ ] La burbuja va abajo del elemento si está en la mitad de arriba y arriba si está en la mitad de abajo; nunca tapa el elemento #visual
 	- [ ] Tocar el elemento resaltado avanza; tocar fuera no hace nada #condición
 	- [ ] El botón atrás del sistema cierra el recorrido y lo marca como hecho #condición
+- [ ] Explorar tiene 5 pasos: barra inferior, título de la carpeta, lupa, ícono de ajustes y el paso al centro de seleccionar (cambiado 2026-11-20)
+	- [ ] El paso del título resalta solo el nombre de la carpeta con su flecha, no toda la barra #visual
+	- [ ] Quien ya vio el recorrido de Explorar no lo vuelve a ver solo; desde Ajustes > Tutorial sale con el paso nuevo #condición
 - [ ] Ajustes > Tutorial: lista los recorridos con "Hecho" en los terminados; tocar uno lo vuelve a mostrar
 - [ ] En inglés, francés o japonés (y alemán si la app lo tiene) todos los textos del tutorial salen traducidos #idioma
 - [ ] Con "Quitar animaciones" activo, la burbuja y el resaltado cambian sin animación #condición

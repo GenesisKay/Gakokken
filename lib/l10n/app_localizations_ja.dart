@@ -461,7 +461,7 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get searchIntro => '名前の一部を入力してください。1文字間違えても見つかります。';
+  String get searchIntro => '名前の一部を入力してください。1文字間違えても見つかります。パスを貼り付けることもできます。';
 
   @override
   String get searchNoResults => '見つかりませんでした。';
@@ -933,7 +933,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tourExpSearchTitle => 'スマホ全体を検索';
 
   @override
-  String get tourExpSearchBody => 'ストレージのスキャンを待たずに、名前でファイルやフォルダーをすぐに見つけます。';
+  String get tourExpSearchBody =>
+      'スマホ全体からファイルやフォルダーを名前で探せます。パスを貼り付けて直接移動することもできます。';
 
   @override
   String get tourExpDisplayTitle => '表示と並び順';
@@ -945,7 +946,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tourExpSelectTitle => '選んで操作';
 
   @override
-  String get tourExpSelectBody => 'ファイルやフォルダーを長押しで選択：コピー、移動、名前変更、共有、お気に入りに追加。';
+  String get tourExpSelectBody =>
+      'ファイルやフォルダーを長押しで選択、そのままスライドで複数選択：コピー、移動、名前変更、共有、お気に入りに追加。';
 
   @override
   String get tourFavTitle => 'お気に入り';
@@ -967,4 +969,38 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get madeByMorobu => '制作: Morobu';
+
+  @override
+  String get tourExpTitleTitle => '現在の場所';
+
+  @override
+  String get tourExpTitleBody =>
+      'フォルダー名をタップすると、パスの表示、ストレージの切り替え、コピーしたパスへの移動ができます。';
+
+  @override
+  String get goToPathAction => 'パスへ移動';
+
+  @override
+  String get goToPathHint => 'パスを貼り付けるか入力';
+
+  @override
+  String get goToPathGo => '移動';
+
+  @override
+  String get goToPathNotFound => 'そのパスは存在しません。';
+
+  @override
+  String get goToPathUnavailable => 'そのパスは開けません。';
+
+  @override
+  String get pathOpenFolder => 'このフォルダーへ移動';
+
+  @override
+  String get pathShowInFolder => 'フォルダー内で表示';
+
+  @override
+  String get widgetEmptyFavorites => '「探す」からお気に入りを追加';
+
+  @override
+  String get widgetRecentFiles => '最近のファイル';
 }

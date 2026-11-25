@@ -202,7 +202,7 @@
       }
     }
   },
-  "searchIntro": "Escribe parte del nombre. Aunque te equivoques en una letra, lo encuentra.",
+  "searchIntro": "Escribe parte del nombre. Aunque te equivoques en una letra, lo encuentra. También puedes pegar una ruta.",
   "searchNoResults": "Sin resultados.",
   "indexingProgress": "Indexando tu teléfono: {count} archivos y carpetas",
   "@indexingProgress": {
@@ -562,16 +562,27 @@
   "tourExpNavTitle": "Tus secciones",
   "tourExpNavBody": "Explorar, Favoritos, Espacio y Ajustes. Toca una para cambiar.",
   "tourExpSearchTitle": "Busca en todo el teléfono",
-  "tourExpSearchBody": "Encuentra archivos y carpetas por nombre al instante, sin esperar a que se recorra el almacenamiento.",
+  "tourExpSearchBody": "Encuentra archivos y carpetas por nombre en todo el teléfono. También puedes pegar una ruta para ir directo.",
   "tourExpDisplayTitle": "Vista y orden",
   "tourExpDisplayBody": "Lista o cuadrícula, ordenar, agrupar por fecha y filtrar por tipo de archivo.",
   "tourExpSelectTitle": "Selecciona y actúa",
-  "tourExpSelectBody": "Mantén presionado un archivo o carpeta para seleccionarlo: copiar, mover, renombrar, compartir o agregarlo a Favoritos.",
+  "tourExpSelectBody": "Mantén presionado un archivo o carpeta para seleccionarlo y desliza para marcar varios: copiar, mover, renombrar, compartir o agregarlo a Favoritos.",
   "tourFavTitle": "Tus favoritos",
   "tourFavBody": "Lo que marcas para abrirlo rápido. Mantén presionado algo en Explorar para agregarlo aquí.",
   "tourUseBarTitle": "Tu espacio",
   "tourUseBarBody": "Cuánto ocupa cada tipo de archivo en el teléfono.",
   "tourUseKindTitle": "Libera espacio",
   "tourUseKindBody": "Toca un tipo para ver sus archivos más grandes y decidir qué borrar.",
-  "madeByMorobu": "Hecho por Morobu"
+  "madeByMorobu": "Hecho por Morobu",
+  "tourExpTitleTitle": "Dónde estás",
+  "tourExpTitleBody": "Toca el nombre de la carpeta para ver la ruta, cambiar de memoria o ir a una ruta que copiaste.",
+  "goToPathAction": "Ir a una ruta",
+  "goToPathHint": "Pega o escribe una ruta",
+  "goToPathGo": "Ir",
+  "goToPathNotFound": "Esa ruta no existe.",
+  "goToPathUnavailable": "No se puede abrir esa ruta.",
+  "pathOpenFolder": "Ir a esta carpeta",
+  "pathShowInFolder": "Mostrar en su carpeta",
+  "widgetEmptyFavorites": "Agrega favoritos desde Explorar",
+  "widgetRecentFiles": "Archivos recientes"
 }

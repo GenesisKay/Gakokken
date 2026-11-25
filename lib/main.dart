@@ -8,6 +8,7 @@ import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 import 'app.dart';
+import 'core/services/android_widget_sync.dart';
 import 'core/engine/file_engine.dart';
 import 'core/engine/rust_file_engine.dart';
 import 'core/services/storage_volumes_service.dart';
@@ -47,4 +48,6 @@ void main() async {
 
   OrigamiTour.store = HiveTourStore();
   runApp(const GakokenApp());
+  // Widgets de Android (OR-17).
+  AndroidWidgetSync.instance.start();
 }

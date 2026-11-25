@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../files/path_input.dart';
 import '../services/file_ops_service.dart';
 import '../theme/theme_extensions.dart';
 
@@ -112,6 +114,86 @@ Future<String?> showNewFolderDialog(
             FilledButton(
               onPressed: busy ? null : submit,
               child: Text(l10n.newFolderCreate),
+            ),
+          ],
+        );
+      },
+    ),
+  );
+  controller.dispose();
+  return result;
+}
+
+/// Pide una ruta para ir a ella. Si lo copiado es una ruta, llega ya pegada
+/// y seleccionada. Con error el diálogo sigue abierto para corregirla.
+/// Devuelve la carpeta o el archivo, o null si se cancela.
+Future<PathTarget?> showGoToPathDialog(BuildContext context) async {
+  final l10n = AppLocalizations.of(context)!;
+  final clip = (await Clipboard.getData(Clipboard.kTextPlain))?.text;
+  final pasted = clip == null ? null : parsePathInput(clip);
+  final controller = TextEditingController(text: pasted ?? '')
+    ..selection = TextSelection(
+      baseOffset: 0,
+      extentOffset: pasted?.length ?? 0,
+    );
+  if (!context.mounted) return null;
+  String? error;
+  var busy = false;
+  final result = await showDialog<PathTarget>(
+    context: context,
+    builder: (dialogContext) => StatefulBuilder(
+      builder: (dialogContext, setState) {
+        Future<void> submit() async {
+          if (busy) return;
+          setState(() => busy = true);
+          final (target, problem) = await lookUpPath(controller.text);
+          if (!dialogContext.mounted) return;
+          if (target != null) {
+            Navigator.pop(dialogContext, target);
+            return;
+          }
+          setState(() {
+            busy = false;
+            error = problem == PathProblem.unavailable
+                ? l10n.goToPathUnavailable
+                : l10n.goToPathNotFound;
+          });
+        }
+
+        return AlertDialog(
+          backgroundColor: dialogContext.colors.bgElevated,
+          title: Text(
+            l10n.goToPathAction,
+            style: dialogContext.typography.modalTitle,
+          ),
+          content: TextField(
+            controller: controller,
+            autofocus: true,
+            minLines: 1,
+            maxLines: 3,
+            keyboardType: TextInputType.url,
+            textInputAction: TextInputAction.go,
+            autocorrect: false,
+            enableSuggestions: false,
+            style: dialogContext.typography.body,
+            decoration: InputDecoration(
+              hintText: l10n.goToPathHint,
+              errorText: error,
+              errorMaxLines: 3,
+            ),
+            onChanged: (_) {
+              if (error != null) setState(() => error = null);
+            },
+            onSubmitted: (_) => submit(),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: Text(l10n.btnCancel),
+            ),
+            FilledButton(
+              onPressed: busy ? null : submit,
+              child: Text(l10n.goToPathGo),
             ),
           ],
         );

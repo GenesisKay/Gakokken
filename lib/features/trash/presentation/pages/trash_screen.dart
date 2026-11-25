@@ -8,9 +8,8 @@ import '../../../../core/services/trash_service.dart';
 import '../../../../core/services/view_prefs.dart';
 import '../../../../core/theme/theme_extensions.dart';
 import '../../../../core/widgets/file_dialogs.dart';
-import '../../../../core/widgets/file_thumbnail.dart';
 import '../../../../core/widgets/gakoken_app_bar.dart';
-import '../../../../core/widgets/gakoken_options_sheet.dart';
+import '../../../../core/widgets/anchored_menu.dart';
 import '../../../../core/widgets/kind_filter_chips.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../browser/presentation/controllers/selection.dart';
@@ -149,7 +148,11 @@ class _TrashScreenState extends State<TrashScreen> {
                               ? l10n.browserNoMatches
                               : l10n.searchNoResults,
                         )
-                      : EntryViews(
+                      // EntryViews no entrega la fila tocada: el menú sale
+                      // del punto del toque.
+                      : Listener(
+                          onPointerDown: (e) => _lastTap = e.position,
+                          child: EntryViews(
                           key: PageStorageKey(
                             'trash|${_prefs.viewMode.name}'
                             '|${_prefs.groupByDate}',
@@ -180,6 +183,7 @@ class _TrashScreenState extends State<TrashScreen> {
                             onUpdate: _selection.updateDragSelection,
                             onEnd: _selection.endDragSelection,
                           ),
+                        ),
                         ),
                 ),
                 if (_selection.selecting)
@@ -239,39 +243,23 @@ class _TrashScreenState extends State<TrashScreen> {
     await _trash.deleteForever(items);
   }
 
+  Offset? _lastTap;
+
   void _options(BuildContext context, TrashItem item) {
     final l10n = AppLocalizations.of(context)!;
-    showGakokenOptionsSheet(
-      context: context,
-      header: Row(
-        children: [
-          FileThumbnail(
-            path: item.trashedPath,
-            name: item.name,
-            isDir: item.isDir,
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Text(
-              item.name,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: context.typography.cardTitle.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ],
-      ),
+    showAnchoredMenu(
+      anchor: context,
+      at: _lastTap,
       options: [
-        GakokenSheetOption(
+        AnchoredMenuOption(
           icon: Icons.restore_rounded,
           label: l10n.trashRestore,
           onTap: () => _restore([item]),
         ),
-        GakokenSheetOption(
+        AnchoredMenuOption(
           icon: Icons.delete_forever_rounded,
           label: l10n.trashDeleteForever,
+          destructive: true,
           onTap: () => _deleteForever(context, [item]),
         ),
       ],

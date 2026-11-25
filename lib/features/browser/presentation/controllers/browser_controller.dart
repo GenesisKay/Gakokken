@@ -265,6 +265,18 @@ class BrowserController extends ChangeNotifier
     _show(target);
   }
 
+  /// Va a una ruta pegada o escrita: la carpeta, o la carpeta de un archivo
+  /// con el archivo parpadeando. El nombre se junta con la carpeta ya
+  /// resuelta (`/sdcard` puede abrirse como `/storage/emulated/0`).
+  void reveal(String path, {required bool isDir}) {
+    if (isDir) {
+      open(path);
+      return;
+    }
+    open(p.dirname(path));
+    markCreated(p.join(_path, p.basename(path)));
+  }
+
   /// Sube una carpeta. false si ya está en [root].
   bool goUp() {
     if (!canGoUp) return false;

@@ -127,6 +127,18 @@ Criterios de aceptación:
 
 Prioridad: Media. Pruebas: sección "Explorar" de PlanDePruebas.md
 
+## HU-EXP-08 Ir a una ruta copiada
+
+Como usuario, quiero pegar una ruta que copié (con Copiar ruta o desde otra app) para llegar directo a esa carpeta o archivo sin navegar carpeta por carpeta.
+
+Criterios de aceptación:
+- En el menú del título, Ir a una ruta abre un campo donde se pega o escribe la ruta; si lo copiado ya es una ruta, llega pegada (RN-45).
+- En Buscar, pegar una ruta que existe muestra un solo resultado: Ir a esta carpeta o Mostrar en su carpeta (RN-45).
+- Una carpeta se abre en la pestaña actual; un archivo abre su carpeta y el archivo parpadea (RN-45, RN-44).
+- Una ruta que no existe o que no se puede abrir lo dice, sin salir del diálogo (RN-45).
+
+Prioridad: Media. Pruebas: sección "Ir a una ruta" de PlanDePruebas.md
+
 # Archivos
 
 ## HU-ARC-01 Abrir un archivo
@@ -434,13 +446,69 @@ Criterios de aceptación:
 - Cada recorrido sale solo una vez, la primera vez que se abre su pantalla (Explorar, Favoritos y Espacio). Saltar o terminar lo marca como hecho.
 - Ajustes > Tutorial lo repite cuando se quiera.
 - Recorridos:
-- Explorar (4 pasos): barra inferior, buscar, vista y orden, y un paso al centro sobre mantener presionado para seleccionar y actuar.
+- Explorar (5 pasos): barra inferior, título de la carpeta (ruta, memorias e Ir a una ruta), buscar (también pegando una ruta), vista y orden, y un paso al centro sobre mantener presionado y deslizar para seleccionar y actuar.
 - Favoritos (1 paso al centro): para qué sirven y cómo se agregan.
 - Espacio (2 pasos): la barra de espacio y un paso al centro sobre tocar un tipo para ver sus archivos más grandes.
 - Explorar y Espacio esperan a que haya permiso de archivos; sin permiso no aparecen.
 - Textos en todos los idiomas de la app. Con "Quitar animaciones" activo, todo cambia sin animación.
 
 Prioridad: Media. Pruebas: sección "Tutorial" de PlanDePruebas.md
+
+# Widgets de Android
+
+## HU-WID-01 Buscar
+
+Como usuario, quiero buscar un archivo desde el inicio del teléfono.
+
+Criterios de aceptación:
+- Tamaño 4 x 1: barra con lupa y "Buscar en tu teléfono".
+- Tocarla abre la búsqueda de Gakoken con el teclado listo, en todo el teléfono.
+
+Prioridad: Alta. Pruebas: sección "Widgets de Android" de PlanDePruebas.md
+
+## HU-WID-02 Espacio
+
+Como usuario, quiero ver cuánto espacio uso sin abrir la app.
+
+Criterios de aceptación:
+- Tamaño de 2 x 2 a 4 x 2. Usado contra total de la memoria interna, la barra de colores por tipo de la pestaña Espacio y cuánto queda libre.
+- Tocarlo abre la pestaña Espacio. Sin permiso dice "Dar permiso" y abre la app.
+
+Prioridad: Media. Pruebas: sección "Widgets de Android" de PlanDePruebas.md
+
+## HU-WID-03 Favoritos
+
+Como usuario, quiero llegar a mis carpetas y archivos favoritos en un toque.
+
+Criterios de aceptación:
+- Tamaño de 2 x 2 a 4 x 3. Lista de favoritos con el logo de carpeta o archivo; caben más si el widget es más alto.
+- Tocar una carpeta la abre en Explorar; un archivo abre su carpeta con el archivo parpadeando.
+- Sin favoritos dice "Agrega favoritos desde Explorar".
+
+Prioridad: Media. Pruebas: sección "Widgets de Android" de PlanDePruebas.md
+
+## HU-WID-04 Archivos recientes
+
+Como usuario, quiero ver mis archivos más nuevos, como lo que descargué hoy.
+
+Criterios de aceptación:
+- Tamaño 4 x 2 o más. Lista del más nuevo al más viejo con miniatura en imágenes, videos y PDF, fecha, hora y tamaño.
+- No salen archivos ocultos ni los de la papelera de Gakoken.
+- Tocar uno abre su carpeta en Explorar con el archivo parpadeando. Sin permiso dice "Dar permiso".
+
+Prioridad: Media. Pruebas: sección "Widgets de Android" de PlanDePruebas.md
+
+## HU-WID-05 Estilo del widget
+
+Como usuario, quiero elegir si cada widget se ve con los colores de la app o al estilo Nothing, como los widgets propios del Launcher.
+
+Criterios de aceptación:
+- Al poner un widget sale "Estilo del widget" con Normal y Nothing, cada uno con su muestra. En Android 12 o más se cambia después manteniendo presionado el widget.
+- Normal: tarjeta redondeada con los colores del tema elegido en la app, sin esquina doblada.
+- Nothing: sin tarjeta, sobre el fondo de pantalla, texto claro con sombra suave, cifras en letra de puntos y un solo acento rojo.
+- Salir sin elegir deja el widget con su estilo (Normal si es nuevo). Cada widget guarda el suyo.
+
+Prioridad: Media. Pruebas: sección "Widgets de Android" de PlanDePruebas.md
 
 # Historias retiradas
 

@@ -5,6 +5,7 @@ import 'package:path/path.dart' as p;
 import '../../../../core/files/file_entry.dart';
 import '../../../../core/files/file_kind.dart';
 import '../../../../core/files/file_labels.dart';
+import '../../../../core/files/path_input.dart';
 import '../../../../core/services/index_service.dart';
 import '../../../../core/theme/theme_extensions.dart';
 import '../../../../core/widgets/file_actions.dart';
@@ -19,12 +20,16 @@ class SearchScreen extends StatefulWidget {
     super.key,
     required this.currentPath,
     required this.onOpenFolder,
+    required this.onReveal,
   });
 
   /// Carpeta abierta en Explorar, para limitar la búsqueda a ella. null en
   /// la raíz (ahí no hace falta la opción).
   final String? currentPath;
   final ValueChanged<String> onOpenFolder;
+
+  /// Lleva en Explorar a una ruta pegada en el buscador.
+  final ValueChanged<PathTarget> onReveal;
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -36,6 +41,9 @@ class _SearchScreenState extends State<SearchScreen> {
   final Set<FileKind> _kinds = {};
   bool _onlyHere = false;
   List<FileEntry> _results = const [];
+
+  /// Lo escrito es una ruta que existe: sale primero, para ir directo.
+  PathTarget? _pathHit;
   int _searchId = 0;
   bool _wasReady = false;
 
@@ -63,14 +71,26 @@ class _SearchScreenState extends State<SearchScreen> {
   Future<void> _search() async {
     final id = ++_searchId;
     final query = _query.text;
-    final results = query.trim().isEmpty
+    // Una ruta pegada no se busca por nombre: se va a ella.
+    final hit = parsePathInput(query) == null
+        ? null
+        : (await lookUpPath(query)).$1;
+    final results = query.trim().isEmpty || hit != null
         ? const <FileEntry>[]
         : await _index.search(
             query,
             within: _onlyHere ? widget.currentPath : null,
           );
     if (!mounted || id != _searchId) return;
-    setState(() => _results = results);
+    setState(() {
+      _pathHit = hit;
+      _results = results;
+    });
+  }
+
+  void _reveal(PathTarget target) {
+    widget.onReveal(target);
+    Navigator.of(context).pop();
   }
 
   List<FileEntry> get _visible => _kinds.isEmpty
@@ -179,6 +199,44 @@ class _SearchScreenState extends State<SearchScreen> {
 
   Widget _body(AppLocalizations l10n) {
     final colors = context.colors;
+    // La ruta no depende del índice: sale aunque siga indexando.
+    final hit = _pathHit;
+    if (hit != null) {
+      return ListView(
+        padding: const EdgeInsets.fromLTRB(8, 4, 8, 16),
+        children: [
+          ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            leading: FileThumbnail(
+              path: hit.path,
+              name: p.basename(hit.path),
+              isDir: hit.isDir,
+            ),
+            title: Text(
+              hit.isDir ? l10n.pathOpenFolder : l10n.pathShowInFolder,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: context.typography.body.copyWith(
+                color: colors.textPrimary,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            subtitle: Text(
+              p.basename(hit.path),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: context.typography.small.copyWith(
+                color: colors.textSecondary,
+              ),
+            ),
+            onTap: () => _reveal(hit),
+          ),
+        ],
+      );
+    }
     String? message;
     if (!_index.ready) {
       final count = NumberFormat.decimalPattern(
@@ -214,7 +272,8 @@ class _SearchScreenState extends State<SearchScreen> {
       itemCount: results.length,
       itemBuilder: (context, i) {
         final entry = results[i];
-        return ListTile(
+        return Builder(
+          builder: (row) => ListTile(
           contentPadding: const EdgeInsets.symmetric(horizontal: 8),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -242,11 +301,13 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           ),
           onTap: () => _onTap(entry),
-          onLongPress: () => showFileActionsSheet(
+          onLongPress: () => showFileActionsMenu(
             context,
+            anchor: row,
             path: entry.path,
             name: entry.name,
             isDir: entry.isDir,
+          ),
           ),
         );
       },

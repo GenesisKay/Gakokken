@@ -29,9 +29,10 @@ Si no queda claro, preguntar cuál.
 Por defecto solo el **release**: pesa mucho menos que el debug (no lleva el modo de depuración y queda optimizado). El debug solo se hace si el usuario lo pide.
 
 1. `flutter build apk --release` (puede tardar varios minutos). Si se pidió el debug, `flutter build apk --debug`.
-2. Confirmar que el archivo existe en la carpeta (`app-release.apk`, `app-debug.apk`) y decir su tamaño en MB.
-3. Si el release se firmó con la llave de debug (no hay `android/key.properties`), decirlo: sirve para instalar en el celular, no para Play Store. Para instalarlo encima de un APK firmado con otra llave hay que desinstalar el anterior.
-4. Instalar con `adb install -r` solo si el usuario lo pide.
+2. Confirmar que el archivo existe en la carpeta (`app-release.apk`, `app-debug.apk`) y que su fecha es posterior al inicio del build.
+3. **Renombrarlo** (ver "Nombre del archivo"), borrar los APK viejos de ese tipo ("Limpiar los builds viejos") y decir su tamaño en MB.
+4. Si el release se firmó con la llave de debug (no hay `android/key.properties`), decirlo: sirve para instalar en el celular, no para Play Store. Para instalarlo encima de un APK firmado con otra llave hay que desinstalar el anterior.
+5. Instalar con `adb install -r <archivo renombrado>` solo si el usuario lo pide.
 
 No pide versión ni confirmación. Si se pidieron los dos y uno falla, reportar el error y entregar el que sí salió.
 
@@ -46,6 +47,77 @@ No pide versión ni confirmación. Si se pidieron los dos y uno falla, reportar 
    **No editar el pubspec ni hacer el build sin un sí explícito.**
 3. **Aplicar.** Editar solo la línea `version:`.
 4. **Build.** `flutter build appbundle`. Si falla por firma, decir que falta `android/key.properties` o el keystore que referencia, sin abrirlos ni mostrarlos.
+5. **Renombrar** el `app-release.aab` (ver "Nombre del archivo") y borrar los `.aab` viejos ("Limpiar los builds viejos"). Play Console acepta cualquier nombre.
+6. **Revisar el bundle.** Confirmar que el `.aab` tiene fecha posterior al inicio del build (si el build falla puede quedar el de antes). Si el bundle se hizo para llevar una función nueva (por ejemplo widgets), confirmar que va adentro: el manifiesto del `.aab` es binario pero los nombres de clase se leen con `unzip -p <aab> base/manifest/AndroidManifest.xml | tr -d '\0' | grep -a -o -E "[A-Za-z]*WidgetProvider"`.
+7. **Anotarlo en el registro de bundles** (sección de abajo). Un bundle que no quedó en el registro no cuenta como entregado.
+
+## Registro de bundles
+
+Cada AAB generado queda anotado en la nota del proyecto en el vault (`E:/Vault/Software/Proyectos/<App>.md`, ver skill `documentar`), para saber siempre qué versión lleva qué. Así se contesta "¿el último bundle ya trae X?" sin adivinar.
+
+### Antes del build
+
+Leer la sección `# Bundles` de la nota y las entradas de Pendientes y Decisiones con fecha posterior al último bundle de la tabla. Eso es lo que va a incluir el bundle nuevo; decirlo en una línea al proponer la versión.
+
+### Después del build
+
+En la sección `# Bundles` (si no existe, crearla justo antes de `# Decisiones`), agregar una fila arriba, la más nueva primero:
+
+```markdown
+# Bundles
+
+| Versión | Generado | Archivo | Qué trae de nuevo | Estado |
+| --- | --- | --- | --- | --- |
+| 1.1.0+11 | 2026-11-22 | `eloisa-1.1.0-11.aab` | Widgets de Android (Grabar, Grabando, Grabaciones recientes) | Generado, sin subir |
+```
+
+- **Qué trae de nuevo**: solo lo que entró desde el bundle anterior, en pocas palabras, sacado de Pendientes y Decisiones. Si no hubo nada nuevo (rebuild), decirlo.
+- **Estado**: `Generado, sin subir`, y cuando el usuario diga que lo subió, `Prueba interna`, `Prueba cerrada`, `Producción` con la fecha (por ejemplo `Producción 2026-11-25`). Solo se cambia cuando el usuario lo dice.
+- Poner `version:` del frontmatter de la nota en la versión del último bundle generado.
+- En Pendientes y Decisiones, las funciones que entraron pasan de "pendiente de bundle" a "en el bundle X.Y.Z+N".
+
+### Al terminar una función sin bundle
+
+Si se termina algo y no se genera bundle en ese momento, en la nota se escribe "pendiente de bundle", nunca "en el bundle X.Y.Z+N" aunque esa sea la versión que ya tiene el `pubspec.yaml`. Una versión en el `pubspec.yaml` no es un bundle generado.
+
+### Si preguntan si un bundle trae algo
+
+Ver la tabla de `# Bundles`. Si la tabla no lo resuelve (bundles de antes del registro), revisar el `.aab` de `build/app/outputs/bundle/release`: su fecha contra la de la función y, si hace falta, su manifiesto (paso 6). Decir de dónde salió la respuesta.
+
+## Nombre del archivo
+
+Flutter siempre saca `app-release.apk`, `app-debug.apk` y `app-release.aab`, igual en todos los proyectos. Como el usuario maneja varios, después de cada build se renombra en la misma carpeta con el nombre de la app y la versión:
+
+| Build | Nombre |
+| --- | --- |
+| APK release | `<app>-<X.Y.Z>-<N>-release.apk` |
+| APK debug | `<app>-<X.Y.Z>-<N>-debug.apk` |
+| AAB | `<app>-<X.Y.Z>-<N>.aab` |
+
+- `<app>` es el `name:` del `pubspec.yaml` (por ejemplo `ardilla`, `gakoken`) y `X.Y.Z+N` su `version:`. Sin `+` en el nombre: se cambia por `-`. Ejemplo: `ardilla-1.0.0-1-release.apk`.
+- Se mueve (no se copia) para que en la carpeta no quede el genérico. Si ya existe uno con ese nombre (mismo build repetido sin subir versión), se reemplaza.
+- En PowerShell, desde el proyecto Flutter:
+
+  ```powershell
+  $app = ((Select-String -Path pubspec.yaml -Pattern '^name:\s*(\S+)').Matches[0].Groups[1].Value)
+  $ver = ((Select-String -Path pubspec.yaml -Pattern '^version:\s*(\S+)').Matches[0].Groups[1].Value) -replace '\+', '-'
+  Move-Item -Force build\app\outputs\flutter-apk\app-release.apk "build\app\outputs\flutter-apk\$app-$ver-release.apk"
+  ```
+
+  Con `app-debug.apk` y `-debug.apk` para el debug, y `build\app\outputs\bundle\release\app-release.aab` a `$app-$ver.aab` para el AAB.
+
+### Limpiar los builds viejos
+
+En cada carpeta de salida queda solo el build más nuevo de cada tipo. Después de renombrar el nuevo (y de confirmar que existe), se borran en esa misma carpeta:
+
+- Los del mismo tipo con otra versión: al hacer un AAB, los demás `.aab`; al hacer un APK release, los demás `*-release.apk`; al hacer un APK debug, los demás `*-debug.apk`.
+- Los genéricos que hayan quedado de builds anteriores (`app-release.apk`, `app-debug.apk`, `app-release.aab`) y sus `.sha1`.
+
+No se toca el otro tipo (hacer un APK no borra el AAB, ni el release al debug). Si el build falló, no se borra nada. Play Console guarda los bundles que ya se subieron, así que no hace falta conservarlos aquí.
+
+```powershell
+Get-ChildItem build\app\outputs\bundle\release -Filter *.aab | Where-Object Name -ne "$app-$ver.aab" | Remove-Item
+```
 
 ## Respuesta
 
@@ -56,12 +128,14 @@ En pocas líneas:
 3. **Ruta absoluta de la carpeta** donde quedó el archivo (la carpeta padre), lista para copiar, primero y visible. Nunca la ruta completa del archivo. También se puede abrir con `explorer "<ruta>"`.
    - **Sacarla en el momento**, después del build, de la carpeta real: en PowerShell `(Resolve-Path build\app\outputs\flutter-apk).Path` desde el proyecto Flutter. No escribirla de memoria, ni copiarla de una respuesta anterior, ni de este archivo: el proyecto puede estar en otro disco o en otra carpeta.
    - Bien: `<proyecto>\build\app\outputs\flutter-apk`, por ejemplo `E:\Software\Zontle\Zontle\build\app\outputs\flutter-apk`
-   - Mal: `<proyecto>\build\app\outputs\flutter-apk\app-release.apk`
-4. Nombre de los archivos que quedaron dentro, solo el nombre (`app-release.apk`, y `app-debug.apk` si se pidió), sin ruta, con su tamaño. Nunca repetir la ruta junto al nombre del archivo.
+   - Mal: `<proyecto>\build\app\outputs\flutter-apk\ardilla-1.0.0-1-release.apk`
+4. Nombre de los archivos que quedaron dentro, solo el nombre ya renombrado (`ardilla-1.0.0-1-release.apk`), sin ruta, con su tamaño. Nunca repetir la ruta junto al nombre del archivo, ni en la respuesta ni en un resumen al final de otra tarea.
+5. Solo AAB: que quedó anotado en `# Bundles` de la nota del vault, con lo que trae de nuevo.
 
 ## Qué no hacer
 
 - No leer ni tocar `key.properties`, keystores (`.jks`), `.ppk` ni `.env`.
 - No subir versión ni hacer el AAB sin confirmación.
+- No dar por entregado un AAB sin anotarlo en `# Bundles` de la nota del vault.
 - No inventar rutas de salida; si el archivo no aparece, revisar la carpeta antes de responder.
 - No hacer git add, commit ni push.

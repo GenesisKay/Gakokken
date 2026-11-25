@@ -1,7 +1,12 @@
 import 'package:gakoken/core/tutorial/gakoken_tours.dart';
 import 'package:gakoken/core/tutorial/origami_tour.dart';
-import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:home_widget/home_widget.dart';
+
+import '../core/services/android_widget_sync.dart' show WidgetLink;
 import '../core/services/index_service.dart';
 import '../core/services/trash_service.dart';
 import '../core/theme/theme_extensions.dart';
@@ -10,6 +15,7 @@ import '../core/widgets/storage_permission_view.dart';
 import '../features/browser/presentation/controllers/explorer_controller.dart';
 import '../features/browser/presentation/pages/browser_screen.dart';
 import '../features/favorites/presentation/pages/favorites_screen.dart';
+import '../features/search/presentation/pages/search_screen.dart';
 import '../features/settings/presentation/pages/settings_screen.dart';
 import '../features/storage_usage/presentation/controllers/usage_tab_controller.dart';
 import '../features/storage_usage/presentation/pages/storage_usage_tab.dart';
@@ -53,6 +59,44 @@ class _MainScreenState extends State<MainScreen> {
       _maybeTour(_index);
       _onTourRequested();
     });
+    if (Platform.isAndroid) {
+      HomeWidget.initiallyLaunchedFromHomeWidget().then(_openWidgetLink);
+      _widgetClicks = HomeWidget.widgetClicked.listen(_openWidgetLink);
+    }
+  }
+
+  StreamSubscription<Uri?>? _widgetClicks;
+
+  /// Android home screen widgets open the exact screen (OR-17).
+  void _openWidgetLink(Uri? uri) {
+    final link = WidgetLink.parse(uri);
+    if (link == null || !mounted) return;
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    switch (link.host) {
+      case 'search':
+        setState(() => _index = _exploreTab);
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => SearchScreen(
+              currentPath: null,
+              onOpenFolder: _openInExplore,
+              onReveal: (target) {
+                setState(() => _index = _exploreTab);
+                _explorer.active.reveal(target.path, isDir: target.isDir);
+              },
+            ),
+          ),
+        );
+      case 'usage':
+        setState(() => _index = _usageTab);
+      case 'favorites':
+        setState(() => _index = _favoritesTab);
+      case 'open':
+        final path = link.path;
+        if (path == null) return;
+        setState(() => _index = _exploreTab);
+        _explorer.active.reveal(path, isDir: link.isDir);
+    }
   }
 
   /// Tutorial guiado (OR-14): cada pestaña ofrece su recorrido la primera
@@ -92,6 +136,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void dispose() {
     _permissionJustGranted = null;
+    _widgetClicks?.cancel();
     OrigamiTour.requested.removeListener(_onTourRequested);
     _explorer.dispose();
     _usage.dispose();

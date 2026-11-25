@@ -369,7 +369,8 @@ class _StorageUsageTabState extends State<StorageUsageTab> {
           if (children.isNotEmpty) ...[
             section(l10n.usageLargest),
             for (final item in children)
-              _UsageRow(
+              Builder(
+                builder: (row) => _UsageRow(
                 leading: FileThumbnail(
                   path: item.path,
                   name: item.name,
@@ -381,12 +382,14 @@ class _StorageUsageTabState extends State<StorageUsageTab> {
                 total: total,
                 barColor: colors.primary,
                 onTap: () => _onTap(fileEntryOf(item)),
-                onLongPress: () => showFileActionsSheet(
+                onLongPress: () => showFileActionsMenu(
                   context,
+                  anchor: row,
                   path: item.path,
                   name: item.name,
                   isDir: item.isDir,
                 ),
+              ),
               ),
           ],
           if (total == 0)

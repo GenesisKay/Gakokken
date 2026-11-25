@@ -100,3 +100,13 @@ Herramientas necesarias: ver [`run.md`](run.md).
 ## Firma de release
 
 `android/app/build.gradle.kts` firma con `android/key.properties` si existe; si no, con la llave de debug. Gakoken necesita su propia llave; no reutilizar `../old-app-signing-backup` (es de otra app).
+
+## Widgets de Android (OR-17, 2026-11-20)
+
+- Proveedores nativos en Kotlin con RemoteViews en `android/app/src/main/kotlin/com/morobu/gakoken/widget/`; piezas comunes en `OrigamiWidgetKit.kt` (papel con esquina doblada, paleta del tema, tamaños, barras y enlaces), igual en todas las apps Origami.
+- Flutter deja un solo JSON (`origami_widget_snapshot`) con `home_widget`: todo ya calculado, formateado y traducido, más los colores del tema activo. Lo arma `lib/core/services/android_widget_sync.dart` al cambiar datos, tema o idioma y al volver a la app. Los widgets nunca abren la base de datos.
+- Tocar abre enlaces `gakoken://...` que maneja `MainScreen` (`HomeWidget.widgetClicked`).
+- Widgets: Buscar, Espacio (tramos de la pestaña Espacio), Favoritos y Archivos recientes (MediaStore en segundo plano, sin ocultos ni papelera).
+- Los layouts sirven también de `previewLayout`; los textos de la lista de widgets viven en `res/values*/gakoken_widgets.xml`.
+- `previewImage` es un PNG por widget e idioma en `res/drawable{,-es,-fr,-ja}-nodpi/gakoken_widget_preview_*.png` (estilo Normal) para los launchers que solo leen la imagen (Android 11 o menos, launchers propios como Habchi); hasta el 2026-11-24 era el ícono de la app.
+- Robustez (skill `origami-widgets`, 2026-11-24): `flutter_deeplinking_enabled` en `false` en el manifest (los enlaces de los widgets solo llegan por `home_widget`); `push` guarda el snapshot y actualiza cada proveedor en su propio try; `build` atrapa los errores al dibujar y muestra el aviso de abrir la app.

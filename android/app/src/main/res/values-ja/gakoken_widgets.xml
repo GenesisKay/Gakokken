@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gakoken_widget_open_app">Gakoken を開いてデータを表示</string>
+    <string name="gakoken_widget_grant">許可する</string>
+    <string name="gakoken_widget_search_name">検索</string>
+    <string name="gakoken_widget_search_desc">キーボードを開いた状態でスマホ内を検索</string>
+    <string name="gakoken_widget_search_hint">スマホ内を検索</string>
+    <string name="gakoken_widget_storage_name">容量</string>
+    <string name="gakoken_widget_storage_desc">使用量と合計、ファイルの種類別</string>
+    <string name="gakoken_widget_favorites_name">お気に入り</string>
+    <string name="gakoken_widget_favorites_desc">お気に入りのフォルダとファイル</string>
+    <string name="gakoken_widget_empty_favorites">「探す」からお気に入りを追加</string>
+    <string name="gakoken_widget_recent_name">最近のファイル</string>
+    <string name="gakoken_widget_recent_desc">今日のダウンロードなど最新のファイル</string>
+    <string name="gakoken_widget_empty_recent">最近のファイルはありません</string>
+</resources>

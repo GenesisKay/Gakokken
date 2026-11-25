@@ -9,7 +9,7 @@ import '../../../../core/theme/color_extensions.dart';
 import '../../../../core/widgets/gakoken_app_bar.dart';
 import '../../../../core/widgets/gakoken_bottom_sheet.dart';
 import '../widgets/theme_card.dart';
-import '../widgets/theme_options_bottom_modal.dart';
+import '../../../../core/widgets/anchored_menu.dart';
 import '../widgets/delete_theme_bottom_modal.dart';
 import 'edit_theme_screen.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -510,26 +510,44 @@ class _ThemeItem extends StatelessWidget {
     required this.onExportFile,
   });
 
+  /// Opciones del tema en una lista flotante pegada a la tarjeta (G-13). El
+  /// nombre, la descripción y si está activo ya se ven en la tarjeta.
   void _showOptions(BuildContext context) {
-    showGakokenBottomSheet(
-      context: context,
-      showDragHandle: false,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (c) => ThemeOptionsBottomModal(
-        themeId: theme.id,
-        themeName: theme.name,
-        themeDescription: theme.description,
-        isActive: isActive,
-        isSystem: AppColorExtension.builtInThemes.containsKey(theme.id),
-        onApply: onTap,
-        onEdit: onEdit,
-        onDelete: onDelete,
-        onExportJson: onExport,
-        onExportFile: onExportFile,
-      ),
+    final l10n = AppLocalizations.of(context)!;
+    final isSystem = AppColorExtension.builtInThemes.containsKey(theme.id);
+    showAnchoredMenu(
+      anchor: context,
+      options: [
+        if (!isActive)
+          AnchoredMenuOption(
+            icon: Icons.check_circle_outline,
+            label: l10n.themeActionApply,
+            onTap: onTap,
+          ),
+        AnchoredMenuOption(
+          icon: Icons.code,
+          label: l10n.themeActionCopyJson,
+          onTap: onExport,
+        ),
+        AnchoredMenuOption(
+          icon: context.icons.download,
+          label: l10n.themeActionSaveFile,
+          onTap: onExportFile,
+        ),
+        if (onEdit != null)
+          AnchoredMenuOption(
+            icon: context.icons.edit,
+            label: l10n.btnEdit,
+            onTap: onEdit,
+          ),
+        if (onDelete != null && !isSystem)
+          AnchoredMenuOption(
+            icon: context.icons.delete,
+            label: l10n.btnDelete,
+            destructive: true,
+            onTap: onDelete,
+          ),
+      ],
     );
   }
 

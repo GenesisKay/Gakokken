@@ -469,7 +469,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get searchIntro =>
-      'Escribe parte del nombre. Aunque te equivoques en una letra, lo encuentra.';
+      'Escribe parte del nombre. Aunque te equivoques en una letra, lo encuentra. También puedes pegar una ruta.';
 
   @override
   String get searchNoResults => 'Sin resultados.';
@@ -1031,7 +1031,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get tourExpSearchBody =>
-      'Encuentra archivos y carpetas por nombre al instante, sin esperar a que se recorra el almacenamiento.';
+      'Encuentra archivos y carpetas por nombre en todo el teléfono. También puedes pegar una ruta para ir directo.';
 
   @override
   String get tourExpDisplayTitle => 'Vista y orden';
@@ -1045,7 +1045,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get tourExpSelectBody =>
-      'Mantén presionado un archivo o carpeta para seleccionarlo: copiar, mover, renombrar, compartir o agregarlo a Favoritos.';
+      'Mantén presionado un archivo o carpeta para seleccionarlo y desliza para marcar varios: copiar, mover, renombrar, compartir o agregarlo a Favoritos.';
 
   @override
   String get tourFavTitle => 'Tus favoritos';
@@ -1070,4 +1070,38 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get madeByMorobu => 'Hecho por Morobu';
+
+  @override
+  String get tourExpTitleTitle => 'Dónde estás';
+
+  @override
+  String get tourExpTitleBody =>
+      'Toca el nombre de la carpeta para ver la ruta, cambiar de memoria o ir a una ruta que copiaste.';
+
+  @override
+  String get goToPathAction => 'Ir a una ruta';
+
+  @override
+  String get goToPathHint => 'Pega o escribe una ruta';
+
+  @override
+  String get goToPathGo => 'Ir';
+
+  @override
+  String get goToPathNotFound => 'Esa ruta no existe.';
+
+  @override
+  String get goToPathUnavailable => 'No se puede abrir esa ruta.';
+
+  @override
+  String get pathOpenFolder => 'Ir a esta carpeta';
+
+  @override
+  String get pathShowInFolder => 'Mostrar en su carpeta';
+
+  @override
+  String get widgetEmptyFavorites => 'Agrega favoritos desde Explorar';
+
+  @override
+  String get widgetRecentFiles => 'Archivos recientes';
 }

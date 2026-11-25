@@ -468,7 +468,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get searchIntro =>
-      'Tapez une partie du nom. Il le trouve même avec une faute.';
+      'Tapez une partie du nom. Il le trouve même avec une faute. Vous pouvez aussi coller un chemin.';
 
   @override
   String get searchNoResults => 'Aucun résultat.';
@@ -1030,7 +1030,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get tourExpSearchBody =>
-      'Trouvez fichiers et dossiers par nom instantanément, sans attendre l’analyse du stockage.';
+      'Trouvez fichiers et dossiers par nom dans tout le téléphone. Vous pouvez aussi coller un chemin pour y aller directement.';
 
   @override
   String get tourExpDisplayTitle => 'Affichage et tri';
@@ -1044,7 +1044,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get tourExpSelectBody =>
-      'Appuyez longuement sur un fichier ou dossier pour le sélectionner : copier, déplacer, renommer, partager ou l’ajouter aux Favoris.';
+      'Appuyez longuement sur un fichier ou dossier pour le sélectionner et glissez pour en marquer plusieurs : copier, déplacer, renommer, partager ou l’ajouter aux Favoris.';
 
   @override
   String get tourFavTitle => 'Vos favoris';
@@ -1069,4 +1069,38 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get madeByMorobu => 'Créé par Morobu';
+
+  @override
+  String get tourExpTitleTitle => 'Où vous êtes';
+
+  @override
+  String get tourExpTitleBody =>
+      'Touchez le nom du dossier pour voir le chemin, changer de stockage ou aller à un chemin copié.';
+
+  @override
+  String get goToPathAction => 'Aller à un chemin';
+
+  @override
+  String get goToPathHint => 'Collez ou saisissez un chemin';
+
+  @override
+  String get goToPathGo => 'Aller';
+
+  @override
+  String get goToPathNotFound => 'Ce chemin n’existe pas.';
+
+  @override
+  String get goToPathUnavailable => 'Impossible d’ouvrir ce chemin.';
+
+  @override
+  String get pathOpenFolder => 'Aller à ce dossier';
+
+  @override
+  String get pathShowInFolder => 'Afficher dans son dossier';
+
+  @override
+  String get widgetEmptyFavorites => 'Ajoutez des favoris depuis Explorer';
+
+  @override
+  String get widgetRecentFiles => 'Fichiers récents';
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gakoken_widget_open_app">Abre Gakoken para ver tus datos</string>
+    <string name="gakoken_widget_grant">Dar permiso</string>
+    <string name="gakoken_widget_search_name">Buscar</string>
+    <string name="gakoken_widget_search_desc">Busca en tu teléfono con el teclado listo</string>
+    <string name="gakoken_widget_search_hint">Buscar en tu teléfono</string>
+    <string name="gakoken_widget_storage_name">Espacio</string>
+    <string name="gakoken_widget_storage_desc">Usado contra total, por tipo de archivo</string>
+    <string name="gakoken_widget_favorites_name">Favoritos</string>
+    <string name="gakoken_widget_favorites_desc">Tus carpetas y archivos favoritos</string>
+    <string name="gakoken_widget_empty_favorites">Agrega favoritos desde Explorar</string>
+    <string name="gakoken_widget_recent_name">Archivos recientes</string>
+    <string name="gakoken_widget_recent_desc">Tus archivos más nuevos, como lo descargado hoy</string>
+    <string name="gakoken_widget_empty_recent">Sin archivos recientes</string>
+</resources>

@@ -147,16 +147,18 @@ class _KindFilesScreenState extends State<KindFilesScreen> {
               onSearch: (query) => setState(() => _query = query),
               onFilterPressed: () => showSortSheet(context, _sort),
               actions: [
-                IconButton(
-                  tooltip: l10n.browserViewTitle,
-                  icon: Icon(
-                    viewModeIcon(_sort.viewMode),
-                    color: colors.textPrimary,
-                  ),
-                  onPressed: () => showViewModeSheet(
-                    context,
-                    current: _sort.viewMode,
-                    onSelected: _sort.setViewMode,
+                Builder(
+                  builder: (button) => IconButton(
+                    tooltip: l10n.browserViewTitle,
+                    icon: Icon(
+                      viewModeIcon(_sort.viewMode),
+                      color: colors.textPrimary,
+                    ),
+                    onPressed: () => showViewModeMenu(
+                      button,
+                      current: _sort.viewMode,
+                      onSelected: _sort.setViewMode,
+                    ),
                   ),
                 ),
               ],

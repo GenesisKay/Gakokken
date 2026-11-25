@@ -8,6 +8,7 @@ import '../../../../core/services/file_ops_service.dart';
 import '../../../../core/services/index_service.dart';
 import '../../../../core/theme/theme_extensions.dart';
 import '../../../../core/widgets/file_actions.dart';
+import '../../../../core/widgets/file_dialogs.dart';
 import '../../../../core/widgets/gakoken_app_bar.dart';
 import '../../../../core/widgets/kind_filter_chips.dart';
 import '../../../../core/widgets/storage_permission_view.dart';
@@ -70,20 +71,30 @@ class BrowserScreen extends StatelessWidget {
               // Sin permiso todavía no hay carpeta: el título es Explorar.
               title: granted == true ? null : l10n.navExplore,
               titleWidget: granted == true
-                  ? FolderTitle(
-                      trail: tab.trail,
-                      onOpen: tab.open,
-                      actions: [
-                        FolderMenuAction(
-                          Icons.sd_storage_outlined,
-                          l10n.volumesTitle,
-                          () => showVolumePickerSheet(
-                            context,
-                            current: tab.path,
-                            onSelected: (volume) => tab.open(volume.path),
+                  ? KeyedSubtree(
+                      key: GakokenTourKeys.folderTitle,
+                      child: FolderTitle(
+                        trail: tab.trail,
+                        onOpen: tab.open,
+                        actions: [
+                          FolderMenuAction(
+                            Icons.sd_storage_outlined,
+                            l10n.volumesTitle,
+                            () => showVolumePickerSheet(
+                              context,
+                              current: tab.path,
+                              onSelected: (volume) => tab.open(volume.path),
+                            ),
                           ),
-                        ),
-                      ],
+                          // Para una ruta copiada de otra app o con "Copiar
+                          // ruta" (pedido el 2026-11-20).
+                          FolderMenuAction(
+                            Icons.input_rounded,
+                            l10n.goToPathAction,
+                            () => _goToPath(context, tab),
+                          ),
+                        ],
+                      ),
                     )
                   : null,
               isRootScreen: true,
@@ -104,20 +115,29 @@ class BrowserScreen extends StatelessWidget {
                         ? null
                         : () => _newFolder(context, tab),
                   ),
-                  KeyedSubtree(key: GakokenTourKeys.search, child: IconButton(
-                    tooltip: l10n.searchTitle,
-                    visualDensity: VisualDensity.compact,
-                    icon: Icon(context.icons.search, color: colors.textPrimary),
-                    onPressed: () => _openSearch(context, tab),
-                  )),
+                  KeyedSubtree(
+                    key: GakokenTourKeys.search,
+                    child: IconButton(
+                      tooltip: l10n.searchTitle,
+                      visualDensity: VisualDensity.compact,
+                      icon: Icon(
+                        context.icons.search,
+                        color: colors.textPrimary,
+                      ),
+                      onPressed: () => _openSearch(context, tab),
+                    ),
+                  ),
                   // Vista, orden y filtro en una sola hoja. Los filtros
                   // activos se ven como chips arriba de la lista.
-                  KeyedSubtree(key: GakokenTourKeys.display, child: IconButton(
-                    tooltip: l10n.browserDisplayTitle,
-                    visualDensity: VisualDensity.compact,
-                    icon: Icon(Icons.tune_rounded, color: colors.textPrimary),
-                    onPressed: () => showSortFilterSheet(context, tab),
-                  )),
+                  KeyedSubtree(
+                    key: GakokenTourKeys.display,
+                    child: IconButton(
+                      tooltip: l10n.browserDisplayTitle,
+                      visualDensity: VisualDensity.compact,
+                      icon: Icon(Icons.tune_rounded, color: colors.textPrimary),
+                      onPressed: () => showSortFilterSheet(context, tab),
+                    ),
+                  ),
                   // Pestaña nueva a la vista con una sola pestaña; con dos o
                   // más la tira ya muestra su "+" y este se quita (pedido el
                   // 2026-11-10; antes estaba en el menú del título).
@@ -269,9 +289,15 @@ class BrowserScreen extends StatelessWidget {
               ? tab.path
               : null,
           onOpenFolder: tab.open,
+          onReveal: (target) => tab.reveal(target.path, isDir: target.isDir),
         ),
       ),
     );
+  }
+
+  Future<void> _goToPath(BuildContext context, BrowserController tab) async {
+    final target = await showGoToPathDialog(context);
+    if (target != null) tab.reveal(target.path, isDir: target.isDir);
   }
 }
 

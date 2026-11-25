@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/services/explorer_settings_service.dart';
-import '../../../../core/theme/theme_extensions.dart';
-import '../../../../core/widgets/gakoken_options_sheet.dart';
+import '../../../../core/widgets/anchored_menu.dart';
 import '../../../../l10n/app_localizations.dart';
 
 IconData viewModeIcon(BrowserViewMode mode) => switch (mode) {
@@ -13,8 +12,8 @@ IconData viewModeIcon(BrowserViewMode mode) => switch (mode) {
 };
 
 /// Elegir vista: Lista, Detalles, Cuadrícula o Galería, con [current]
-/// marcada.
-void showViewModeSheet(
+/// marcada, en una lista flotante pegada al botón [context] (G-13).
+void showViewModeMenu(
   BuildContext context, {
   required BrowserViewMode current,
   required ValueChanged<BrowserViewMode> onSelected,
@@ -26,12 +25,11 @@ void showViewModeSheet(
     BrowserViewMode.grid: l10n.viewGrid,
     BrowserViewMode.gallery: l10n.viewGallery,
   };
-  showGakokenOptionsSheet(
-    context: context,
-    header: Text(l10n.browserViewTitle, style: context.typography.modalTitle),
+  showAnchoredMenu(
+    anchor: context,
     options: [
       for (final mode in BrowserViewMode.values)
-        GakokenSheetOption(
+        AnchoredMenuOption(
           icon: viewModeIcon(mode),
           label: labels[mode]!,
           selected: mode == current,

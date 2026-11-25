@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Comunes a los widgets de la serie Origami (OR-17): iguales en cada app. -->
+<resources>
+    <string name="origami_widget_style_title">ウィジェットのスタイル</string>
+    <string name="origami_widget_style_normal">ノーマル</string>
+    <string name="origami_widget_style_nothing">Nothing</string>
+    <string name="origami_widget_style_hint">あとで変更するには、ウィジェットを長押しします</string>
+</resources>

@@ -963,7 +963,7 @@ abstract class AppLocalizations {
   /// No description provided for @searchIntro.
   ///
   /// In es, this message translates to:
-  /// **'Escribe parte del nombre. Aunque te equivoques en una letra, lo encuentra.'**
+  /// **'Escribe parte del nombre. Aunque te equivoques en una letra, lo encuentra. También puedes pegar una ruta.'**
   String get searchIntro;
 
   /// No description provided for @searchNoResults.
@@ -1773,7 +1773,7 @@ abstract class AppLocalizations {
   /// No description provided for @tourExpSearchBody.
   ///
   /// In es, this message translates to:
-  /// **'Encuentra archivos y carpetas por nombre al instante, sin esperar a que se recorra el almacenamiento.'**
+  /// **'Encuentra archivos y carpetas por nombre en todo el teléfono. También puedes pegar una ruta para ir directo.'**
   String get tourExpSearchBody;
 
   /// No description provided for @tourExpDisplayTitle.
@@ -1797,7 +1797,7 @@ abstract class AppLocalizations {
   /// No description provided for @tourExpSelectBody.
   ///
   /// In es, this message translates to:
-  /// **'Mantén presionado un archivo o carpeta para seleccionarlo: copiar, mover, renombrar, compartir o agregarlo a Favoritos.'**
+  /// **'Mantén presionado un archivo o carpeta para seleccionarlo y desliza para marcar varios: copiar, mover, renombrar, compartir o agregarlo a Favoritos.'**
   String get tourExpSelectBody;
 
   /// No description provided for @tourFavTitle.
@@ -1841,6 +1841,72 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Hecho por Morobu'**
   String get madeByMorobu;
+
+  /// No description provided for @tourExpTitleTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Dónde estás'**
+  String get tourExpTitleTitle;
+
+  /// No description provided for @tourExpTitleBody.
+  ///
+  /// In es, this message translates to:
+  /// **'Toca el nombre de la carpeta para ver la ruta, cambiar de memoria o ir a una ruta que copiaste.'**
+  String get tourExpTitleBody;
+
+  /// No description provided for @goToPathAction.
+  ///
+  /// In es, this message translates to:
+  /// **'Ir a una ruta'**
+  String get goToPathAction;
+
+  /// No description provided for @goToPathHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Pega o escribe una ruta'**
+  String get goToPathHint;
+
+  /// No description provided for @goToPathGo.
+  ///
+  /// In es, this message translates to:
+  /// **'Ir'**
+  String get goToPathGo;
+
+  /// No description provided for @goToPathNotFound.
+  ///
+  /// In es, this message translates to:
+  /// **'Esa ruta no existe.'**
+  String get goToPathNotFound;
+
+  /// No description provided for @goToPathUnavailable.
+  ///
+  /// In es, this message translates to:
+  /// **'No se puede abrir esa ruta.'**
+  String get goToPathUnavailable;
+
+  /// No description provided for @pathOpenFolder.
+  ///
+  /// In es, this message translates to:
+  /// **'Ir a esta carpeta'**
+  String get pathOpenFolder;
+
+  /// No description provided for @pathShowInFolder.
+  ///
+  /// In es, this message translates to:
+  /// **'Mostrar en su carpeta'**
+  String get pathShowInFolder;
+
+  /// No description provided for @widgetEmptyFavorites.
+  ///
+  /// In es, this message translates to:
+  /// **'Agrega favoritos desde Explorar'**
+  String get widgetEmptyFavorites;
+
+  /// No description provided for @widgetRecentFiles.
+  ///
+  /// In es, this message translates to:
+  /// **'Archivos recientes'**
+  String get widgetRecentFiles;
 }
 
 class _AppLocalizationsDelegate

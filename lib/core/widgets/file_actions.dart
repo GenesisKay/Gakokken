@@ -9,10 +9,8 @@ import '../services/file_actions_service.dart';
 import '../services/file_ops_service.dart';
 import '../services/scaffold_messenger_service.dart';
 import '../services/trash_service.dart';
-import '../theme/theme_extensions.dart';
 import 'file_dialogs.dart';
-import 'file_thumbnail.dart';
-import 'gakoken_options_sheet.dart';
+import 'anchored_menu.dart';
 
 /// Abre un archivo con el selector "Abrir con" del sistema y avisa si no se
 /// pudo.
@@ -140,12 +138,15 @@ Future<void> transferWithFeedback(
   }
 }
 
-/// Opciones de un archivo o carpeta. El encabezado solo identifica el
-/// elemento: miniatura o logo y nombre; el resto ya se ve en la fila.
-/// [onShowUsage] agrega "Espacio usado" y [onOpenInNewTab] "Abrir en pestaña
-/// nueva" a las carpetas. Sin [exists] solo queda Quitar de favoritos.
-Future<void> showFileActionsSheet(
+/// Opciones de un archivo o carpeta en una lista flotante pegada a
+/// [anchor], la fila o el punto [at] que se tocó (G-13). Sin encabezado: la
+/// miniatura y el nombre ya se ven en la fila. [onShowUsage] agrega "Espacio
+/// usado" y [onOpenInNewTab] "Abrir en pestaña nueva" a las carpetas. Sin
+/// [exists] solo queda Quitar de favoritos.
+Future<void> showFileActionsMenu(
   BuildContext context, {
+  required BuildContext anchor,
+  Offset? at,
   required String path,
   required String name,
   required bool isDir,
@@ -157,51 +158,36 @@ Future<void> showFileActionsSheet(
   final favorites = FavoritesService();
   final isFavorite = favorites.contains(path);
 
-  return showGakokenOptionsSheet(
-    context: context,
-    header: Row(
-      children: [
-        FileThumbnail(path: path, name: name, isDir: isDir),
-        const SizedBox(width: 16),
-        Expanded(
-          child: Text(
-            name,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: context.typography.cardTitle.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ],
-    ),
+  return showAnchoredMenu(
+    anchor: anchor,
+    at: at,
     options: [
       if (!isDir && exists) ...[
-        GakokenSheetOption(
+        AnchoredMenuOption(
           icon: Icons.open_in_new_rounded,
           label: l10n.actionOpen,
           onTap: () => openFileWithFeedback(context, path),
         ),
-        GakokenSheetOption(
+        AnchoredMenuOption(
           icon: Icons.share_rounded,
           label: l10n.actionShare,
           onTap: () => shareFiles([path]),
         ),
       ],
       if (isDir && exists && onOpenInNewTab != null)
-        GakokenSheetOption(
+        AnchoredMenuOption(
           icon: Icons.tab_rounded,
           label: l10n.tabOpenNew,
           onTap: onOpenInNewTab,
         ),
       if (isDir && exists && onShowUsage != null)
-        GakokenSheetOption(
+        AnchoredMenuOption(
           icon: Icons.pie_chart_outline_rounded,
           label: l10n.usageTitle,
           onTap: onShowUsage,
         ),
       // La ruta completa al portapapeles del sistema (pedido el 2026-10-23).
-      GakokenSheetOption(
+      AnchoredMenuOption(
         icon: Icons.link_rounded,
         label: l10n.actionCopyPath,
         onTap: () async {
@@ -210,26 +196,27 @@ Future<void> showFileActionsSheet(
         },
       ),
       isFavorite
-          ? GakokenSheetOption(
+          ? AnchoredMenuOption(
               icon: Icons.star_rounded,
               label: l10n.actionRemoveFavorite,
               onTap: () => favorites.remove(path),
             )
-          : GakokenSheetOption(
+          : AnchoredMenuOption(
               icon: Icons.star_outline_rounded,
               label: l10n.actionAddFavorite,
               onTap: () => favorites.add(path, isDir: isDir),
             ),
       if (exists) ...[
-        GakokenSheetOption(
+        AnchoredMenuOption(
           icon: Icons.drive_file_rename_outline_rounded,
           label: l10n.actionRename,
           onTap: () =>
               renameWithFeedback(context, path: path, name: name, isDir: isDir),
         ),
-        GakokenSheetOption(
+        AnchoredMenuOption(
           icon: Icons.delete_outline_rounded,
           label: l10n.actionDelete,
+          destructive: true,
           onTap: () => trashWithUndo(context, {path: isDir}),
         ),
       ],

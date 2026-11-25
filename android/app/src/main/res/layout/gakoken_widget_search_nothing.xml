@@ -1,0 +1,63 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Nothing: pastilla de tinta translucida sobre el fondo de pantalla, como la barra
+         de busqueda del Launcher. El proveedor la dibuja a 52 dp de alto como maximo. -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp">
+        <ImageView
+            android:id="@+id/widget_paper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:importantForAccessibility="no" />
+
+        <LinearLayout
+            android:id="@+id/widget_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/widget_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/gakoken_widget_search"
+                android:importantForAccessibility="no" />
+            <TextView
+                android:id="@+id/widget_hint"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:shadowColor="#66000000"
+                android:shadowRadius="6"
+                android:text="@string/gakoken_widget_search_hint"
+                android:textColor="#CCF7F7F5"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/widget_message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:shadowColor="#66000000"
+            android:shadowRadius="6"
+            android:textSize="14sp"
+            android:textColor="#FFF7F7F5"
+            android:visibility="gone" />
+    </FrameLayout>
+</FrameLayout>
